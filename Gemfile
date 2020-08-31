@@ -1,5 +1,8 @@
 source "https://rubygems.org"
 
+# Override this source definition to fetch via SSL
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+
 ruby "2.5.3"
 
 gem "bootsnap"
@@ -26,7 +29,7 @@ gem "email_inquire"
 gem "fog-aws"
 gem "gemoji"
 gem "gravatarify"
-gem "honeypot-captcha", git: "https://github.com/RandieM/honeypot-captcha", branch: "master"
+gem "honeypot-captcha", github: "RandieM/honeypot-captcha", branch: "master"
 gem "html-pipeline", require: "html/pipeline"
 gem "httparty"
 gem "icalendar"
@@ -41,7 +44,7 @@ gem "responders"
 gem "retries"
 gem "rinku"
 gem "sanitize"
-gem "sendgrid", git: "https://github.com/caring/sendgrid"
+gem "sendgrid", github: "caring/sendgrid"
 gem "sendgrid-ruby"
 gem "textacular"
 gem "truncato"
@@ -62,7 +65,7 @@ gem "utf8-cleaner"
 # Admin interface
 gem "activeadmin"
 gem "activeadmin-ajax_filter"
-gem "activeadmin_medium_editor", git: "https://github.com/nyrf/activeadmin_medium_editor", ref: "8c60d49"
+gem "activeadmin_medium_editor", github: "nyrf/activeadmin_medium_editor", ref: "8c60d49"
 gem "paper_trail"
 gem "validate_url"
 

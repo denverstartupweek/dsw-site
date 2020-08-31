@@ -1,5 +1,19 @@
 GIT
-  remote: git://github.com/hyp3rventures/carrierwave_backgrounder.git
+  remote: https://github.com/RandieM/honeypot-captcha.git
+  revision: 10c0ad1874ca75a99be93efec3bd0129894c7fea
+  branch: master
+  specs:
+    honeypot-captcha (0.0.3)
+
+GIT
+  remote: https://github.com/caring/sendgrid.git
+  revision: 17e92032e1a85f31affbe32e972497ace8d9bc28
+  specs:
+    sendgrid (1.3.0.pre.caring)
+      json
+
+GIT
+  remote: https://github.com/hyp3rventures/carrierwave_backgrounder.git
   revision: ada0784c190be7b7fecb9576956c3d5b4ba1a839
   specs:
     carrierwave_backgrounder (0.4.2)
@@ -7,34 +21,20 @@ GIT
       mime-types (~> 3.1)
 
 GIT
-  remote: git://github.com/svenfuchs/simple_states.git
-  revision: 294d31319b1289bf6aeec67c183d71535046a073
-  branch: v1.1.0.rc11
-  specs:
-    simple_states (1.1.0.rc11)
-      activesupport
-
-GIT
-  remote: https://github.com/RandieM/honeypot-captcha
-  revision: 10c0ad1874ca75a99be93efec3bd0129894c7fea
-  branch: master
-  specs:
-    honeypot-captcha (0.0.3)
-
-GIT
-  remote: https://github.com/caring/sendgrid
-  revision: 17e92032e1a85f31affbe32e972497ace8d9bc28
-  specs:
-    sendgrid (1.3.0.pre.caring)
-      json
-
-GIT
-  remote: https://github.com/nyrf/activeadmin_medium_editor
+  remote: https://github.com/nyrf/activeadmin_medium_editor.git
   revision: 8c60d491b547581128b49d09e1446f1b373247da
   ref: 8c60d49
   specs:
     activeadmin_medium_editor (0.2.0)
       activeadmin (>= 1.0)
+
+GIT
+  remote: https://github.com/svenfuchs/simple_states.git
+  revision: 294d31319b1289bf6aeec67c183d71535046a073
+  branch: v1.1.0.rc11
+  specs:
+    simple_states (1.1.0.rc11)
+      activesupport
 
 GEM
   remote: https://rubygems.org/
