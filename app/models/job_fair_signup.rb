@@ -38,6 +38,16 @@ class JobFairSignup < ApplicationRecord
   validates :number_open_positions,
     :number_hiring_next_12_months, presence: true
 
+  # State machine
+  include SimpleStates
+
+  states :created,
+    :accepted,
+    :rejected
+
+  event :accept, to: :accepted
+  event :reject, to: :rejected
+
   def company_name
     company&.name
   end

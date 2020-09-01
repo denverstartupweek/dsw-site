@@ -683,7 +683,8 @@ CREATE TABLE public.job_fair_signups (
     notes text,
     year integer,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    state text DEFAULT 'created'::text NOT NULL
 );
 
 
@@ -3316,6 +3317,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190826014104'),
 ('20190903170552'),
 ('20190909204737'),
+('20200414032806'),
 ('20200501114353'),
 ('20200501114543'),
 ('20200531215058'),
