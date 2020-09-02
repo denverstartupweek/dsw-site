@@ -56,6 +56,12 @@ class NotificationsMailer < ApplicationMailer
          cc: @signup.contact_email
   end
 
+  def confirm_job_fair_signup(job_fair_signup)
+    @job_fair_signup = job_fair_signup
+    mail to: @job_fair_signup.notification_emails,
+         subject: "Your job fair signup for Denver Startup Week #{Date.today.year} has been accepted"
+  end
+
   def notify_of_new_sponsor_signup(sponsor_signup)
     @sponsor_signup = sponsor_signup
     mail to: ENV["SPONSOR_SIGNUP_EMAIL_RECIPIENTS"].split(","), subject: "Someone is interested in sponsoring DSW"
@@ -68,7 +74,7 @@ class NotificationsMailer < ApplicationMailer
 
   def notify_of_submission_acceptance(submission)
     @submission = submission
-    mail to: notification_emails(@submission),
+    mail to: job_fair_signup(@submission),
          subject: "RESPONSE NEEDED: Your Denver Startup Week session has been accepted!",
          from: @submission.track.email_alias,
          reply_to: @submission.track.email_alias,

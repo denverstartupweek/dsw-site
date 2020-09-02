@@ -60,6 +60,10 @@ class JobFairSignup < ApplicationRecord
     contact_email.split(Submission::EMAILS_SPLIT_REGEX).map(&:strip)
   end
 
+  def notification_emails
+    [contact_emails, user.email].flatten.uniq
+  end
+
   def subscribe_to_list
     [contact_emails, user.try(:email)].flatten.compact.uniq.each do |email|
       ListSubscriptionJob.perform_async email, job_fair_years: [year.to_s]
