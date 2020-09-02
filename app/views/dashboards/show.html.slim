@@ -25,21 +25,10 @@
 
   section.Dashboard-section
     .Dashboard-header-wrapper
-      h1.Dashboard-header#my-content My Content
-      a.Dashboard-header-action href="#{new_article_path}"
-          = image_tag "redesign/submit-article.svg", class: 'Dashboard-header-action-image'
-          | Submit Article
-    - if @articles.any?
-      ul.Dashboard-card-list(aria-labelledby="my-content")
-        - @articles.each do |article|
-          li.Dashboard-card-list-item
-            = render partial: 'components/article_card', locals: { article: article, editable?: article.editable? }
-    - if @articles.blank?
-      .Dashboard-empty-message You have not submitted any content for this year.
-
-  section.Dashboard-section
-    .Dashboard-header-wrapper
       h1.Dashboard-header#my-sessions My Sessions
+      a.Dashboard-header-action href="https://www.dropbox.com/request/O1JUZq4gHzvaWkD0Ju3v" target="_blank"
+        = image_tag "redesign/submit-article.svg", class: 'Dashboard-header-action-image'
+        | Upload Recording
       - if AnnualSchedule.cfp_open? || current_user.is_admin? || current_user.has_valid_cfp_extension?
         a.Dashboard-header-action href="#{new_submission_path}"
           = image_tag "redesign/submit-session.svg", class: 'Dashboard-header-action-image'
@@ -51,6 +40,20 @@
             = render partial: 'components/session_card', locals: { session: submission, editable?: submission.editable?, hide_link: true }
     - if @submissions.blank?
       .Dashboard-empty-message You have not yet submitted any proposals for this year.
+
+  section.Dashboard-section
+    .Dashboard-header-wrapper
+      h1.Dashboard-header#my-content My Articles
+      a.Dashboard-header-action href="#{new_article_path}"
+          = image_tag "redesign/submit-article.svg", class: 'Dashboard-header-action-image'
+          | Submit Article
+    - if @articles.any?
+      ul.Dashboard-card-list(aria-labelledby="my-content")
+        - @articles.each do |article|
+          li.Dashboard-card-list-item
+            = render partial: 'components/article_card', locals: { article: article, editable?: article.editable? }
+    - if @articles.blank?
+      .Dashboard-empty-message You have not submitted any content for this year.
 
   - if AnnualSchedule.registration_open?
     section.Dashboard-section
