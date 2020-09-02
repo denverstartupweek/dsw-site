@@ -7,3 +7,4 @@ div.About-list-wrapper
     - about_static_data[:items].each do |card|
       = render 'components/content_card_list_item' do
         = render 'components/content_card', card: card, title: "#{card[:title]}", page_url: "about/#{card[:button_page_url]}"
+ 
