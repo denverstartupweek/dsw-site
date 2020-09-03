@@ -1210,7 +1210,8 @@ CREATE TABLE public.submissions (
     noindex boolean DEFAULT false NOT NULL,
     dei_acknowledgement boolean DEFAULT false NOT NULL,
     proposal_video_url character varying,
-    preferred_length character varying
+    preferred_length character varying,
+    is_virtual boolean DEFAULT false NOT NULL
 );
 
 
@@ -3253,6 +3254,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200531225500'),
 ('20200603142652'),
 ('20200629164627'),
-('20200805034833');
+('20200805034833'),
+('20200903000433');
 
 
