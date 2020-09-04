@@ -38,6 +38,7 @@ ActiveAdmin.register Submission do
     :track_id,
     :venue_id,
     :video_url,
+    :virtual_meeting_type,
     :volunteers_needed,
     :year,
     publishing_attributes: [:id, :effective_at, :featured_on_homepage],
@@ -199,6 +200,7 @@ ActiveAdmin.register Submission do
       f.input :venue_id, as: :select, collection: Venue.alphabetical.map { |v| [v.name, v.id] }, include_blank: true
       f.input :has_childcare
       f.input :is_virtual, label: "Will this session will be held virtually?"
+      f.input :virtual_meeting_type, label: "What format will this virtual meeting use?", as: :select, collection: Submission::VIRTUAL_MEETING_TYPES, include_blank: true
       f.input :noindex, label: "Hide from search engines?"
     end
     f.inputs "Submitter" do

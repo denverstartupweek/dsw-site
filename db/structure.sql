@@ -1211,7 +1211,8 @@ CREATE TABLE public.submissions (
     dei_acknowledgement boolean DEFAULT false NOT NULL,
     proposal_video_url character varying,
     preferred_length character varying,
-    is_virtual boolean DEFAULT false NOT NULL
+    is_virtual boolean DEFAULT false NOT NULL,
+    virtual_meeting_type character varying
 );
 
 
@@ -3255,6 +3256,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200603142652'),
 ('20200629164627'),
 ('20200805034833'),
-('20200903000433');
+('20200901014301'),
+('20200903000433'),
+('20200903231844');
 
 

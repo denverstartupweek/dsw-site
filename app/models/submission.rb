@@ -46,6 +46,12 @@ class Submission < ApplicationRecord
     "Late night"
   ].freeze
 
+  VIRTUAL_MEETING_TYPES = [
+    "zoom",
+    "zoom_webinar",
+    "other_url"
+  ]
+
   include SearchableSubmission
   include YearScoped
   include Publishable
@@ -107,6 +113,13 @@ class Submission < ApplicationRecord
     :dei_acknowledgement,
     acceptance: true, on: :create
   validates :location, length: {maximum: 255}
+
+  validates :virtual_meeting_type,
+    inclusion: {
+      in: VIRTUAL_MEETING_TYPES,
+      allow_blank: true
+    },
+    if: :is_virtual?
 
   after_create :notify_track_chairs_of_new_submission!
   after_create :send_confirmation_notice!
