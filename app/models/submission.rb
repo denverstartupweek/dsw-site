@@ -240,6 +240,13 @@ class Submission < ApplicationRecord
   event :withdraw, to: :withdrawn
 
   # Helpers
+  def subtitle_for_schedule
+    if is_virtual?
+      format
+    else
+      human_location_name
+    end
+  end
 
   def human_location_name
     if venue_confirmed?
