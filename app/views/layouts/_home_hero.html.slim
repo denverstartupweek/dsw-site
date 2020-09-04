@@ -1,5 +1,5 @@
 header.HomeHero
-  h1.HomeHero-title Denver Startup Week
+  h1.HomeHero-title Denver Startup Week: Virtual
   div.HomeHero-content
     - if AnnualSchedule.post_week? && AnnualSchedule.next.present?
       div.HomeHero-date #{AnnualSchedule.next.week_start_at.try(:strftime, '%B %e')}-#{AnnualSchedule.next.week_end_at.try(:strftime, "%e, %Y")}
