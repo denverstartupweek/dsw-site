@@ -68,6 +68,8 @@ gem "activeadmin-ajax_filter"
 gem "activeadmin_medium_editor", github: "nyrf/activeadmin_medium_editor", ref: "8c60d49"
 gem "paper_trail"
 gem "validate_url"
+gem "omniauth-google-oauth2"
+gem "omniauth-zoom"
 
 # Background processing
 gem "sidecloq"

@@ -775,6 +775,43 @@ ALTER SEQUENCE public.newsroom_items_id_seq OWNED BY public.newsroom_items.id;
 
 
 --
+-- Name: oauth_services; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.oauth_services (
+    id bigint NOT NULL,
+    uid character varying NOT NULL,
+    description text,
+    provider character varying NOT NULL,
+    user_id bigint,
+    token character varying,
+    refresh_token character varying,
+    token_expires_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: oauth_services_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.oauth_services_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: oauth_services_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.oauth_services_id_seq OWNED BY public.oauth_services.id;
+
+
+--
 -- Name: pitch_contest_entries; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1800,6 +1837,13 @@ ALTER TABLE ONLY public.newsroom_items ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
+-- Name: oauth_services id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.oauth_services ALTER COLUMN id SET DEFAULT nextval('public.oauth_services_id_seq'::regclass);
+
+
+--
 -- Name: pitch_contest_entries id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2126,6 +2170,14 @@ ALTER TABLE ONLY public.newsletter_signups
 
 ALTER TABLE ONLY public.newsroom_items
     ADD CONSTRAINT newsroom_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: oauth_services oauth_services_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.oauth_services
+    ADD CONSTRAINT oauth_services_pkey PRIMARY KEY (id);
 
 
 --
@@ -2558,6 +2610,13 @@ CREATE INDEX index_job_fair_signups_on_user_id ON public.job_fair_signups USING 
 
 
 --
+-- Name: index_oauth_services_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_oauth_services_on_user_id ON public.oauth_services USING btree (user_id);
+
+
+--
 -- Name: index_pitch_contest_votes_on_pitch_contest_entry_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2840,6 +2899,14 @@ ALTER TABLE ONLY public.venues
 
 ALTER TABLE ONLY public.sponsorships
     ADD CONSTRAINT fk_rails_10fd4596a4 FOREIGN KEY (submission_id) REFERENCES public.submissions(id);
+
+
+--
+-- Name: oauth_services fk_rails_1682f97daa; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.oauth_services
+    ADD CONSTRAINT fk_rails_1682f97daa FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -3258,6 +3325,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200805034833'),
 ('20200901014301'),
 ('20200903000433'),
-('20200903231844');
+('20200903231844'),
+('20200904213035');
 
 

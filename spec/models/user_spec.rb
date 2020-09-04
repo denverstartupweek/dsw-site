@@ -8,7 +8,7 @@ RSpec.describe User, type: :model do
   it { is_expected.to have_and_belong_to_many(:chaired_tracks).class_name("Track") }
   it { is_expected.to have_many(:venue_adminships).dependent(:destroy) }
   it { is_expected.to have_many(:administered_venues) }
-
+  it { is_expected.to have_many(:oauth_services).dependent(:restrict_with_error) }
   it { is_expected.to have_many(:presenterships).dependent(:restrict_with_error) }
   it { is_expected.to have_many(:presented_sessions) }
 
