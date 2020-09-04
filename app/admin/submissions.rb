@@ -18,6 +18,7 @@ ActiveAdmin.register Submission do
     :has_childcare,
     :header_image,
     :internal_notes,
+    :is_virtual,
     :live_stream_url,
     :location,
     :noindex,
@@ -37,6 +38,7 @@ ActiveAdmin.register Submission do
     :track_id,
     :venue_id,
     :video_url,
+    :virtual_meeting_type,
     :volunteers_needed,
     :year,
     publishing_attributes: [:id, :effective_at, :featured_on_homepage],
@@ -80,11 +82,14 @@ ActiveAdmin.register Submission do
       status_tag s.state.to_s.titleize, class: status_for_submission(s)
     end
     column :submitter, sortable: "users.name"
+    column "Virtual?" do |submission|
+      submission&.is_virtual? ? "Yes" : "No"
+    end
     column(:pending_updates, sortable: false) { |s| s.proposed_updates.present? ? "Yes" : "No" }
-    column "Published" do |submission|
+    column "Published?" do |submission|
       submission.published? ? submission&.publishing&.effective_at : "No"
     end
-    column "Homepage" do |submission|
+    column "Homepage?" do |submission|
       submission&.publishing&.featured_on_homepage? ? "Yes" : "No"
     end
     actions
@@ -128,6 +133,7 @@ ActiveAdmin.register Submission do
     column :contact_email
     column :estimated_size
     column :volunteers_needed
+    column :is_virtual
     column :budget_needed
     column :year
     column :registrants do |submission|
@@ -193,6 +199,8 @@ ActiveAdmin.register Submission do
       f.input :end_hour, as: :select, collection: collection_for_hour_select, include_blank: false
       f.input :venue_id, as: :select, collection: Venue.alphabetical.map { |v| [v.name, v.id] }, include_blank: true
       f.input :has_childcare
+      f.input :is_virtual, label: "Will this session will be held virtually?"
+      f.input :virtual_meeting_type, label: "What format will this virtual meeting use?", as: :select, collection: Submission::VIRTUAL_MEETING_TYPES, include_blank: true
       f.input :noindex, label: "Hide from search engines?"
     end
     f.inputs "Submitter" do

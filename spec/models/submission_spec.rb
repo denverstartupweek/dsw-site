@@ -35,6 +35,11 @@ RSpec.describe Submission, type: :model do
   it { is_expected.to validate_inclusion_of(:preferred_length).in_array(Submission::PREFERRED_LENGTHS) }
   it { is_expected.to validate_inclusion_of(:format).in_array(Submission::FORMATS) }
 
+  describe "virtual sessions" do
+    before { allow(subject).to receive(:is_virtual?).and_return(true) }
+    it { is_expected.to validate_inclusion_of(:virtual_meeting_type).in_array(Submission::VIRTUAL_MEETING_TYPES) }
+  end
+
   it "defaults its year to the current year" do
     expect(Submission.new.year).to eq(Date.today.year)
   end
