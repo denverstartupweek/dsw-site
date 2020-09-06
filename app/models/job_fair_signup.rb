@@ -71,4 +71,11 @@ class JobFairSignup < ApplicationRecord
       ListSubscriptionJob.perform_async email, job_fair_years: [year.to_s]
     end
   end
+
+  def send_acceptance_email!
+    message = NotificationsMailer.confirm_job_fair_signup(self)
+    message.deliver_now!
+    sent_notifications.create! kind: SentNotification::JOB_FAIR_SIGNUP_ACCEPTED_KIND,
+                               recipient_email: message.to.join(", ")
+  end
 end

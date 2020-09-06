@@ -84,6 +84,25 @@ ActiveAdmin.register JobFairSignup do
     f.actions
   end
 
+  show do
+    tabs do
+      tab :details do
+        attributes_table(*(default_attribute_table_rows - [:proposed_updates]))
+      end
+
+      tab :email_notifications do
+        panel "E-mail Notifications" do
+          table_for job_fair_signup.sent_notifications.order("created_at DESC") do
+            column(:kind) { |submission| submission.kind.titleize }
+            column :recipient_email
+            column "Sent At", :created_at
+          end
+        end
+      end
+
+    end
+  end
+
   action_item :accept, only: :show do
     unless job_fair_signup.accepted?
       link_to "Accept",

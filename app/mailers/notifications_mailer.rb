@@ -57,8 +57,8 @@ class NotificationsMailer < ApplicationMailer
   end
 
   def confirm_job_fair_signup(job_fair_signup)
-    @job_fair_signup = job_fair_signup
-    mail to: @job_fair_signup.notification_emails,
+    @signup = job_fair_signup
+    mail to: @signup.notification_emails,
          subject: "Your job fair signup for Denver Startup Week #{Date.today.year} has been accepted"
   end
 
