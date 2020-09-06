@@ -1,6 +1,10 @@
 class JobFairSignup < ApplicationRecord
+  has_paper_trail
+
   belongs_to :company
   belongs_to :user
+
+  has_many :sent_notifications, as: :subject, dependent: :destroy
 
   after_save :subscribe_to_list
 
@@ -38,6 +42,16 @@ class JobFairSignup < ApplicationRecord
   validates :number_open_positions,
     :number_hiring_next_12_months, presence: true
 
+  # State machine
+  include SimpleStates
+
+  states :created,
+    :accepted,
+    :rejected
+
+  event :accept, to: :accepted
+  event :reject, to: :rejected
+
   def company_name
     company&.name
   end
@@ -50,9 +64,20 @@ class JobFairSignup < ApplicationRecord
     contact_email.split(Submission::EMAILS_SPLIT_REGEX).map(&:strip)
   end
 
+  def notification_emails
+    [contact_emails, user.email].flatten.uniq
+  end
+
   def subscribe_to_list
     [contact_emails, user.try(:email)].flatten.compact.uniq.each do |email|
       ListSubscriptionJob.perform_async email, job_fair_years: [year.to_s]
     end
+  end
+
+  def send_acceptance_email!
+    message = NotificationsMailer.confirm_job_fair_signup(self)
+    message.deliver_now!
+    sent_notifications.create! kind: SentNotification::JOB_FAIR_SIGNUP_ACCEPTED_KIND,
+                               recipient_email: message.to.join(", ")
   end
 end

@@ -683,7 +683,8 @@ CREATE TABLE public.job_fair_signups (
     notes text,
     year integer,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    state text DEFAULT 'created'::text NOT NULL
 );
 
 
@@ -1066,11 +1067,12 @@ CREATE TABLE public.schema_migrations (
 
 CREATE TABLE public.sent_notifications (
     id integer NOT NULL,
-    submission_id integer,
     kind character varying NOT NULL,
     recipient_email character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    subject_type character varying NOT NULL,
+    subject_id bigint NOT NULL
 );
 
 
@@ -2610,6 +2612,13 @@ CREATE INDEX index_job_fair_signups_on_user_id ON public.job_fair_signups USING 
 
 
 --
+-- Name: index_oauth_services_on_provider_and_uid; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_oauth_services_on_provider_and_uid ON public.oauth_services USING btree (provider, uid);
+
+
+--
 -- Name: index_oauth_services_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2708,10 +2717,10 @@ CREATE INDEX index_registrations_on_user_id ON public.registrations USING btree 
 
 
 --
--- Name: index_sent_notifications_on_submission_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_sent_notifications_on_subject_type_and_subject_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_sent_notifications_on_submission_id ON public.sent_notifications USING btree (submission_id);
+CREATE INDEX index_sent_notifications_on_subject_type_and_subject_id ON public.sent_notifications USING btree (subject_type, subject_id);
 
 
 --
@@ -3086,14 +3095,6 @@ ALTER TABLE ONLY public.homepage_ctas
 
 
 --
--- Name: sent_notifications fk_rails_da20014dea; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.sent_notifications
-    ADD CONSTRAINT fk_rails_da20014dea FOREIGN KEY (submission_id) REFERENCES public.submissions(id);
-
-
---
 -- Name: venue_adminships fk_rails_db0785df6a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3316,6 +3317,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190826014104'),
 ('20190903170552'),
 ('20190909204737'),
+('20200414032806'),
 ('20200501114353'),
 ('20200501114543'),
 ('20200531215058'),
@@ -3326,6 +3328,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200901014301'),
 ('20200903000433'),
 ('20200903231844'),
-('20200904213035');
+('20200904213035'),
+('20200906203546');
 
 

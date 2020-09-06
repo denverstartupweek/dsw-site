@@ -53,7 +53,13 @@ class NotificationsMailer < ApplicationMailer
     mail to: ENV["JOB_FAIR_SIGNUP_EMAIL_RECIPIENTS"].split(","),
          subject: "Someone has signed up to exhibit at the DSW Job Fair",
          reply_to: "#{@signup.user.name} <#{@signup.user.email}>",
-         cc: @signup.contact_email
+         cc: @signup.notification_emails
+  end
+
+  def confirm_job_fair_signup(job_fair_signup)
+    @signup = job_fair_signup
+    mail to: @signup.notification_emails,
+         subject: "Your job fair signup for Denver Startup Week #{Date.today.year} has been accepted"
   end
 
   def notify_of_new_sponsor_signup(sponsor_signup)
@@ -92,9 +98,11 @@ class NotificationsMailer < ApplicationMailer
 
   def notify_of_submission_venue_match(submission)
     @submission = submission
-    mail to: [@submission.contact_emails,
+    mail to: [
+      notification_emails(@submission),
       @submission.venue.contact_emails,
-      @submission.submitter.email].flatten.uniq,
+      @submission.submitter.email
+    ].flatten.uniq,
          subject: "Denver Startup Week session location intro",
          from: @submission.track.email_alias,
          reply_to: @submission.track.email_alias,
