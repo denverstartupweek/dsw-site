@@ -2,6 +2,8 @@ class JobFairSignup < ApplicationRecord
   belongs_to :company
   belongs_to :user
 
+  has_many :sent_notifications, as: :subject, dependent: :destroy
+
   after_save :subscribe_to_list
 
   INDUSTRY_CATEGORIES = [

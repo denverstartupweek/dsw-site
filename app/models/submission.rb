@@ -77,7 +77,7 @@ class Submission < ApplicationRecord
                          class_name: "User",
                          source: :user
 
-  has_many :sent_notifications, dependent: :destroy
+  has_many :sent_notifications, as: :subject, dependent: :destroy
   has_many :attendee_messages, dependent: :restrict_with_error
   has_many :feedback, dependent: :destroy
   has_one :sponsorship, dependent: :restrict_with_error
