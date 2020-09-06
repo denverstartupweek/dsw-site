@@ -2612,6 +2612,13 @@ CREATE INDEX index_job_fair_signups_on_user_id ON public.job_fair_signups USING 
 
 
 --
+-- Name: index_oauth_services_on_provider_and_uid; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_oauth_services_on_provider_and_uid ON public.oauth_services USING btree (provider, uid);
+
+
+--
 -- Name: index_oauth_services_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
