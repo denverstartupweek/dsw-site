@@ -48,7 +48,7 @@ feature "Filling out the job fair form" do
     expect(last_email_sent).to have_subject("Someone has signed up to exhibit at the DSW Job Fair")
     expect(last_email_sent).to deliver_to("jobfair@example.com")
     expect(last_email_sent).to reply_to("test@example.com")
-    expect(last_email_sent).to cc_to("test2@example.com")
+    expect(last_email_sent).to cc_to("test2@example.com", "test@example.com")
   end
 
   scenario "User submits a signup when already logged in" do
@@ -96,7 +96,7 @@ feature "Filling out the job fair form" do
     expect(last_email_sent).to have_subject("Someone has signed up to exhibit at the DSW Job Fair")
     expect(last_email_sent).to deliver_to("jobfair@example.com")
     expect(last_email_sent).to reply_to("test@example.com")
-    expect(last_email_sent).to cc_to("test2@example.com")
+    expect(last_email_sent).to cc_to("test2@example.com", "test@example.com")
   end
 
   scenario "User submits a signup but fails the captcha check" do
