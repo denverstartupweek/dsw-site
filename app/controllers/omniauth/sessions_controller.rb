@@ -6,6 +6,11 @@ class Omniauth::SessionsController < ApplicationController
     redirect_to admin_oauth_services_path
   end
 
+  def failure
+    flash[:notice] = params[:message]
+    redirect_to admin_oauth_services_path
+  end
+
   protected
 
   def auth_hash
