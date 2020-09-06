@@ -1,4 +1,6 @@
 class JobFairSignup < ApplicationRecord
+  has_paper_trail
+
   belongs_to :company
   belongs_to :user
 

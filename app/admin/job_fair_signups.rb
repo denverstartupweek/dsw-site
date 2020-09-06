@@ -100,6 +100,25 @@ ActiveAdmin.register JobFairSignup do
         end
       end
 
+      tab :changelog do
+        panel "Recent Updates" do
+          table_for job_fair_signup.versions do
+            column "Modified at" do |v|
+              v.created_at.to_s :long
+            end
+            column "User" do |v|
+              if (user = User.where(id: v.whodunnit).first)
+                link_to user.name, admin_user_path(user)
+              else
+                "Unknown"
+              end
+            end
+            column "View" do |v|
+              link_to "View", version: v.index
+            end
+          end
+        end
+      end
     end
   end
 
@@ -138,6 +157,27 @@ ActiveAdmin.register JobFairSignup do
 
   batch_action :reject do |job_fair_signup_ids|
     JobFairSignup.find(job_fair_signup_ids).each(&:reject!)
+    redirect_to admin_job_fair_signups_path
+  end
+
+  action_item :send_accept_email, only: :show do
+    unless job_fair_signup.rejected?
+      link_to "Send Accept E-mail",
+        send_accept_email_admin_job_fair_signup_path(job_fair_signup),
+        method: :post,
+        confirm: "Are you sure?"
+    end
+  end
+
+  member_action :send_accept_email, method: :post do
+    job_fair_signup = JobFairSignup.find(params[:id])
+    job_fair_signup.send_acceptance_email!
+    flash[:notice] = "Email sent!"
+    redirect_to admin_job_fair_signup_path(job_fair_signup)
+  end
+
+  batch_action :send_accept_email do |submission_ids|
+    JobFairSignup.find(job_fair_signup_ids).each(&:send_acceptance_email!)
     redirect_to admin_job_fair_signups_path
   end
 end
