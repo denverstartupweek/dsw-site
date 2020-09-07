@@ -20,6 +20,7 @@ RSpec.describe Submission, type: :model do
 
   it { is_expected.to have_many(:presenterships).dependent(:destroy) }
   it { is_expected.to have_many(:presenters) }
+  it { is_expected.to have_many(:youtube_live_streams).dependent(:restrict_with_error) }
 
   it { is_expected.to validate_presence_of(:title) }
   it { is_expected.to validate_presence_of(:description) }

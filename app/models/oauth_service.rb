@@ -1,9 +1,22 @@
 class OauthService < ApplicationRecord
-  PROVIDERS = %w[zoom youtube]
+  YOUTUBE_PROVIDER = "youtube"
+  ZOOM_PROVIDER = "zoom"
+  PROVIDERS = [
+    YOUTUBE_PROVIDER,
+    ZOOM_PROVIDER
+  ].freeze
 
   belongs_to :user
 
   validates :provider, presence: true, inclusion: {in: PROVIDERS}
+
+  def self.for_youtube
+    where(provider: YOUTUBE_PROVIDER)
+  end
+
+  def self.for_zoom
+    where(provider: ZOOM_PROVIDER)
+  end
 
   def self.find_or_create_from_auth_hash(auth_hash, user)
     record = where(uid: auth_hash["uid"], provider: auth_hash["provider"]).first_or_initialize

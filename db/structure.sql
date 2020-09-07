@@ -1251,7 +1251,8 @@ CREATE TABLE public.submissions (
     proposal_video_url character varying,
     preferred_length character varying,
     is_virtual boolean DEFAULT false NOT NULL,
-    virtual_meeting_type character varying
+    virtual_meeting_type character varying,
+    broadcast_on_youtube_live boolean DEFAULT false NOT NULL
 );
 
 
@@ -1686,6 +1687,44 @@ ALTER SEQUENCE public.votes_id_seq OWNED BY public.votes.id;
 
 
 --
+-- Name: youtube_live_streams; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.youtube_live_streams (
+    id bigint NOT NULL,
+    submission_id bigint NOT NULL,
+    live_stream_id character varying,
+    broadcast_id character varying,
+    ingestion_address text,
+    backup_ingestion_address text,
+    rtmps_ingestion_address text,
+    rtmps_backup_ingestion_address text,
+    stream_name text,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: youtube_live_streams_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.youtube_live_streams_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: youtube_live_streams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.youtube_live_streams_id_seq OWNED BY public.youtube_live_streams.id;
+
+
+--
 -- Name: zip_decoding; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2004,6 +2043,13 @@ ALTER TABLE ONLY public.volunteerships ALTER COLUMN id SET DEFAULT nextval('publ
 --
 
 ALTER TABLE ONLY public.votes ALTER COLUMN id SET DEFAULT nextval('public.votes_id_seq'::regclass);
+
+
+--
+-- Name: youtube_live_streams id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.youtube_live_streams ALTER COLUMN id SET DEFAULT nextval('public.youtube_live_streams_id_seq'::regclass);
 
 
 --
@@ -2364,6 +2410,14 @@ ALTER TABLE ONLY public.volunteerships
 
 ALTER TABLE ONLY public.votes
     ADD CONSTRAINT votes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: youtube_live_streams youtube_live_streams_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.youtube_live_streams
+    ADD CONSTRAINT youtube_live_streams_pkey PRIMARY KEY (id);
 
 
 --
@@ -2864,6 +2918,13 @@ CREATE INDEX index_votes_on_user_id ON public.votes USING btree (user_id);
 
 
 --
+-- Name: index_youtube_live_streams_on_submission_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_youtube_live_streams_on_submission_id ON public.youtube_live_streams USING btree (submission_id);
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2884,6 +2945,14 @@ ALTER TABLE ONLY public.registration_attendee_goals
 
 ALTER TABLE ONLY public.venue_adminships
     ADD CONSTRAINT fk_rails_033c107f44 FOREIGN KEY (venue_id) REFERENCES public.venues(id);
+
+
+--
+-- Name: youtube_live_streams fk_rails_040054a029; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.youtube_live_streams
+    ADD CONSTRAINT fk_rails_040054a029 FOREIGN KEY (submission_id) REFERENCES public.submissions(id);
 
 
 --
@@ -3329,6 +3398,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200903000433'),
 ('20200903231844'),
 ('20200904213035'),
-('20200906203546');
+('20200906203546'),
+('20200907044032'),
+('20200907050103');
 
 

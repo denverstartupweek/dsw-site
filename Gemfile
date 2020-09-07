@@ -66,10 +66,11 @@ gem "utf8-cleaner"
 gem "activeadmin"
 gem "activeadmin-ajax_filter"
 gem "activeadmin_medium_editor", github: "nyrf/activeadmin_medium_editor", ref: "8c60d49"
-gem "paper_trail"
-gem "validate_url"
+gem "google-api-client", "~> 0.34"
 gem "omniauth-google-oauth2"
 gem "omniauth-zoom"
+gem "paper_trail"
+gem "validate_url"
 
 # Background processing
 gem "sidecloq"
