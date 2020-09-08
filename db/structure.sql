@@ -1693,7 +1693,6 @@ ALTER SEQUENCE public.votes_id_seq OWNED BY public.votes.id;
 CREATE TABLE public.youtube_live_streams (
     id bigint NOT NULL,
     submission_id bigint NOT NULL,
-    name text,
     live_stream_id character varying,
     broadcast_id character varying,
     ingestion_address text,
@@ -1702,7 +1701,8 @@ CREATE TABLE public.youtube_live_streams (
     rtmps_backup_ingestion_address text,
     stream_name text,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    kind character varying NOT NULL
 );
 
 
@@ -3467,5 +3467,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200907044032'),
 ('20200907050103'),
 ('20200908010953'),
+('20200908022314');
 
 
