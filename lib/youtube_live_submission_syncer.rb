@@ -34,7 +34,7 @@ class YoutubeLiveSubmissionSyncer
   private
 
   def title_for(submission, suffix = nil)
-    title = "DSW #{submission.year}: #{submission.title}"
+    title = "DSW #{submission.year}: #{CGI.escapeHTML(submission.title)}"
     suffix_with_separator = if suffix
       " - #{suffix}"
     else
