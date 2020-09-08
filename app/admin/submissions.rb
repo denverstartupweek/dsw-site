@@ -695,6 +695,17 @@ ActiveAdmin.register Submission do
     redirect_to admin_submission_path(submission)
   end
 
+  action_item :create_virtual_meetings, only: %i[show] do
+    if resource.is_virtual?
+      link_to "Create Virtual Meetings", create_virtual_meetings_admin_submission_path(resource), method: :post
+    end
+  end
+
+  member_action :create_virtual_meetings, method: :post do
+    CreateOrUpdateVideoIntegrationsJob.perform_async(params[:id])
+    redirect_to admin_submission_path(submission)
+  end
+
   # Hooks
   after_build do |submission|
     submission.submitter ||= current_user
