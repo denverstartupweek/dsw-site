@@ -4,3 +4,17 @@ Zoom::Actions::Webinar::SETTINGS_KEYS = %i[panelists_video practice_session hd_v
   enforce_login_domains alternative_hosts close_registration
   show_share_button allow_multiple_devices registrants_confirmation_email
   meeting_authentication host_video post_webinar_survey survey_url].freeze
+
+# Monkeypatch to fix Zoom::Error ({:base=>"Request Body should be a valid JSON object."})
+# Per https://github.com/hintmedia/zoom_rb/issues/25
+module Zoom
+  module Actions
+    module Meeting
+      def livestream(*args)
+        options = Zoom::Params.new(Utils.extract_options!(args))
+        options.require(%i[meeting_id stream_url stream_key]).permit(%i[page_url])
+        Utils.parse_response self.class.patch("/meetings/#{options[:meeting_id]}/livestream", body: options.except(:meeting_id).to_json, headers: request_headers)
+      end
+    end
+  end
+end
