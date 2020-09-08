@@ -417,7 +417,7 @@ ActiveAdmin.register Submission do
             column(:event_type) { |e| e.event_type.titleize }
             column(:account) { |e| e.oauth_service.description }
             column :zoom_id
-            column(:host_url) { |e| link_to e.host_url, e.host_url }
+            column(:host_url) { |e| link_to "Click to launch", e.host_url }
             column(:join_url) { |e| link_to e.join_url, e.join_url }
             column :created_at
             column :updated_at
