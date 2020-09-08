@@ -71,6 +71,7 @@ gem "omniauth-google-oauth2"
 gem "omniauth-zoom"
 gem "paper_trail"
 gem "validate_url"
+gem "zoom_rb", github: "hintmedia/zoom_rb"
 
 # Background processing
 gem "sidecloq"
