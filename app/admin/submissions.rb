@@ -426,7 +426,7 @@ ActiveAdmin.register Submission do
         panel "Youtube Live Streams" do
           table_for submission.youtube_live_streams do
             column(:kind) { |e| e.kind.titleize }
-            column(:live_url) { "https://youtu.be/#{e.broadcast_id}" }
+            column(:live_url) { |e| "https://youtu.be/#{e.broadcast_id}" }
             column :stream_name
             column :ingestion_address
             column :created_at
