@@ -408,6 +408,29 @@ ActiveAdmin.register Submission do
         end
       end
 
+      tab :virtual do
+        panel "Virtual Event" do
+          table_for submission.youtube_live_streams do
+            column(:kind) { |e| e.kind.titleize }
+            column(:event_type) { |e| e.event_type.titleize }
+            column(:live_url) { "https://youtu.be/#{e.broadcast_id}" }
+            column :stream_name
+            column :ingestion_address
+            column :created_at
+            column :updated_at
+          end
+          table_for submission.zoom_events do
+            column(:kind) { |e| e.kind.titleize }
+            column(:event_type) { |e| e.event_type.titleize }
+            column :zoom_id
+            column :host_url
+            column :join_url
+            column :created_at
+            column :updated_at
+          end
+        end
+      end
+
       tab :changelog do
         panel "Recent Updates" do
           table_for submission.versions do
