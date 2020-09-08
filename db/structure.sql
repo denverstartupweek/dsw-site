@@ -2532,10 +2532,24 @@ CREATE INDEX idx_companies_name_contains ON public.companies USING gin (name pub
 
 
 --
+-- Name: idx_companies_name_contains_gist; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_companies_name_contains_gist ON public.companies USING gist (name public.gist_trgm_ops);
+
+
+--
 -- Name: idx_submissions_description_contains; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX idx_submissions_description_contains ON public.submissions USING gin (description public.gin_trgm_ops);
+
+
+--
+-- Name: idx_submissions_description_contains_gist; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_submissions_description_contains_gist ON public.submissions USING gist (description public.gist_trgm_ops);
 
 
 --
@@ -2546,6 +2560,13 @@ CREATE INDEX idx_submissions_title_contains ON public.submissions USING gin (tit
 
 
 --
+-- Name: idx_submissions_title_contains_gist; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_submissions_title_contains_gist ON public.submissions USING gist (title public.gist_trgm_ops);
+
+
+--
 -- Name: idx_users_email_contains; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2553,10 +2574,24 @@ CREATE INDEX idx_users_email_contains ON public.users USING gin (email public.gi
 
 
 --
+-- Name: idx_users_email_contains_gist; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_users_email_contains_gist ON public.users USING gist (email public.gist_trgm_ops);
+
+
+--
 -- Name: idx_users_name_contains; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX idx_users_name_contains ON public.users USING gin (name public.gin_trgm_ops);
+
+
+--
+-- Name: idx_users_name_contains_gist; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_users_name_contains_gist ON public.users USING gist (name public.gist_trgm_ops);
 
 
 --
@@ -3504,6 +3539,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200908010953'),
 ('20200908022314'),
 ('20200908044250'),
-('20200908052350');
+('20200908052350'),
+('20200908171222');
 
 
