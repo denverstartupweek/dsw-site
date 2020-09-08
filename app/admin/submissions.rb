@@ -417,8 +417,8 @@ ActiveAdmin.register Submission do
             column(:event_type) { |e| e.event_type.titleize }
             column(:account) { |e| e.oauth_service.description }
             column :zoom_id
-            column :host_url
-            column :join_url
+            column(:host_url) { |e| link_to e.host_url, e.host_url }
+            column(:join_url) { |e| link_to e.join_url, e.join_url }
             column :created_at
             column :updated_at
           end
@@ -426,7 +426,7 @@ ActiveAdmin.register Submission do
         panel "Youtube Live Streams" do
           table_for submission.youtube_live_streams do
             column(:kind) { |e| e.kind.titleize }
-            column(:live_url) { |e| "https://youtu.be/#{e.broadcast_id}" }
+            column(:live_url) { |e| link_to e.live_url, e.live_url }
             column :stream_name
             column :ingestion_address
             column :created_at

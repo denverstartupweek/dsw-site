@@ -8,4 +8,8 @@ class YoutubeLiveStream < ApplicationRecord
 
   belongs_to :submission
   validates :kind, presence: true, inclusion: {in: KINDS}
+
+  def live_url
+    "https://youtu.be/#{broadcast_id}"
+  end
 end
