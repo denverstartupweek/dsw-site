@@ -1,10 +1,6 @@
 require "rails_helper"
 
 RSpec.describe JobFairSignup, type: :model do
-  before do
-    allow(ListSubscriptionJob).to receive(:perform_async)
-  end
-
   it { is_expected.to belong_to(:user) }
   it { is_expected.to belong_to(:company) }
   it { is_expected.to have_many(:sent_notifications).dependent(:destroy) }

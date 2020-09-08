@@ -105,4 +105,10 @@ FactoryBot.define do
     organization_size { JobFairSignup::ORGANIZATION_SIZES.sample }
     industry_category { JobFairSignup::INDUSTRY_CATEGORIES.sample }
   end
+
+  factory :oauth_service do
+    association :user
+    provider { OauthService::YOUTUBE_PROVIDER }
+    sequence(:uid) { |n| "u#{n}" }
+  end
 end

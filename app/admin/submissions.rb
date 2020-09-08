@@ -3,7 +3,8 @@ ActiveAdmin.register Submission do
 
   menu parent: "Sessions", priority: 1
 
-  permit_params :budget_needed,
+  permit_params :broadcast_on_youtube_live,
+    :budget_needed,
     :cluster_id,
     :coc_acknowledgement,
     :company_id,
@@ -41,6 +42,7 @@ ActiveAdmin.register Submission do
     :virtual_meeting_type,
     :volunteers_needed,
     :year,
+    :zoom_oauth_service_id,
     publishing_attributes: [:id, :effective_at, :featured_on_homepage],
     presenterships_attributes: [:id, :user_id, :_delete]
 
@@ -200,7 +202,9 @@ ActiveAdmin.register Submission do
       f.input :venue_id, as: :select, collection: Venue.alphabetical.map { |v| [v.name, v.id] }, include_blank: true
       f.input :has_childcare
       f.input :is_virtual, label: "Will this session will be held virtually?"
+      f.input :broadcast_on_youtube_live, label: "Should this session will be broadcast on Youtube Live?", hint: "This will cause a live stream to be created automatically."
       f.input :virtual_meeting_type, label: "What format will this virtual meeting use?", as: :select, collection: Submission::VIRTUAL_MEETING_TYPES, include_blank: true
+      f.input :zoom_oauth_service_id, as: :select, collection: OauthService.for_zoom.map { |s| [s.description, s.id] }, include_blank: true
       f.input :noindex, label: "Hide from search engines?"
     end
     f.inputs "Submitter" do
@@ -402,6 +406,30 @@ ActiveAdmin.register Submission do
             column(:kind) { |submission| submission.kind.titleize }
             column :recipient_email
             column "Sent At", :created_at
+          end
+        end
+      end
+
+      tab :virtual do
+        panel "Virtual Event" do
+          table_for submission.youtube_live_streams do
+            column(:kind) { |e| e.kind.titleize }
+            column(:event_type) { |e| e.event_type.titleize }
+            column(:live_url) { "https://youtu.be/#{e.broadcast_id}" }
+            column :stream_name
+            column :ingestion_address
+            column :created_at
+            column :updated_at
+          end
+          table_for submission.zoom_events do
+            column(:kind) { |e| e.kind.titleize }
+            column(:event_type) { |e| e.event_type.titleize }
+            column(:account) { |e| e.oauth_service.description }
+            column :zoom_id
+            column :host_url
+            column :join_url
+            column :created_at
+            column :updated_at
           end
         end
       end

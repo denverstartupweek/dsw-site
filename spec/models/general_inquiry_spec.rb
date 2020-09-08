@@ -1,10 +1,6 @@
 require "spec_helper"
 
 RSpec.describe GeneralInquiry, type: :model do
-  before do
-    allow(ListSubscriptionJob).to receive(:perform_async)
-  end
-
   it { is_expected.to allow_value(nil).for(:interest) }
   it { is_expected.to allow_value("").for(:interest) }
   it { is_expected.to allow_value("volunteer").for(:interest) }

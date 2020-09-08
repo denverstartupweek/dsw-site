@@ -46,11 +46,14 @@ class Submission < ApplicationRecord
     "Late night"
   ].freeze
 
+  ZOOM_MEETING_TYPE = "zoom"
+  ZOOM_WEBINAR_TYPE = "zoom_webinar"
+  OTHER_MEETING_TYPE = "other_url"
   VIRTUAL_MEETING_TYPES = [
-    "zoom",
-    "zoom_webinar",
-    "other_url"
-  ]
+    ZOOM_MEETING_TYPE,
+    ZOOM_WEBINAR_TYPE,
+    OTHER_MEETING_TYPE
+  ].freeze
 
   include SearchableSubmission
   include YearScoped
@@ -83,6 +86,9 @@ class Submission < ApplicationRecord
   has_one :sponsorship, dependent: :restrict_with_error
   has_many :presenterships, dependent: :destroy
   has_many :presenters, through: :presenterships, source: :user
+  has_many :youtube_live_streams, dependent: :restrict_with_error
+  has_many :zoom_events, dependent: :restrict_with_error
+  belongs_to :zoom_oauth_service, optional: true, class_name: "OauthService"
 
   accepts_nested_attributes_for :publishing, allow_destroy: false
   accepts_nested_attributes_for :presenterships, allow_destroy: true
@@ -124,6 +130,7 @@ class Submission < ApplicationRecord
   after_create :notify_track_chairs_of_new_submission!
   after_create :send_confirmation_notice!
   after_save :subscribe_to_list!
+  # after_save :create_or_update_streams!
 
   after_initialize do
     self.year ||= Date.today.year
@@ -369,6 +376,10 @@ class Submission < ApplicationRecord
   end
 
   # Actions
+  def create_or_update_streams!
+    CreateOrUpdateVideoIntegrationsJob.perform_async(id)
+  end
+
   def send_venue_match_email!
     message = NotificationsMailer.notify_of_submission_venue_match(self)
     message.deliver_now!
