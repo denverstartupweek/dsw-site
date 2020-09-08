@@ -61,6 +61,7 @@ gem "newrelic_rpm"
 gem "rack-canonical-host"
 gem "skylight"
 gem "utf8-cleaner"
+gem "activerecord-explain-analyze"
 
 # Admin interface
 gem "activeadmin"
