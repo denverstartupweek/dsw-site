@@ -46,11 +46,14 @@ class Submission < ApplicationRecord
     "Late night"
   ].freeze
 
+  ZOOM_MEETING_TYPE = "zoom"
+  ZOOM_WEBINAR_TYPE = "zoom_webinar"
+  OTHER_MEETING_TYPE = "other_url"
   VIRTUAL_MEETING_TYPES = [
-    "zoom",
-    "zoom_webinar",
-    "other_url"
-  ]
+    ZOOM_MEETING_TYPE,
+    ZOOM_WEBINAR_TYPE,
+    OTHER_MEETING_TYPE
+  ].freeze
 
   include SearchableSubmission
   include YearScoped
