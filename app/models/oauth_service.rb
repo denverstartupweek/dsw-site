@@ -43,7 +43,14 @@ class OauthService < ApplicationRecord
             scope: "profile,youtube",
             name: "youtube"
           )
+        elsif provider == ZOOM_PROVIDER
+          OmniAuth::Strategies::Zoom.new(
+            nil, # App - nil is fine since we're outside of Rack
+            ENV["ZOOM_APP_KEY"],
+            ENV["ZOOM_APP_SECRET"]
+          )
         end
+
         token = OAuth2::AccessToken.new(
           oauth.client,
           token,
