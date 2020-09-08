@@ -1,10 +1,6 @@
 require "spec_helper"
 
 describe VenueAvailability, type: :model do
-  before do
-    allow(ListSubscriptionJob).to receive(:perform_async)
-  end
-
   it { is_expected.to validate_presence_of(:year) }
   it { is_expected.to validate_presence_of(:day) }
   it { is_expected.to validate_presence_of(:time_block) }

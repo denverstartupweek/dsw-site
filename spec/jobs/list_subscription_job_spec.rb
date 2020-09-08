@@ -7,6 +7,7 @@ require "spec_helper"
 
 describe ListSubscriptionJob, job: true, vcr: true do
   before do
+    allow(ListSubscriptionJob).to receive(:perform_async).and_call_original
     ENV["SENDGRID_LIST_ID"] = "abc123"
   end
 

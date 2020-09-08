@@ -1,10 +1,6 @@
 require "spec_helper"
 
 feature "Editing my profile" do
-  before do
-    allow(ListSubscriptionJob).to receive(:perform_async)
-  end
-
   xit "Editing an account from the edit profile page" do
     visit "/dashboard"
     fill_in "First and Last Name", with: "Test Registrant"

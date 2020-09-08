@@ -1,10 +1,6 @@
 require "spec_helper"
 
 RSpec.describe Submission, type: :model do
-  before do
-    allow(ListSubscriptionJob).to receive(:perform_async)
-  end
-
   it { is_expected.to belong_to(:track) }
   it { is_expected.to belong_to(:venue).optional }
   it { is_expected.to belong_to(:cluster).optional }

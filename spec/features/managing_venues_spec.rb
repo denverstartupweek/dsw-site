@@ -13,10 +13,6 @@ feature "Managing My Venue" do
     end
   end
 
-  before(:each) do
-    allow(ListSubscriptionJob).to receive(:perform_async)
-  end
-
   scenario "a user who does not have any venues assigned should not see anything in the list" do
     login_as user, scope: :user
     visit "/dashboard"
