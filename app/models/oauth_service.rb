@@ -7,6 +7,8 @@ class OauthService < ApplicationRecord
   ].freeze
 
   belongs_to :user
+  has_many :submissions, dependent: :restrict_with_error, foreign_key: "zoom_oauth_service_id"
+  has_many :zoom_events, dependent: :restrict_with_error
 
   validates :provider, presence: true, inclusion: {in: PROVIDERS}
 
@@ -43,7 +45,14 @@ class OauthService < ApplicationRecord
             scope: "profile,youtube",
             name: "youtube"
           )
+        elsif provider == ZOOM_PROVIDER
+          OmniAuth::Strategies::Zoom.new(
+            nil, # App - nil is fine since we're outside of Rack
+            ENV["ZOOM_APP_KEY"],
+            ENV["ZOOM_APP_SECRET"]
+          )
         end
+
         token = OAuth2::AccessToken.new(
           oauth.client,
           token,

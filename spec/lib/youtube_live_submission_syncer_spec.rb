@@ -198,7 +198,7 @@ describe YoutubeLiveSubmissionSyncer do
 
         expect(submission.youtube_live_streams.count).to eq(2)
         test_stream = submission.youtube_live_streams.first
-        expect(test_stream.name).to eq("Test Stream")
+        expect(test_stream.kind).to eq(YoutubeLiveStream::TEST_KIND)
         expect(test_stream.live_stream_id).to eq("abc123")
         expect(test_stream.broadcast_id).to eq("def456")
         expect(test_stream.stream_name).to eq("foo")
@@ -207,7 +207,13 @@ describe YoutubeLiveSubmissionSyncer do
         expect(test_stream.rtmps_ingestion_address).to eq("rtmps://rtmp.example.com/foo")
 
         live_stream = submission.youtube_live_streams.last
-        expect(live_stream.name).to eq("Live Stream")
+        expect(live_stream.kind).to eq(YoutubeLiveStream::LIVE_KIND)
+        expect(live_stream.live_stream_id).to eq("ghi789")
+        expect(live_stream.broadcast_id).to eq("jkl012")
+        expect(live_stream.stream_name).to eq("foolive")
+        expect(live_stream.ingestion_address).to eq("rtmp://rtmp.example.com/foolive")
+        expect(live_stream.backup_ingestion_address).to eq("rtmp://rtmp.example.com/foolivebackup")
+        expect(live_stream.rtmps_ingestion_address).to eq("rtmps://rtmp.example.com/foolive")
       end
     end
   end

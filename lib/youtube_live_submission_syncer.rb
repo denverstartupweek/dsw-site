@@ -2,9 +2,6 @@ require "google/apis/youtube_v3"
 require "google/api_client/client_secrets"
 
 class YoutubeLiveSubmissionSyncer
-  TEST_STREAM_NAME = "Test Stream"
-  LIVE_STREAM_NAME = "Live Stream"
-
   def initialize(submission)
     @submission = submission
   end
@@ -95,7 +92,7 @@ class YoutubeLiveSubmissionSyncer
       )
     )
     youtube_client.bind_live_broadcast(broadcast.id, %w[id], stream_id: stream.id)
-    save_live_stream(TEST_STREAM_NAME, submission, stream, broadcast)
+    save_live_stream(submission, stream, broadcast, YoutubeLiveStream::TEST_KIND)
   end
 
   def create_live_stream(submission)
@@ -139,12 +136,12 @@ class YoutubeLiveSubmissionSyncer
       )
     )
     youtube_client.bind_live_broadcast(broadcast.id, %w[id], stream_id: stream.id)
-    save_live_stream(LIVE_STREAM_NAME, submission, stream, broadcast)
+    save_live_stream(submission, stream, broadcast, YoutubeLiveStream::LIVE_KIND)
   end
 
-  def save_live_stream(name, submission, stream, broadcast)
+  def save_live_stream(submission, stream, broadcast, kind)
     submission.youtube_live_streams.create!(
-      name: name,
+      kind: kind,
       live_stream_id: stream.id,
       # This can be used at assemble the video URL, per https://stackoverflow.com/questions/31210948/get-current-stream-url-out-of-youtube-live-api
       broadcast_id: broadcast.id,
@@ -156,11 +153,11 @@ class YoutubeLiveSubmissionSyncer
   end
 
   def test_stream_exists?(submission)
-    submission.youtube_live_streams.where(name: TEST_STREAM_NAME).any?
+    submission.youtube_live_streams.where(kind: YoutubeLiveStream::TEST_KIND).any?
   end
 
   def live_stream_exists?(submission)
-    submission.youtube_live_streams.where(name: LIVE_STREAM_NAME).any?
+    submission.youtube_live_streams.where(kind: YoutubeLiveStream::LIVE_KIND).any?
   end
 
   def youtube_oauth_service

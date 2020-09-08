@@ -13,6 +13,15 @@ GIT
       json
 
 GIT
+  remote: https://github.com/hintmedia/zoom_rb.git
+  revision: 2f9055d47141d9ac3381825182a18e20ecc50746
+  specs:
+    zoom_rb (0.10.0)
+      httparty (~> 0.13)
+      json (>= 1.8)
+      jwt
+
+GIT
   remote: https://github.com/hyp3rventures/carrierwave_backgrounder.git
   revision: ada0784c190be7b7fecb9576956c3d5b4ba1a839
   specs:
@@ -706,6 +715,7 @@ DEPENDENCIES
   webdrivers
   webmock
   webpacker
+  zoom_rb!
 
 RUBY VERSION
    ruby 2.5.3p105

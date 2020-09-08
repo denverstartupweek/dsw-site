@@ -1252,7 +1252,8 @@ CREATE TABLE public.submissions (
     preferred_length character varying,
     is_virtual boolean DEFAULT false NOT NULL,
     virtual_meeting_type character varying,
-    broadcast_on_youtube_live boolean DEFAULT false NOT NULL
+    broadcast_on_youtube_live boolean DEFAULT false NOT NULL,
+    zoom_oauth_service_id bigint
 );
 
 
@@ -1693,7 +1694,6 @@ ALTER SEQUENCE public.votes_id_seq OWNED BY public.votes.id;
 CREATE TABLE public.youtube_live_streams (
     id bigint NOT NULL,
     submission_id bigint NOT NULL,
-    name text,
     live_stream_id character varying,
     broadcast_id character varying,
     ingestion_address text,
@@ -1702,7 +1702,8 @@ CREATE TABLE public.youtube_live_streams (
     rtmps_backup_ingestion_address text,
     stream_name text,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    kind character varying NOT NULL
 );
 
 
@@ -1736,6 +1737,43 @@ CREATE TABLE public.zip_decoding (
     lat numeric,
     long numeric
 );
+
+
+--
+-- Name: zoom_events; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.zoom_events (
+    id bigint NOT NULL,
+    submission_id bigint,
+    zoom_id character varying NOT NULL,
+    event_type character varying NOT NULL,
+    kind character varying NOT NULL,
+    host_url text,
+    join_url text,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    oauth_service_id bigint NOT NULL
+);
+
+
+--
+-- Name: zoom_events_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.zoom_events_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: zoom_events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.zoom_events_id_seq OWNED BY public.zoom_events.id;
 
 
 --
@@ -2051,6 +2089,13 @@ ALTER TABLE ONLY public.votes ALTER COLUMN id SET DEFAULT nextval('public.votes_
 --
 
 ALTER TABLE ONLY public.youtube_live_streams ALTER COLUMN id SET DEFAULT nextval('public.youtube_live_streams_id_seq'::regclass);
+
+
+--
+-- Name: zoom_events id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.zoom_events ALTER COLUMN id SET DEFAULT nextval('public.zoom_events_id_seq'::regclass);
 
 
 --
@@ -2419,6 +2464,14 @@ ALTER TABLE ONLY public.votes
 
 ALTER TABLE ONLY public.youtube_live_streams
     ADD CONSTRAINT youtube_live_streams_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: zoom_events zoom_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.zoom_events
+    ADD CONSTRAINT zoom_events_pkey PRIMARY KEY (id);
 
 
 --
@@ -2835,6 +2888,13 @@ CREATE INDEX index_submissions_on_track_id ON public.submissions USING btree (tr
 
 
 --
+-- Name: index_submissions_on_zoom_oauth_service_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_submissions_on_zoom_oauth_service_id ON public.submissions USING btree (zoom_oauth_service_id);
+
+
+--
 -- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2926,6 +2986,20 @@ CREATE INDEX index_youtube_live_streams_on_submission_id ON public.youtube_live_
 
 
 --
+-- Name: index_zoom_events_on_oauth_service_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_zoom_events_on_oauth_service_id ON public.zoom_events USING btree (oauth_service_id);
+
+
+--
+-- Name: index_zoom_events_on_submission_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_zoom_events_on_submission_id ON public.zoom_events USING btree (submission_id);
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2970,6 +3044,14 @@ ALTER TABLE ONLY public.pitch_contest_votes
 
 ALTER TABLE ONLY public.venues
     ADD CONSTRAINT fk_rails_077040617e FOREIGN KEY (company_id) REFERENCES public.companies(id);
+
+
+--
+-- Name: submissions fk_rails_0ebbbc745a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.submissions
+    ADD CONSTRAINT fk_rails_0ebbbc745a FOREIGN KEY (zoom_oauth_service_id) REFERENCES public.oauth_services(id);
 
 
 --
@@ -3074,6 +3156,14 @@ ALTER TABLE ONLY public.registrations
 
 ALTER TABLE ONLY public.volunteership_shifts
     ADD CONSTRAINT fk_rails_4deb72ee78 FOREIGN KEY (volunteership_id) REFERENCES public.volunteerships(id);
+
+
+--
+-- Name: zoom_events fk_rails_5125a0330a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.zoom_events
+    ADD CONSTRAINT fk_rails_5125a0330a FOREIGN KEY (submission_id) REFERENCES public.submissions(id);
 
 
 --
@@ -3202,6 +3292,14 @@ ALTER TABLE ONLY public.presenterships
 
 ALTER TABLE ONLY public.articles
     ADD CONSTRAINT fk_rails_f23b81b642 FOREIGN KEY (submission_id) REFERENCES public.submissions(id);
+
+
+--
+-- Name: zoom_events fk_rails_f998f9c4f0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.zoom_events
+    ADD CONSTRAINT fk_rails_f998f9c4f0 FOREIGN KEY (oauth_service_id) REFERENCES public.oauth_services(id);
 
 
 --
@@ -3401,6 +3499,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200904213035'),
 ('20200906203546'),
 ('20200907044032'),
-('20200907050103');
+('20200907050103'),
+('20200908010953'),
+('20200908022314'),
+('20200908044250');
 
 
