@@ -12,6 +12,7 @@ class ZoomEvent < ApplicationRecord
   ].freeze
 
   belongs_to :submission
+  belongs_to :oauth_service
 
   validates :zoom_id, presence: true
   validates :event_type, presence: true, inclusion: {in: EVENT_TYPES}

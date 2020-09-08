@@ -1252,7 +1252,8 @@ CREATE TABLE public.submissions (
     preferred_length character varying,
     is_virtual boolean DEFAULT false NOT NULL,
     virtual_meeting_type character varying,
-    broadcast_on_youtube_live boolean DEFAULT false NOT NULL
+    broadcast_on_youtube_live boolean DEFAULT false NOT NULL,
+    zoom_oauth_service_id bigint
 );
 
 
@@ -1751,7 +1752,8 @@ CREATE TABLE public.zoom_events (
     host_url text,
     join_url text,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    oauth_service_id bigint NOT NULL
 );
 
 
@@ -2886,6 +2888,13 @@ CREATE INDEX index_submissions_on_track_id ON public.submissions USING btree (tr
 
 
 --
+-- Name: index_submissions_on_zoom_oauth_service_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_submissions_on_zoom_oauth_service_id ON public.submissions USING btree (zoom_oauth_service_id);
+
+
+--
 -- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2977,6 +2986,13 @@ CREATE INDEX index_youtube_live_streams_on_submission_id ON public.youtube_live_
 
 
 --
+-- Name: index_zoom_events_on_oauth_service_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_zoom_events_on_oauth_service_id ON public.zoom_events USING btree (oauth_service_id);
+
+
+--
 -- Name: index_zoom_events_on_submission_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3028,6 +3044,14 @@ ALTER TABLE ONLY public.pitch_contest_votes
 
 ALTER TABLE ONLY public.venues
     ADD CONSTRAINT fk_rails_077040617e FOREIGN KEY (company_id) REFERENCES public.companies(id);
+
+
+--
+-- Name: submissions fk_rails_0ebbbc745a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.submissions
+    ADD CONSTRAINT fk_rails_0ebbbc745a FOREIGN KEY (zoom_oauth_service_id) REFERENCES public.oauth_services(id);
 
 
 --
@@ -3271,6 +3295,14 @@ ALTER TABLE ONLY public.articles
 
 
 --
+-- Name: zoom_events fk_rails_f998f9c4f0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.zoom_events
+    ADD CONSTRAINT fk_rails_f998f9c4f0 FOREIGN KEY (oauth_service_id) REFERENCES public.oauth_services(id);
+
+
+--
 -- Name: submissions fk_rails_fdef407c4c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3469,6 +3501,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200907044032'),
 ('20200907050103'),
 ('20200908010953'),
-('20200908022314');
+('20200908022314'),
+('20200908044250');
 
 

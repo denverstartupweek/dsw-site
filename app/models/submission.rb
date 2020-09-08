@@ -88,6 +88,7 @@ class Submission < ApplicationRecord
   has_many :presenters, through: :presenterships, source: :user
   has_many :youtube_live_streams, dependent: :restrict_with_error
   has_many :zoom_events, dependent: :restrict_with_error
+  belongs_to :zoom_oauth_service, optional: true, class_name: "OauthService"
 
   accepts_nested_attributes_for :publishing, allow_destroy: false
   accepts_nested_attributes_for :presenterships, allow_destroy: true

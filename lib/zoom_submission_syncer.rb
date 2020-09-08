@@ -33,8 +33,12 @@ class ZoomSubmissionSyncer
   end
 
   def run!
+    return unless @submission.zoom_oauth_service.present?
+
+    # TODO: Handle switching Oauth Services
+
     Rails.logger.info "Checking service to see if a token refresh is needed..."
-    zoom_oauth_service.refresh_if_needed!
+    @submission.zoom_oauth_service.refresh_if_needed!
 
     # TODO: handle removing streams when this is toggled off
     return unless @submission.is_virtual? && %w[zoom zoom_webinar].include?(@submission.virtual_meeting_type)
@@ -50,7 +54,7 @@ class ZoomSubmissionSyncer
 
   # Public for test stubbing
   def zoom_client
-    @_zoom_client ||= Zoom::Client::OAuth.new(access_token: zoom_oauth_service.token, timeout: 15)
+    @_zoom_client ||= Zoom::Client::OAuth.new(access_token: @submission.zoom_oauth_service.token, timeout: 15)
   end
 
   private
@@ -173,6 +177,7 @@ class ZoomSubmissionSyncer
 
   def save_event(submission, type, event, kind)
     submission.zoom_events.create!(
+      oauth_service: submission.zoom_oauth_service,
       zoom_id: event["id"],
       join_url: event["join_url"],
       host_url: event["start_url"],
@@ -187,9 +192,5 @@ class ZoomSubmissionSyncer
 
   def live_event_exists?(submission)
     submission.zoom_events.where(kind: ZoomEvent::LIVE_KIND).any?
-  end
-
-  def zoom_oauth_service
-    @_zoom_oauth_service ||= OauthService.for_zoom.first!
   end
 end

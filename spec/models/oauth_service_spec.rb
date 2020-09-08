@@ -2,6 +2,8 @@ require "rails_helper"
 
 RSpec.describe OauthService, type: :model do
   it { is_expected.to belong_to(:user) }
+  it { is_expected.to have_many(:submissions).dependent(:restrict_with_error) }
+  it { is_expected.to have_many(:zoom_events).dependent(:restrict_with_error) }
   it { is_expected.to validate_presence_of(:provider) }
   it { is_expected.to allow_values(*OauthService::PROVIDERS).for(:provider) }
 

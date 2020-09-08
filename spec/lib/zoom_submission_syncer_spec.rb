@@ -39,6 +39,7 @@ describe ZoomSubmissionSyncer do
   describe "when an event is virtual and uses a standard meeting" do
     let(:submission) do
       create(:submission,
+        zoom_oauth_service: oauth_service,
         year: 2020,
         title: "My Awesome Session",
         description: "Some great content.",
@@ -113,6 +114,7 @@ describe ZoomSubmissionSyncer do
       expect(test_event.zoom_id).to eq("abc123")
       expect(test_event.join_url).to eq("https://denverstartupweek.zoom.us/123456")
       expect(test_event.host_url).to eq("https://denverstartupweek.zoom.us/456789")
+      expect(test_event.oauth_service).to eq(oauth_service)
 
       live_event = submission.zoom_events.last
       expect(live_event.kind).to eq(ZoomEvent::LIVE_KIND)
@@ -120,6 +122,7 @@ describe ZoomSubmissionSyncer do
       expect(live_event.zoom_id).to eq("def456")
       expect(live_event.join_url).to eq("https://denverstartupweek.zoom.us/654321")
       expect(live_event.host_url).to eq("https://denverstartupweek.zoom.us/987654")
+      expect(live_event.oauth_service).to eq(oauth_service)
     end
 
     describe "when an event also has Youtube streams configured" do
@@ -178,6 +181,7 @@ describe ZoomSubmissionSyncer do
   describe "when an event is virtual and uses a webinar" do
     let(:submission) do
       create(:submission,
+        zoom_oauth_service: oauth_service,
         year: 2020,
         title: "My Awesome Session",
         description: "Some great content.",
@@ -250,6 +254,7 @@ describe ZoomSubmissionSyncer do
       expect(test_event.zoom_id).to eq("abc123")
       expect(test_event.join_url).to eq("https://denverstartupweek.zoom.us/123456")
       expect(test_event.host_url).to eq("https://denverstartupweek.zoom.us/456789")
+      expect(test_event.oauth_service).to eq(oauth_service)
 
       live_event = submission.zoom_events.last
       expect(live_event.kind).to eq(ZoomEvent::LIVE_KIND)
@@ -257,6 +262,7 @@ describe ZoomSubmissionSyncer do
       expect(live_event.zoom_id).to eq("def456")
       expect(live_event.join_url).to eq("https://denverstartupweek.zoom.us/654321")
       expect(live_event.host_url).to eq("https://denverstartupweek.zoom.us/987654")
+      expect(live_event.oauth_service).to eq(oauth_service)
     end
 
     describe "when an event also has Youtube streams configured" do

@@ -7,6 +7,8 @@ class OauthService < ApplicationRecord
   ].freeze
 
   belongs_to :user
+  has_many :submissions, dependent: :restrict_with_error, foreign_key: "zoom_oauth_service_id"
+  has_many :zoom_events, dependent: :restrict_with_error
 
   validates :provider, presence: true, inclusion: {in: PROVIDERS}
 
