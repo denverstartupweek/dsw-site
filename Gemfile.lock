@@ -111,6 +111,9 @@ GEM
     activerecord (6.0.3.2)
       activemodel (= 6.0.3.2)
       activesupport (= 6.0.3.2)
+    activerecord-explain-analyze (0.1.0)
+      activerecord (>= 4)
+      pg
     activestorage (6.0.3.2)
       actionpack (= 6.0.3.2)
       activejob (= 6.0.3.2)
@@ -637,6 +640,7 @@ DEPENDENCIES
   activeadmin
   activeadmin-ajax_filter
   activeadmin_medium_editor!
+  activerecord-explain-analyze
   addressable
   autoprefixer-rails
   better_errors
