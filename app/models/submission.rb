@@ -87,6 +87,7 @@ class Submission < ApplicationRecord
   has_many :presenterships, dependent: :destroy
   has_many :presenters, through: :presenterships, source: :user
   has_many :youtube_live_streams, dependent: :restrict_with_error
+  has_many :zoom_events, dependent: :restrict_with_error
 
   accepts_nested_attributes_for :publishing, allow_destroy: false
   accepts_nested_attributes_for :presenterships, allow_destroy: true

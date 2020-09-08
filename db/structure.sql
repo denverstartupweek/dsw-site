@@ -1748,6 +1748,8 @@ CREATE TABLE public.zoom_events (
     zoom_id character varying NOT NULL,
     event_type character varying NOT NULL,
     kind character varying NOT NULL,
+    host_url text,
+    join_url text,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );

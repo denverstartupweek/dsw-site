@@ -5,6 +5,8 @@ class CreateZoomEvents < ActiveRecord::Migration[6.0]
       t.string :zoom_id, null: false
       t.string :event_type, null: false
       t.string :kind, null: false
+      t.text :host_url
+      t.text :join_url
       t.timestamps
     end
   end
