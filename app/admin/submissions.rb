@@ -39,6 +39,7 @@ ActiveAdmin.register Submission do
     :track_id,
     :venue_id,
     :video_url,
+    :virtual_join_url,
     :virtual_meeting_type,
     :volunteers_needed,
     :year,
@@ -204,6 +205,7 @@ ActiveAdmin.register Submission do
       f.input :is_virtual, label: "Will this session will be held virtually?"
       f.input :broadcast_on_youtube_live, label: "Should this session will be broadcast on Youtube Live?", hint: "This will cause a live stream to be created automatically."
       f.input :virtual_meeting_type, label: "What format will this virtual meeting use?", as: :select, collection: Submission::VIRTUAL_MEETING_TYPES, include_blank: true
+      f.input :virtual_join_url, as: :string, label: "Custom join URL (if applicable)"
       f.input :zoom_oauth_service_id, as: :select, collection: OauthService.for_zoom.map { |s| [s.description, s.id] }, include_blank: true
       f.input :noindex, label: "Hide from search engines?"
     end
