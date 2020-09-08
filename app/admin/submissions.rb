@@ -704,7 +704,8 @@ ActiveAdmin.register Submission do
   end
 
   member_action :create_virtual_meetings, method: :post do
-    CreateOrUpdateVideoIntegrationsJob.perform_async(params[:id])
+    submission = Submission.find(params[:id])
+    CreateOrUpdateVideoIntegrationsJob.perform_async(submission.id)
     redirect_to admin_submission_path(submission)
   end
 
