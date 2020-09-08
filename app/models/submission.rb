@@ -372,7 +372,7 @@ class Submission < ApplicationRecord
 
   # Actions
   def create_or_update_streams!
-    CreateOrUpdateYoutubeLiveJob.perform_async(id)
+    CreateOrUpdateVideoIntegrationsJob.perform_async(id)
   end
 
   def send_venue_match_email!

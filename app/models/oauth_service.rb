@@ -27,19 +27,20 @@ class OauthService < ApplicationRecord
     record.save
   end
 
+  # TODO: Add tests!
   def refresh_if_needed!
     if token_expires_at.past?
-      with_lock "ACCESS EXCLUSIVE" do
+      with_lock do
         # Avoid thundering herds - `with_lock` will reload the record, which means
         # it will suddenly be non-expired if another process has refreshed it while
         # we were waiting on the lock
         return unless token_expires_at.past?
-        oauth = if provider.youtube?
+        oauth = if provider == YOUTUBE_PROVIDER
           OmniAuth::Strategies::GoogleOauth2.new(
             nil, # App - nil is fine since we're outside of Rack
             ENV["GOOGLE_CLIENT_ID"],
             ENV["GOOGLE_CLIENT_SECRET"],
-            "profile,youtube",
+            scope: "profile,youtube",
             name: "youtube"
           )
         end

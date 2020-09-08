@@ -1693,6 +1693,7 @@ ALTER SEQUENCE public.votes_id_seq OWNED BY public.votes.id;
 CREATE TABLE public.youtube_live_streams (
     id bigint NOT NULL,
     submission_id bigint NOT NULL,
+    name text,
     live_stream_id character varying,
     broadcast_id character varying,
     ingestion_address text,
