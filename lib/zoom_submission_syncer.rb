@@ -115,8 +115,8 @@ class ZoomSubmissionSyncer
 
       if submission.broadcast_on_youtube_live?
         stream = submission.youtube_live_streams.where(kind: YoutubeLiveStream::TEST_KIND).first!
-        zoom_client.livestream(
-          meeting_id: event["id"],
+        zoom_client.webinar_livestream(
+          webinar_id: event["id"],
           stream_url: stream.ingestion_address,
           stream_key: stream.stream_name
           # page_url:
@@ -164,8 +164,8 @@ class ZoomSubmissionSyncer
 
       if submission.broadcast_on_youtube_live?
         stream = submission.youtube_live_streams.where(kind: YoutubeLiveStream::LIVE_KIND).first!
-        zoom_client.livestream(
-          meeting_id: event["id"],
+        zoom_client.webinar_livestream(
+          webinar_id: event["id"],
           stream_url: stream.ingestion_address,
           stream_key: stream.stream_name
           # page_url:

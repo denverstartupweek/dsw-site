@@ -303,13 +303,13 @@ describe ZoomSubmissionSyncer do
           "join_url" => "https://denverstartupweek.zoom.us/654321",
           "start_url" => "https://denverstartupweek.zoom.us/987654"
         })
-        expect(zoom_client).to receive(:livestream).with(
-          meeting_id: "abc123",
+        expect(zoom_client).to receive(:webinar_livestream).with(
+          webinar_id: "abc123",
           stream_url: "rtmp://rtmp.example.com/foo",
           stream_key: "bar"
         )
-        expect(zoom_client).to receive(:livestream).with(
-          meeting_id: "def456",
+        expect(zoom_client).to receive(:webinar_livestream).with(
+          webinar_id: "def456",
           stream_url: "rtmp://rtmp.example.com/foolive",
           stream_key: "barlive"
         )

@@ -18,3 +18,18 @@ module Zoom
     end
   end
 end
+
+# Monkeypatch to add a webinar_livestream action
+# Based on https://devforum.zoom.us/t/updating-webinar-live-stream-data-via-api/5295/10)
+# Nota bene: may not actually work yet
+module Zoom
+  module Actions
+    module Webinar
+      def webinar_livestream(*args)
+        options = Zoom::Params.new(Utils.extract_options!(args))
+        options.require(%i[webinar_id stream_url stream_key]).permit(%i[page_url])
+        Utils.parse_response self.class.patch("/webinars/#{options[:webinar_id]}/livestream", body: options.except(:webinar_id).to_json, headers: request_headers)
+      end
+    end
+  end
+end
