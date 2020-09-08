@@ -28,7 +28,7 @@ ActiveAdmin.register OauthService do
 
   form do |f|
     f.inputs do
-      f.input :description
+      f.input :description, as: :string
     end
     f.actions
   end
