@@ -73,7 +73,7 @@ describe ZoomSubmissionSyncer do
           auto_recording: "cloud",
           waiting_room: true,
           meeting_authentication: false,
-          registrants_email_notification: false
+          registrants_confirmation_email: false
         }
       ).and_return({
         "id" => "abc123",
@@ -99,7 +99,7 @@ describe ZoomSubmissionSyncer do
           auto_recording: "cloud",
           waiting_room: true,
           meeting_authentication: false,
-          registrants_email_notification: false
+          registrants_confirmation_email: false
         }
       ).and_return({
         "id" => "def456",
@@ -213,7 +213,7 @@ describe ZoomSubmissionSyncer do
           audio: "both",
           auto_recording: "cloud",
           allow_multiple_devices: true,
-          registrants_email_notification: false,
+          registrants_confirmation_email: false,
           meeting_authentication: false
         }
       ).and_return({
@@ -238,7 +238,7 @@ describe ZoomSubmissionSyncer do
           audio: "both",
           auto_recording: "cloud",
           allow_multiple_devices: true,
-          registrants_email_notification: false,
+          registrants_confirmation_email: false,
           meeting_authentication: false
         }
       ).and_return({

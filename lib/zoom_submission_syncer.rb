@@ -13,7 +13,7 @@ class ZoomSubmissionSyncer
     auto_recording: "cloud",
     waiting_room: true,
     meeting_authentication: false,
-    registrants_email_notification: false
+    registrants_confirmation_email: false
   }
 
   DEFAULT_WEBINAR_SETTINGS = {
@@ -24,7 +24,7 @@ class ZoomSubmissionSyncer
     audio: "both",
     auto_recording: "cloud",
     allow_multiple_devices: true,
-    registrants_email_notification: false,
+    registrants_confirmation_email: false,
     meeting_authentication: false
   }
 
