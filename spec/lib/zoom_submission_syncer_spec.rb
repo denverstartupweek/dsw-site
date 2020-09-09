@@ -56,6 +56,7 @@ describe ZoomSubmissionSyncer do
       DESC
       # Test Event
       expect(zoom_client).to receive(:meeting_create).with(
+        user_id: "me",
         topic: "DSW 2020: My Awesome Session - TEST RUN",
         type: 2,
         start_time: Time.now.iso8601,
@@ -82,6 +83,7 @@ describe ZoomSubmissionSyncer do
       })
       # Live Event
       expect(zoom_client).to receive(:meeting_create).with(
+        user_id: "me",
         topic: "DSW 2020: My Awesome Session",
         type: 2,
         start_time: submission.start_datetime.iso8601,

@@ -82,6 +82,7 @@ class ZoomSubmissionSyncer
 
     if submission.virtual_meeting_type == Submission::ZOOM_MEETING_TYPE
       meeting = zoom_client.meeting_create(
+        user_id: "me",
         topic: title_for(submission, "TEST RUN"),
         type: 2,
         start_time: Time.now.iso8601,
@@ -131,6 +132,7 @@ class ZoomSubmissionSyncer
 
     if submission.virtual_meeting_type == Submission::ZOOM_MEETING_TYPE
       meeting = zoom_client.meeting_create(
+        user_id: "me",
         topic: title_for(submission),
         type: 2,
         start_time: submission.start_datetime.iso8601,
