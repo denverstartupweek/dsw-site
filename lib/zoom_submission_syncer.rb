@@ -73,7 +73,7 @@ class ZoomSubmissionSyncer
     <<~DESC.strip.truncate(2000)
       Register and view the full schedule of events at denverstartupweek.org/schedule
 
-      #{submission.description}
+      #{submission.description.encode(universal_newline: true)}
     DESC
   end
 
