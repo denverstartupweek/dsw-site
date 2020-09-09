@@ -195,7 +195,8 @@ class Submission < ApplicationRecord
     for_current_year
       .for_public
       .where(start_day: AnnualSchedule.current_day_index)
-      .where("start_hour >= ?", now.hour + now.min.to_f / 60)
+      .where("start_hour < :now AND end_hour > :now", now: (now.hour + now.min.to_f / 60))
+      .or(where("start_hour >= ?", now.hour + now.min.to_f / 60))
       .order("start_day ASC, start_hour ASC")
   end
 

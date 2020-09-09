@@ -287,7 +287,19 @@ RSpec.describe Submission, type: :model do
         year: AnnualSchedule.current.year,
         state: "confirmed",
         start_day: 1,
-        start_hour: 10.5)
+        start_hour: 9.5,
+        end_day: 1,
+        end_hour: 10.5)
+    end
+
+    let!(:live1) do
+      create(:submission,
+        year: AnnualSchedule.current.year,
+        state: "confirmed",
+        start_day: 1,
+        start_hour: 9.5,
+        end_day: 1,
+        end_hour: 11.5)
     end
 
     let!(:future1) do
@@ -295,7 +307,9 @@ RSpec.describe Submission, type: :model do
         year: AnnualSchedule.current.year,
         state: "confirmed",
         start_day: 1,
-        start_hour: 12)
+        start_hour: 12,
+        end_day: 1,
+        end_hour: 13)
     end
 
     let!(:future2) do
@@ -303,12 +317,18 @@ RSpec.describe Submission, type: :model do
         year: AnnualSchedule.current.year,
         state: "confirmed",
         start_day: 1,
-        start_hour: 11)
+        start_hour: 11,
+        end_day: 1,
+        end_hour: 12)
     end
 
     it "returns live & upcoming sessions in order" do
-      travel_to past1.start_datetime + 5.minutes do
-        expect(Submission.live_and_upcoming.map(&:id)).to eq([future2.id, future1.id])
+      travel_to past1.end_datetime + 5.minutes do
+        expect(Submission.live_and_upcoming.map(&:id)).to eq([
+          live1.id,
+          future2.id,
+          future1.id
+        ])
       end
     end
   end
