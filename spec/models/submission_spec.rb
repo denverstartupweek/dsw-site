@@ -280,4 +280,36 @@ RSpec.describe Submission, type: :model do
       expect(submission.tags["Popular"]).to eq("The event has many more RSVPs than will fit in the venue. Attendees should plan to arrive early to get a seat.")
     end
   end
+
+  describe "finding live/upcoming sessions" do
+    let!(:past1) do
+      create(:submission,
+        year: AnnualSchedule.current.year,
+        state: "confirmed",
+        start_day: 1,
+        start_hour: 10.5)
+    end
+
+    let!(:future1) do
+      create(:submission,
+        year: AnnualSchedule.current.year,
+        state: "confirmed",
+        start_day: 1,
+        start_hour: 12)
+    end
+
+    let!(:future2) do
+      create(:submission,
+        year: AnnualSchedule.current.year,
+        state: "confirmed",
+        start_day: 1,
+        start_hour: 11)
+    end
+
+    it "returns live & upcoming sessions in order" do
+      travel_to past1.start_datetime + 5.minutes do
+        expect(Submission.live_and_upcoming.map(&:id)).to eq([future2.id, future1.id])
+      end
+    end
+  end
 end

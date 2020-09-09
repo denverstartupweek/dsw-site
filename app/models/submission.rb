@@ -190,6 +190,19 @@ class Submission < ApplicationRecord
       .where(registrations: {user_id: user.id})
   end
 
+  def self.live_and_upcoming
+    now = Time.now.in_time_zone("America/Denver")
+    for_current_year
+      .for_public
+      .where(start_day: AnnualSchedule.current_day_index)
+      .where("start_hour >= ?", now.hour + now.min.to_f / 60)
+      .order("start_day ASC, start_hour ASC")
+  end
+
+  def self.livestreamed
+    where(broadcast_on_youtube_live: true)
+  end
+
   def public?
     PUBLIC_STATES.include?(state)
   end
