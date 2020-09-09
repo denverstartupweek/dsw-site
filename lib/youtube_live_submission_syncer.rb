@@ -40,7 +40,7 @@ class YoutubeLiveSubmissionSyncer
     else
       ""
     end
-    title.truncate(128 - suffix_with_separator.length) + suffix_with_separator
+    title.truncate(100 - suffix_with_separator.length) + suffix_with_separator
   end
 
   def description_for(submission)
