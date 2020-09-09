@@ -1,5 +1,5 @@
 class Submission < ApplicationRecord
-  EMAILS_SPLIT_REGEX = %r{(\s|;|,)}.freeze
+  EMAILS_SPLIT_REGEX = %r{\s*(?:\s|;|,)\s*}.freeze
   PUBLIC_STATES = %w[open_for_voting accepted confirmed venue_confirmed].freeze
 
   SHOW_RATE = 0.3
