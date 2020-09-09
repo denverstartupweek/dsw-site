@@ -66,11 +66,11 @@ class ZoomSubmissionSyncer
     else
       ""
     end
-    title.truncate(128 - suffix_with_separator.length) + suffix_with_separator
+    title.truncate(100 - suffix_with_separator.length) + suffix_with_separator
   end
 
   def description_for(submission)
-    <<~DESC.strip.truncate(10000)
+    <<~DESC.strip.truncate(2000)
       Register and view the full schedule of events at denverstartupweek.org/schedule
 
       #{submission.description}
