@@ -47,7 +47,7 @@ class YoutubeLiveSubmissionSyncer
     <<~DESC.strip.truncate(10000)
       Register and view the full schedule of events at denverstartupweek.org/schedule
 
-      #{submission.description}
+      #{ERB::Util.json_escape(submission.description)}
     DESC
   end
 
