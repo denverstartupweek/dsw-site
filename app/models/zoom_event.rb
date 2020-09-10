@@ -27,7 +27,7 @@ class ZoomEvent < ApplicationRecord
 
   DEFAULT_WEBINAR_SETTINGS = {
     host_video: false,
-    panelists_video: false,
+    panelists_video: true,
     hd_video: true,
     approval_type: 2,
     audio: "both",
