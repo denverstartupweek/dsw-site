@@ -61,13 +61,18 @@ gem "newrelic_rpm"
 gem "rack-canonical-host"
 gem "skylight"
 gem "utf8-cleaner"
+gem "activerecord-explain-analyze"
 
 # Admin interface
 gem "activeadmin"
 gem "activeadmin-ajax_filter"
 gem "activeadmin_medium_editor", github: "nyrf/activeadmin_medium_editor", ref: "8c60d49"
+gem "google-api-client"
+gem "omniauth-google-oauth2"
+gem "omniauth-zoom"
 gem "paper_trail"
 gem "validate_url"
+gem "zoom_rb", github: "hintmedia/zoom_rb"
 
 # Background processing
 gem "sidecloq"

@@ -1,10 +1,6 @@
 require "spec_helper"
 
 RSpec.describe Submission, type: :model do
-  before do
-    allow(ListSubscriptionJob).to receive(:perform_async)
-  end
-
   it { is_expected.to belong_to(:track) }
   it { is_expected.to belong_to(:venue).optional }
   it { is_expected.to belong_to(:cluster).optional }
@@ -20,6 +16,9 @@ RSpec.describe Submission, type: :model do
 
   it { is_expected.to have_many(:presenterships).dependent(:destroy) }
   it { is_expected.to have_many(:presenters) }
+  it { is_expected.to have_many(:youtube_live_streams).dependent(:restrict_with_error) }
+  it { is_expected.to have_many(:zoom_events).dependent(:restrict_with_error) }
+  it { is_expected.to belong_to(:zoom_oauth_service).optional }
 
   it { is_expected.to validate_presence_of(:title) }
   it { is_expected.to validate_presence_of(:description) }
@@ -34,6 +33,11 @@ RSpec.describe Submission, type: :model do
   it { is_expected.to validate_length_of(:location).is_at_most(255) }
   it { is_expected.to validate_inclusion_of(:preferred_length).in_array(Submission::PREFERRED_LENGTHS) }
   it { is_expected.to validate_inclusion_of(:format).in_array(Submission::FORMATS) }
+
+  describe "virtual sessions" do
+    before { allow(subject).to receive(:is_virtual?).and_return(true) }
+    it { is_expected.to validate_inclusion_of(:virtual_meeting_type).in_array(Submission::VIRTUAL_MEETING_TYPES) }
+  end
 
   it "defaults its year to the current year" do
     expect(Submission.new.year).to eq(Date.today.year)

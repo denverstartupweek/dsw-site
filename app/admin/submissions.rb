@@ -3,7 +3,8 @@ ActiveAdmin.register Submission do
 
   menu parent: "Sessions", priority: 1
 
-  permit_params :budget_needed,
+  permit_params :broadcast_on_youtube_live,
+    :budget_needed,
     :cluster_id,
     :coc_acknowledgement,
     :company_id,
@@ -18,6 +19,7 @@ ActiveAdmin.register Submission do
     :has_childcare,
     :header_image,
     :internal_notes,
+    :is_virtual,
     :live_stream_url,
     :location,
     :noindex,
@@ -37,8 +39,11 @@ ActiveAdmin.register Submission do
     :track_id,
     :venue_id,
     :video_url,
+    :virtual_join_url,
+    :virtual_meeting_type,
     :volunteers_needed,
     :year,
+    :zoom_oauth_service_id,
     publishing_attributes: [:id, :effective_at, :featured_on_homepage],
     presenterships_attributes: [:id, :user_id, :_delete]
 
@@ -80,11 +85,14 @@ ActiveAdmin.register Submission do
       status_tag s.state.to_s.titleize, class: status_for_submission(s)
     end
     column :submitter, sortable: "users.name"
+    column "Virtual?" do |submission|
+      submission&.is_virtual? ? "Yes" : "No"
+    end
     column(:pending_updates, sortable: false) { |s| s.proposed_updates.present? ? "Yes" : "No" }
-    column "Published" do |submission|
+    column "Published?" do |submission|
       submission.published? ? submission&.publishing&.effective_at : "No"
     end
-    column "Homepage" do |submission|
+    column "Homepage?" do |submission|
       submission&.publishing&.featured_on_homepage? ? "Yes" : "No"
     end
     actions
@@ -128,6 +136,7 @@ ActiveAdmin.register Submission do
     column :contact_email
     column :estimated_size
     column :volunteers_needed
+    column :is_virtual
     column :budget_needed
     column :year
     column :registrants do |submission|
@@ -193,6 +202,11 @@ ActiveAdmin.register Submission do
       f.input :end_hour, as: :select, collection: collection_for_hour_select, include_blank: false
       f.input :venue_id, as: :select, collection: Venue.alphabetical.map { |v| [v.name, v.id] }, include_blank: true
       f.input :has_childcare
+      f.input :is_virtual, label: "Will this session will be held virtually?"
+      f.input :broadcast_on_youtube_live, label: "Should this session will be broadcast on Youtube Live?", hint: "This will cause a live stream to be created automatically."
+      f.input :virtual_meeting_type, label: "What format will this virtual meeting use?", as: :select, collection: Submission::VIRTUAL_MEETING_TYPES, include_blank: true
+      f.input :virtual_join_url, as: :string, label: "Custom join URL (if applicable)"
+      f.input :zoom_oauth_service_id, as: :select, collection: OauthService.for_zoom.map { |s| [s.description, s.id] }, include_blank: true
       f.input :noindex, label: "Hide from search engines?"
     end
     f.inputs "Submitter" do
@@ -394,6 +408,31 @@ ActiveAdmin.register Submission do
             column(:kind) { |submission| submission.kind.titleize }
             column :recipient_email
             column "Sent At", :created_at
+          end
+        end
+      end
+
+      tab :virtual do
+        panel "Zoom Events" do
+          table_for submission.zoom_events do
+            column(:kind) { |e| e.kind.titleize }
+            column(:event_type) { |e| e.event_type.titleize }
+            column(:account) { |e| e.oauth_service.description }
+            column :zoom_id
+            column(:host_url) { |e| link_to "Click to launch", e.host_url }
+            column(:join_url) { |e| link_to e.join_url, e.join_url }
+            column :created_at
+            column :updated_at
+          end
+        end
+        panel "Youtube Live Streams" do
+          table_for submission.youtube_live_streams do
+            column(:kind) { |e| e.kind.titleize }
+            column(:live_url) { |e| link_to e.live_url, e.live_url }
+            column :stream_name
+            column :ingestion_address
+            column :created_at
+            column :updated_at
           end
         end
       end
@@ -655,6 +694,18 @@ ActiveAdmin.register Submission do
   member_action :unpublish, method: :post do
     submission = Submission.find(params[:id])
     submission.unpublish!
+    redirect_to admin_submission_path(submission)
+  end
+
+  action_item :create_virtual_meetings, only: %i[show] do
+    if resource.is_virtual?
+      link_to "Create Virtual Meetings", create_virtual_meetings_admin_submission_path(resource), method: :post
+    end
+  end
+
+  member_action :create_virtual_meetings, method: :post do
+    submission = Submission.find(params[:id])
+    CreateOrUpdateVideoIntegrationsJob.perform_async(submission.id)
     redirect_to admin_submission_path(submission)
   end
 

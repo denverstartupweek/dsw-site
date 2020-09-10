@@ -1,10 +1,6 @@
 require "rails_helper"
 
 RSpec.describe Publishing, type: :model do
-  before do
-    allow(ListSubscriptionJob).to receive(:perform_async)
-  end
-
   it { is_expected.to validate_presence_of(:effective_at) }
   it { is_expected.to belong_to(:subject) }
 

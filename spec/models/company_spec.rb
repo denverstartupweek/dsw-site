@@ -1,10 +1,6 @@
 require "rails_helper"
 
 RSpec.describe Company, type: :model do
-  before do
-    allow(ListSubscriptionJob).to receive(:perform_async)
-  end
-
   describe "validations" do
     subject { build(:company) }
 

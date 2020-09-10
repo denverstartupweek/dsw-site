@@ -1,10 +1,6 @@
 require "spec_helper"
 
 RSpec.describe Registration, type: :model do
-  before do
-    allow(ListSubscriptionJob).to receive(:perform_async)
-  end
-
   it { is_expected.to belong_to(:user) }
   it { is_expected.to have_many(:attendee_goals) }
   it { is_expected.to have_many(:registration_attendee_goals).dependent(:destroy) }

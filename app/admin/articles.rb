@@ -26,7 +26,10 @@ ActiveAdmin.register Article do
 
   controller do
     def scoped_collection
-      resource_class.includes(:publishing)
+      resource_class.includes(
+        :publishing,
+        :authors
+      )
     end
   end
 

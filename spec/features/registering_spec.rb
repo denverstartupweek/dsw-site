@@ -1,10 +1,6 @@
 require "spec_helper"
 
 feature "Registering to attend" do
-  before do
-    allow(ListSubscriptionJob).to receive(:perform_async)
-  end
-
   let(:submitter) do
     create(:user, email: "test@example.com",
                   password: "password")

@@ -124,6 +124,9 @@ Rails.application.routes.draw do
   get "enable-simple-reg", to: "simple_registrations#enable", as: :enable_simple_reg
   get "disable-simple-reg", to: "simple_registrations#disable", as: :disable_simple_reg
 
+  get "/auth/:provider/callback", to: "omniauth/sessions#create"
+  get "/auth/failure", to: "omniauth/sessions#failure"
+
   get "/(*page)", to: "site#index", as: :page, defaults: {page: :index}
   root to: "site#index"
 end
