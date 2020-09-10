@@ -1254,7 +1254,8 @@ CREATE TABLE public.submissions (
     virtual_meeting_type character varying,
     broadcast_on_youtube_live boolean DEFAULT false NOT NULL,
     zoom_oauth_service_id bigint,
-    virtual_join_url text
+    virtual_join_url text,
+    is_virtual_job_fair_slot boolean DEFAULT false NOT NULL
 );
 
 
@@ -3540,6 +3541,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200908022314'),
 ('20200908044250'),
 ('20200908052350'),
-('20200908171222');
+('20200908171222'),
+('20200910035950');
 
 
