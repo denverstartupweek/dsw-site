@@ -14,7 +14,7 @@ describe YoutubeLiveSubmissionSyncer do
   end
 
   before do
-    allow_any_instance_of(YoutubeLiveSubmissionSyncer).to receive(:youtube_client).and_return(youtube_client)
+    allow_any_instance_of(OauthService).to receive(:youtube_client).and_return(youtube_client)
   end
 
   describe "when youtube live broadcasting is turned off" do
@@ -55,7 +55,7 @@ describe YoutubeLiveSubmissionSyncer do
             snippet: Google::Apis::YoutubeV3::LiveStreamSnippet.new(
               title: "DSW 2020: My Cool Talk - TEST RUN",
               description: <<~DESC.strip
-                Register and view the full schedule of events at denverstartupweek.org/schedule
+                This event is part of Denver Startup Week 2020. Register and view the full schedule of events at https://www.denverstartupweek.org/schedule
 
                 Neat!
               DESC
@@ -75,7 +75,7 @@ describe YoutubeLiveSubmissionSyncer do
             snippet: Google::Apis::YoutubeV3::LiveStreamSnippet.new(
               title: "DSW 2020: My Cool Talk - TEST RUN",
               description: <<~DESC.strip
-                Register and view the full schedule of events at denverstartupweek.org/schedule
+                This event is part of Denver Startup Week 2020. Register and view the full schedule of events at https://www.denverstartupweek.org/schedule
 
                 Neat!
               DESC
@@ -99,7 +99,7 @@ describe YoutubeLiveSubmissionSyncer do
               scheduled_start_time: Time.now.iso8601,
               title: "DSW 2020: My Cool Talk - TEST RUN",
               description: <<~DESC.strip
-                Register and view the full schedule of events at denverstartupweek.org/schedule
+                This event is part of Denver Startup Week 2020. Register and view the full schedule of events at https://www.denverstartupweek.org/schedule
 
                 Neat!
               DESC
@@ -127,7 +127,7 @@ describe YoutubeLiveSubmissionSyncer do
             snippet: Google::Apis::YoutubeV3::LiveStreamSnippet.new(
               title: "DSW 2020: My Cool Talk",
               description: <<~DESC.strip
-                Register and view the full schedule of events at denverstartupweek.org/schedule
+                This event is part of Denver Startup Week 2020. Register and view the full schedule of events at https://www.denverstartupweek.org/schedule
 
                 Neat!
               DESC
@@ -147,7 +147,7 @@ describe YoutubeLiveSubmissionSyncer do
             snippet: Google::Apis::YoutubeV3::LiveStreamSnippet.new(
               title: "DSW 2020: My Cool Talk",
               description: <<~DESC.strip
-                Register and view the full schedule of events at denverstartupweek.org/schedule
+                This event is part of Denver Startup Week 2020. Register and view the full schedule of events at https://www.denverstartupweek.org/schedule
 
                 Neat!
               DESC
@@ -171,7 +171,7 @@ describe YoutubeLiveSubmissionSyncer do
               scheduled_start_time: submission.start_datetime.iso8601,
               title: "DSW 2020: My Cool Talk",
               description: <<~DESC.strip
-                Register and view the full schedule of events at denverstartupweek.org/schedule
+                This event is part of Denver Startup Week 2020. Register and view the full schedule of events at https://www.denverstartupweek.org/schedule
 
                 Neat!
               DESC
