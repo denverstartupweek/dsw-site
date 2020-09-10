@@ -69,4 +69,8 @@ class OauthService < ApplicationRecord
       end
     end
   end
+
+  def zoom_client
+    @_zoom_client ||= Zoom::Client::OAuth.new(access_token: token, timeout: 15)
+  end
 end

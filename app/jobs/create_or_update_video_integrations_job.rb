@@ -7,5 +7,8 @@ class CreateOrUpdateVideoIntegrationsJob
     submission = Submission.find(submission_id)
     YoutubeLiveSubmissionSyncer.new(submission).run!
     ZoomSubmissionSyncer.new(submission).run!
+    submission.zoom_events.find_each do |ze|
+      ze.update_on_zoom!
+    end
   end
 end

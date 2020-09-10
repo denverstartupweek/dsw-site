@@ -130,7 +130,7 @@ class Submission < ApplicationRecord
   after_create :notify_track_chairs_of_new_submission!
   after_create :send_confirmation_notice!
   after_save :subscribe_to_list!
-  # after_save :create_or_update_streams!
+  after_save :create_or_update_streams!
 
   after_initialize do
     self.year ||= Date.today.year
