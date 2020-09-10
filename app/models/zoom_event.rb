@@ -72,6 +72,20 @@ class ZoomEvent < ApplicationRecord
     )
   end
 
+  def refresh_urls!
+    oauth_service.refresh_if_needed!
+    event = if event_type == Submission::ZOOM_MEETING_TYPE
+      oauth_service.zoom_client.meeting_get(zoom_id)
+    elsif event_type == Submission::ZOOM_WEBINAR_TYPE
+      oauth_service.zoom_client.webinar_get(zoom_id)
+    end
+    update!(
+      zoom_id: event["id"],
+      join_url: event["join_url"],
+      host_url: event["start_url"]
+    )
+  end
+
   def zoom_meeting_params
     {
       user_id: "me",
