@@ -1,4 +1,4 @@
-class UpdateYoutubeLiveStream
+class UpdateYoutubeLiveStreamJob
   include Sidekiq::Worker
 
   def perform(youtube_live_stream_id)
