@@ -3,7 +3,7 @@ source "https://rubygems.org"
 # Override this source definition to fetch via SSL
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.5.3"
+ruby "2.7.1"
 
 gem "bootsnap"
 gem "mime-types", ">= 2.6.1", require: "mime/types/columnar"
