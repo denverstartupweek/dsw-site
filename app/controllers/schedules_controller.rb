@@ -107,9 +107,7 @@ class SchedulesController < ApplicationController
 
   def current_day_or_default
     if AnnualSchedule.in_week?
-      zone = ActiveSupport::TimeZone["America/Denver"]
-      day_index = ((zone.now.at_beginning_of_day - AnnualSchedule.current.week_start_at.at_beginning_of_day.in_time_zone(zone)) / 1.day).ceil + 1
-      Submission::DAYS[day_index].downcase
+      Submission::DAYS[AnnualSchedule.current_day_index].downcase
     else
       "monday"
     end
@@ -141,16 +139,16 @@ class SchedulesController < ApplicationController
         timezone = tz.ical_timezone(event_start)
         calendar.add_timezone(timezone)
         event = Icalendar::Event.new.tap do |e|
-          e.dtstart       = Icalendar::Values::DateTime.new(event_start, "tzid" => tzid)
-          e.dtend         = Icalendar::Values::DateTime.new(event_end, "tzid" => tzid)
-          e.summary       = submission.full_title
-          e.description   = "#{submission.description}\n\nMore details: #{url}"
-          e.location      = submission.ical_location
-          e.ip_class      = "PUBLIC"
-          e.created       = submission.created_at
+          e.dtstart = Icalendar::Values::DateTime.new(event_start, "tzid" => tzid)
+          e.dtend = Icalendar::Values::DateTime.new(event_end, "tzid" => tzid)
+          e.summary = submission.full_title
+          e.description = "#{submission.description}\n\nMore details: #{url}"
+          e.location = submission.ical_location
+          e.ip_class = "PUBLIC"
+          e.created = submission.created_at
           e.last_modified = submission.updated_at
-          e.uid           = url
-          e.url           = url
+          e.uid = url
+          e.url = url
         end
         calendar.add_event(event)
       end
