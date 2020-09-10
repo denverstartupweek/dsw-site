@@ -104,7 +104,12 @@ class YoutubeLiveStream < ApplicationRecord
         enable_content_encryption: false,
         enable_dvr: true,
         enable_embed: true,
-        record_from_start: true
+        record_from_start: true,
+        start_with_slate: false,
+        monitor_stream: Google::Apis::YoutubeV3::MonitorStreamInfo.new(
+          enable_monitor_stream: false,
+          broadcast_stream_delay_ms: 0
+        )
       )
     )
   end
