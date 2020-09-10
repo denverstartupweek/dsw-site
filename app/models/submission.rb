@@ -193,7 +193,7 @@ class Submission < ApplicationRecord
   end
 
   def self.for_virtual_job_fair
-    where(is_virtual_job_fair_slot: true)
+    where(is_virtual_job_fair_slot: true).order(start_day: :asc, start_hour: :asc)
   end
 
   def public?
