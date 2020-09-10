@@ -90,6 +90,14 @@ ActiveAdmin.register JobFairSignup do
         attributes_table(*(default_attribute_table_rows - [:proposed_updates]))
       end
 
+      tab :schedule do
+        table_for job_fair_signup.submissions do
+          column "Time Slot" do |s|
+            s.human_start_date_time_range
+          end
+        end
+      end
+
       tab :email_notifications do
         panel "E-mail Notifications" do
           table_for job_fair_signup.sent_notifications.order("created_at DESC") do

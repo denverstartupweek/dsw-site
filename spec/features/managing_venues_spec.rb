@@ -16,7 +16,7 @@ feature "Managing My Venue" do
   scenario "a user who does not have any venues assigned should not see anything in the list" do
     login_as user, scope: :user
     visit "/dashboard"
-    expect(page).to have_content("You do not have any venues assigned.")
+    expect(page).not_to have_content("MY VENUES")
   end
 
   scenario "a user who has venues assigned should be able to edit their details and availability" do

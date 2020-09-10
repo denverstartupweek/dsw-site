@@ -9,16 +9,28 @@ class JobFairSignupsController < ApplicationController
   def create
     @signup = current_user.job_fair_signups.new(job_fair_signup_params)
 
-    if verify_recaptcha(action: "job_fair_signup",
-                        model: @signup,
-                        minimum_score: recaptcha_min_score) && @signup.save
-
+    if @signup.save
       NotificationsMailer.notify_of_new_job_fair_signup(@signup).deliver_now
       flash[:notice] = "Thanks! We will be in touch shortly."
       redirect_to root_path
     else
       flash[:error] = "We were unable to process your response. Please correct it and try again."
       render action: :new
+    end
+  end
+
+  def edit
+    @signup = current_user.job_fair_signups.find(params[:id])
+  end
+
+  def update
+    @signup = current_user.job_fair_signups.find(params[:id])
+    if @signup.update(job_fair_signup_params)
+      flash[:notice] = "Your changes have been saved"
+      redirect_to dashboard_path
+    else
+      flash[:error] = "We were unable to process your response. Please correct it and try again."
+      render action: :edit
     end
   end
 
@@ -36,7 +48,8 @@ class JobFairSignupsController < ApplicationController
         :number_open_positions,
         :number_hiring_next_12_months,
         :covid_impact,
-        :notes
+        :notes,
+        submission_ids: []
       )
   end
 end

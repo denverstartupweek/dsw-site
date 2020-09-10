@@ -89,6 +89,8 @@ class Submission < ApplicationRecord
   has_many :youtube_live_streams, dependent: :restrict_with_error
   has_many :zoom_events, dependent: :restrict_with_error
   belongs_to :zoom_oauth_service, optional: true, class_name: "OauthService"
+  has_many :job_fair_signup_time_slots, dependent: :restrict_with_error
+  has_many :job_fair_signups, through: :job_fair_signup_time_slots
 
   accepts_nested_attributes_for :publishing, allow_destroy: false
   accepts_nested_attributes_for :presenterships, allow_destroy: true
@@ -188,6 +190,10 @@ class Submission < ApplicationRecord
   def self.my_schedule(user)
     joins(:user_registrations)
       .where(registrations: {user_id: user.id})
+  end
+
+  def self.for_virtual_job_fair
+    where(is_virtual_job_fair_slot: true)
   end
 
   def public?
@@ -305,6 +311,10 @@ class Submission < ApplicationRecord
 
   def human_time_range(separator = "&mdash;")
     "#{human_start_time} #{separator} #{human_end_time}".html_safe
+  end
+
+  def human_start_date_time_range
+    "#{human_start_day} #{human_time_range}".html_safe
   end
 
   def human_start_time

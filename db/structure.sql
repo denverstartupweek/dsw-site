@@ -666,6 +666,38 @@ ALTER SEQUENCE public.industry_types_id_seq OWNED BY public.industry_types.id;
 
 
 --
+-- Name: job_fair_signup_time_slots; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.job_fair_signup_time_slots (
+    id bigint NOT NULL,
+    job_fair_signup_id bigint NOT NULL,
+    submission_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: job_fair_signup_time_slots_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.job_fair_signup_time_slots_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: job_fair_signup_time_slots_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.job_fair_signup_time_slots_id_seq OWNED BY public.job_fair_signup_time_slots.id;
+
+
+--
 -- Name: job_fair_signups; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1898,6 +1930,13 @@ ALTER TABLE ONLY public.industry_types ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
+-- Name: job_fair_signup_time_slots id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.job_fair_signup_time_slots ALTER COLUMN id SET DEFAULT nextval('public.job_fair_signup_time_slots_id_seq'::regclass);
+
+
+--
 -- Name: job_fair_signups id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2743,6 +2782,20 @@ CREATE INDEX index_homepage_ctas_on_track_id ON public.homepage_ctas USING btree
 
 
 --
+-- Name: index_job_fair_signup_time_slots_on_job_fair_signup_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_job_fair_signup_time_slots_on_job_fair_signup_id ON public.job_fair_signup_time_slots USING btree (job_fair_signup_id);
+
+
+--
+-- Name: index_job_fair_signup_time_slots_on_submission_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_job_fair_signup_time_slots_on_submission_id ON public.job_fair_signup_time_slots USING btree (submission_id);
+
+
+--
 -- Name: index_job_fair_signups_on_company_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3084,6 +3137,14 @@ ALTER TABLE ONLY public.venues
 
 
 --
+-- Name: job_fair_signup_time_slots fk_rails_0d0be12d22; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.job_fair_signup_time_slots
+    ADD CONSTRAINT fk_rails_0d0be12d22 FOREIGN KEY (job_fair_signup_id) REFERENCES public.job_fair_signups(id);
+
+
+--
 -- Name: submissions fk_rails_0ebbbc745a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3209,6 +3270,14 @@ ALTER TABLE ONLY public.zoom_events
 
 ALTER TABLE ONLY public.attendee_messages
     ADD CONSTRAINT fk_rails_555266c0e1 FOREIGN KEY (submission_id) REFERENCES public.submissions(id);
+
+
+--
+-- Name: job_fair_signup_time_slots fk_rails_6ec4e8f2ea; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.job_fair_signup_time_slots
+    ADD CONSTRAINT fk_rails_6ec4e8f2ea FOREIGN KEY (submission_id) REFERENCES public.submissions(id);
 
 
 --
@@ -3542,6 +3611,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200908044250'),
 ('20200908052350'),
 ('20200908171222'),
-('20200910035950');
+('20200910035950'),
+('20200910051245');
 
 

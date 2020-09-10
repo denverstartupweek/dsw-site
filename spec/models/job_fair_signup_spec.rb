@@ -4,6 +4,8 @@ RSpec.describe JobFairSignup, type: :model do
   it { is_expected.to belong_to(:user) }
   it { is_expected.to belong_to(:company) }
   it { is_expected.to have_many(:sent_notifications).dependent(:destroy) }
+  it { is_expected.to have_many(:job_fair_signup_time_slots).dependent(:destroy) }
+  it { is_expected.to have_many(:submissions).through(:job_fair_signup_time_slots) }
 
   it { is_expected.to validate_presence_of(:industry_category) }
   it { is_expected.to validate_presence_of(:organization_size) }
