@@ -16,5 +16,7 @@ class DashboardsController < ApplicationController
         :track,
         :cluster,
         sponsorship: :track)
+    @job_fair_signup = current_user.job_fair_signups.for_current_year.accepted.first
+    @job_fair_open_roles = []
   end
 end
