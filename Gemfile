@@ -26,7 +26,7 @@ gem "carrierwave_backgrounder", github: "hyp3rventures/carrierwave_backgrounder"
 gem "commonmarker"
 gem "devise"
 gem "email_inquire"
-gem "fog-aws"
+gem "fog-aws", require: false
 gem "gemoji"
 gem "gravatarify"
 gem "honeypot-captcha", github: "RandieM/honeypot-captcha", branch: "master"
