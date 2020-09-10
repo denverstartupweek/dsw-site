@@ -111,6 +111,7 @@ describe YoutubeLiveSubmissionSyncer do
             content_details: Google::Apis::YoutubeV3::LiveBroadcastContentDetails.new(
               enable_auto_start: true,
               enable_auto_stop: true,
+              enable_content_encryption: false,
               enable_dvr: true,
               enable_embed: true,
               record_from_start: true
@@ -183,6 +184,7 @@ describe YoutubeLiveSubmissionSyncer do
             content_details: Google::Apis::YoutubeV3::LiveBroadcastContentDetails.new(
               enable_auto_start: true,
               enable_auto_stop: true,
+              enable_content_encryption: false,
               enable_dvr: true,
               enable_embed: true,
               record_from_start: true
