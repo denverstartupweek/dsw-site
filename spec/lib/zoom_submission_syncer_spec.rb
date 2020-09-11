@@ -210,6 +210,7 @@ describe ZoomSubmissionSyncer do
         settings: {
           host_video: false,
           panelists_video: true,
+          practice_session: true,
           hd_video: true,
           approval_type: 2,
           audio: "both",
@@ -237,6 +238,7 @@ describe ZoomSubmissionSyncer do
         settings: {
           host_video: false,
           panelists_video: true,
+          practice_session: true,
           hd_video: true,
           approval_type: 2,
           audio: "both",
