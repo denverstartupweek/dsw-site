@@ -1,51 +1,50 @@
 # frozen_string_literal: true
 
 class AnnualSchedule < ApplicationRecord
+  CFP_CYCLE = "cfp"
+  VOTING_CYCLE = "voting"
+  REGISTRATION_CYCLE = "registration"
+  WEEK_CYCLE = "week"
+  POST_WEEK_CYCLE = "post_week"
+  PITCH_APPLICATION_CYCLE = "pitch_application"
+  PITCH_VOTING_CYCLE = "pitch_voting"
+  AMBASSADOR_APPLICATION_CYCLE = "ambassador_application"
+  SPONSORSHIP_CYCLE = "sponsorship"
 
-  CFP_CYCLE = 'cfp'
-  VOTING_CYCLE = 'voting'
-  REGISTRATION_CYCLE = 'registration'
-  WEEK_CYCLE = 'week'
-  POST_WEEK_CYCLE = 'post_week'
-  PITCH_APPLICATION_CYCLE = 'pitch_application'
-  PITCH_VOTING_CYCLE = 'pitch_voting'
-  AMBASSADOR_APPLICATION_CYCLE = 'ambassador_application'
-  SPONSORSHIP_CYCLE = 'sponsorship'
-
-  CYCLES = [ CFP_CYCLE,
-             VOTING_CYCLE,
-             REGISTRATION_CYCLE,
-             WEEK_CYCLE,
-             POST_WEEK_CYCLE,
-             PITCH_APPLICATION_CYCLE,
-             PITCH_VOTING_CYCLE,
-             AMBASSADOR_APPLICATION_CYCLE,
-             SPONSORSHIP_CYCLE ].freeze
+  CYCLES = [CFP_CYCLE,
+    VOTING_CYCLE,
+    REGISTRATION_CYCLE,
+    WEEK_CYCLE,
+    POST_WEEK_CYCLE,
+    PITCH_APPLICATION_CYCLE,
+    PITCH_VOTING_CYCLE,
+    AMBASSADOR_APPLICATION_CYCLE,
+    SPONSORSHIP_CYCLE].freeze
 
   validates :week_start_at,
-            :week_end_at,
-            presence: true
+    :week_end_at,
+    presence: true
 
   validates :year,
-            presence: true,
-            uniqueness: true
+    presence: true,
+    uniqueness: true
 
   jsonb_accessor :dates,
-                 cfp_open_at: :date,
-                 cfp_close_at: :date,
-                 voting_open_at: :date,
-                 voting_close_at: :date,
-                 registration_open_at: :date,
-                 week_start_at: :date,
-                 week_end_at: :date,
-                 sponsorship_open_at: :date,
-                 sponsorship_close_at: :date,
-                 pitch_application_open_at: :date,
-                 pitch_application_close_at: :date,
-                 pitch_voting_open_at: :date,
-                 pitch_voting_close_at: :date,
-                 ambassador_application_open_at: :date,
-                 ambassador_application_close_at: :date
+    cfp_open_at: :date,
+    cfp_close_at: :date,
+    voting_open_at: :date,
+    voting_close_at: :date,
+    registration_open_at: :date,
+    week_start_at: :date,
+    week_end_at: :date,
+    sponsorship_open_at: :date,
+    sponsorship_close_at: :date,
+    pitch_application_open_at: :date,
+    pitch_application_close_at: :date,
+    pitch_voting_open_at: :date,
+    pitch_voting_close_at: :date,
+    ambassador_application_open_at: :date,
+    ambassador_application_close_at: :date
 
   class << self
     def current
@@ -66,6 +65,13 @@ class AnnualSchedule < ApplicationRecord
     delegate :in_week?, to: :current
     delegate :post_week?, to: :current
     delegate :active_cycles, to: :current
+
+    def current_day_index
+      zone = ActiveSupport::TimeZone["America/Denver"]
+      day_index = (
+        (zone.now.at_beginning_of_day - current.week_start_at.at_beginning_of_day.in_time_zone(zone)
+        ) / 1.day).ceil + 1
+    end
   end
 
   def cfp_open?
@@ -136,8 +142,7 @@ class AnnualSchedule < ApplicationRecord
 
   private
 
-  def date_in_time_zone(date, zone = 'America/Denver')
+  def date_in_time_zone(date, zone = "America/Denver")
     date.in_time_zone(ActiveSupport::TimeZone[zone])
   end
-
 end
