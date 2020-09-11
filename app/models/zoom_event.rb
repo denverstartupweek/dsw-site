@@ -34,7 +34,8 @@ class ZoomEvent < ApplicationRecord
     auto_recording: "cloud",
     allow_multiple_devices: true,
     registrants_confirmation_email: false,
-    meeting_authentication: false
+    meeting_authentication: false,
+    post_webinar_survey: true
   }
 
   belongs_to :submission
@@ -49,7 +50,13 @@ class ZoomEvent < ApplicationRecord
     event = if event_type == Submission::ZOOM_MEETING_TYPE
       oauth_service.zoom_client.meeting_create(zoom_meeting_params)
     elsif event_type == Submission::ZOOM_WEBINAR_TYPE
-      oauth_service.zoom_client.webinar_create(zoom_webinar_params)
+      oauth_service.zoom_client.webinar_create(
+        zoom_webinar_params.deep_merge(
+          settings: {
+            survey_url: Rails.application.routes.url_helpers.schedule_url(submission)
+          }
+        )
+      )
     end
     update!(
       zoom_id: event["id"],
@@ -63,7 +70,14 @@ class ZoomEvent < ApplicationRecord
     if event_type == Submission::ZOOM_MEETING_TYPE
       oauth_service.zoom_client.meeting_update(zoom_meeting_params.merge(meeting_id: zoom_id).except(:user_id))
     elsif event_type == Submission::ZOOM_WEBINAR_TYPE
-      oauth_service.zoom_client.webinar_update(zoom_webinar_params.merge(id: zoom_id).except(:host_id))
+      oauth_service.zoom_client.webinar_update(
+        zoom_webinar_params.merge(
+          id: zoom_id,
+          settings: {
+            survey_url: Rails.application.routes.url_helpers.schedule_url(submission)
+          }
+        ).except(:host_id)
+      )
     end
   end
 

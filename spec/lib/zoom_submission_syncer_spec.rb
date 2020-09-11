@@ -216,7 +216,9 @@ describe ZoomSubmissionSyncer do
           auto_recording: "cloud",
           allow_multiple_devices: true,
           registrants_confirmation_email: false,
-          meeting_authentication: false
+          meeting_authentication: false,
+          post_webinar_survey: true,
+          survey_url: "http://denver-startup-week.dev/schedule/#{submission.id}-my-awesome-session"
         }
       ).and_return({
         "id" => "abc123",
@@ -241,7 +243,9 @@ describe ZoomSubmissionSyncer do
           auto_recording: "cloud",
           allow_multiple_devices: true,
           registrants_confirmation_email: false,
-          meeting_authentication: false
+          meeting_authentication: false,
+          post_webinar_survey: true,
+          survey_url: "http://denver-startup-week.dev/schedule/#{submission.id}-my-awesome-session"
         }
       ).and_return({
         "id" => "def456",
