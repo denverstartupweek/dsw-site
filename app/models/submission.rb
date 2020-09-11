@@ -190,13 +190,18 @@ class Submission < ApplicationRecord
       .where(registrations: {user_id: user.id})
   end
 
-  def self.live_and_upcoming
-    now = Time.now.in_time_zone("America/Denver")
-    for_current_year
+  def self.live_and_upcoming(as_of = nil)
+    as_of = if as_of.nil?
+      Time.now.in_time_zone("America/Denver")
+    elsif as_of.is_a?(String)
+      DateTime.parse(as_of)
+    else
+      as_of
+    end
+    for_year(as_of.year)
       .for_public
-      .where(start_day: AnnualSchedule.current_day_index)
-      .where("start_hour < :now AND end_hour > :now", now: (now.hour + now.min.to_f / 60))
-      .or(where("start_hour >= ?", now.hour + now.min.to_f / 60))
+      .where(start_day: AnnualSchedule.day_index(as_of))
+      .where("((start_hour < :now AND end_hour > :now) OR start_hour >= :now)", now: (as_of.hour + as_of.min.to_f / 60))
       .order("start_day ASC, start_hour ASC")
   end
 

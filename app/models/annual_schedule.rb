@@ -65,13 +65,8 @@ class AnnualSchedule < ApplicationRecord
     delegate :in_week?, to: :current
     delegate :post_week?, to: :current
     delegate :active_cycles, to: :current
-
-    def current_day_index
-      zone = ActiveSupport::TimeZone["America/Denver"]
-      day_index = (
-        (zone.now.at_beginning_of_day - current.week_start_at.at_beginning_of_day.in_time_zone(zone)
-        ) / 1.day).ceil + 1
-    end
+    delegate :day_index, to: :current
+    delegate :current_day_index, to: :current
   end
 
   def cfp_open?
@@ -138,6 +133,15 @@ class AnnualSchedule < ApplicationRecord
     cycles << AMBASSADOR_APPLICATION_CYCLE if ambassador_application_open?
     cycles << SPONSORSHIP_CYCLE if sponsorship_open?
     cycles
+  end
+
+  def current_day_index
+    day_index(ActiveSupport::TimeZone["America/Denver"].now)
+  end
+
+  def day_index(as_of)
+    as_of = date_in_time_zone(as_of)
+    day_index = ((as_of.at_beginning_of_day - week_start_at.at_beginning_of_day.in_time_zone(as_of.time_zone)) / 1.day).ceil + 1
   end
 
   private

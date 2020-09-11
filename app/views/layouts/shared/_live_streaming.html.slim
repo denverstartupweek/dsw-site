@@ -1,5 +1,5 @@
 div.Live_stream_video_container
-  - Submission.live_and_upcoming.livestreamed.each do |session|
+  - Submission.live_and_upcoming(params[:as_of]).livestreamed.each do |session|
     = render 'components/three_card_list' do
       = render 'components/three_card_list_item' do
         = render 'components/session_card', session: session

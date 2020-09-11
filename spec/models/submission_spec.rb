@@ -331,5 +331,14 @@ RSpec.describe Submission, type: :model do
         ])
       end
     end
+
+    it "allows overriding of the time via an argument" do
+      as_of = (past1.end_datetime + 5.minutes).iso8601
+      expect(Submission.live_and_upcoming(as_of).map(&:id)).to eq([
+        live1.id,
+        future2.id,
+        future1.id
+      ])
+    end
   end
 end
