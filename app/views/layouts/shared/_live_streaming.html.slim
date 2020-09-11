@@ -1,5 +1,26 @@
 section.Live-stream-video-container
-    .Live-stream-triangle
+  .Live-stream-triangle
         .Small-triangle
-    h1.Live-stream-title Live and upcoming
+  h1.Live-stream-title Live and upcoming
+    //div for live streaming default content
+  div.Live-stream-main-card
+    //render one big card list and for that we want to show a live list item
+    // 
+    //--> in that big live list card at the footer we want:
+    //                   - the category (designer, developer, etc)
+    //                   - title of the live stream and the join now button 
+
+    //div for live streaming list with 3 options
+  div.Live-stream-list
+    //render 3 card list and for those we want to show a live list item
+    // = render 'components/live-stream-three-card-list', attributes: { { 'aria-labeledby': 'Live-stream-header-id' } do
+      = render 'layouts/shared/LIVESTREAM LIST/ DB???', list: livestream.for_homepage <-- ???}
+
+    //div that has schedule button inside that links to the schedule
+
+    //button for scheduling
+  div.Live-button
+    a.Live-stream-link(href="#{schedules_path}")
+      | Schedule
+      span.Live-stream-link-arrow = render partial: 'icons/arrow_in_circle_right'
 
