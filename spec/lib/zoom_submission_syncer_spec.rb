@@ -209,14 +209,16 @@ describe ZoomSubmissionSyncer do
         agenda: agenda,
         settings: {
           host_video: false,
-          panelists_video: false,
+          panelists_video: true,
           hd_video: true,
           approval_type: 2,
           audio: "both",
           auto_recording: "cloud",
           allow_multiple_devices: true,
           registrants_confirmation_email: false,
-          meeting_authentication: false
+          meeting_authentication: false,
+          post_webinar_survey: true,
+          survey_url: "http://denver-startup-week.dev/schedule/#{submission.id}-my-awesome-session"
         }
       ).and_return({
         "id" => "abc123",
@@ -234,14 +236,16 @@ describe ZoomSubmissionSyncer do
         agenda: agenda,
         settings: {
           host_video: false,
-          panelists_video: false,
+          panelists_video: true,
           hd_video: true,
           approval_type: 2,
           audio: "both",
           auto_recording: "cloud",
           allow_multiple_devices: true,
           registrants_confirmation_email: false,
-          meeting_authentication: false
+          meeting_authentication: false,
+          post_webinar_survey: true,
+          survey_url: "http://denver-startup-week.dev/schedule/#{submission.id}-my-awesome-session"
         }
       ).and_return({
         "id" => "def456",
