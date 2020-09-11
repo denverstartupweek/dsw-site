@@ -1,10 +1,10 @@
 module ActiveAdmin
   module ViewsHelper
     def collection_for_hour_select
-      (0..48).map do |i|
+      (0..96).map do |h|
         [
-          (Time.now.at_beginning_of_day + (i.to_f / 2).hours).strftime("%l:%M%P"),
-          (i.to_f / 2)
+          (Time.now.at_beginning_of_day + (i.to_f / 4).hours).strftime("%l:%M%P"),
+          (i.to_f / 4)
         ]
       end
     end
