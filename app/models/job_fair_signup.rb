@@ -3,6 +3,8 @@ class JobFairSignup < ApplicationRecord
 
   belongs_to :company
   belongs_to :user
+  has_many :job_fair_signup_time_slots, dependent: :destroy
+  has_many :submissions, through: :job_fair_signup_time_slots
 
   has_many :sent_notifications, as: :subject, dependent: :destroy
 
@@ -52,6 +54,10 @@ class JobFairSignup < ApplicationRecord
   event :accept, to: :accepted
   event :reject, to: :rejected
 
+  def self.accepted
+    where(state: "accepted")
+  end
+
   def company_name
     company&.name
   end
@@ -61,7 +67,7 @@ class JobFairSignup < ApplicationRecord
   end
 
   def contact_emails
-    contact_email.split(Submission::EMAILS_SPLIT_REGEX).map(&:strip)
+    contact_email&.split(Submission::EMAILS_SPLIT_REGEX)&.map(&:strip)
   end
 
   def notification_emails

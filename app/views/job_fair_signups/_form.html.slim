@@ -1,0 +1,71 @@
+= render 'layouts/shared/fullscreen_takeover_header', title: 'Hire at the Job Fair', background: 'light'
+= render layout: 'layouts/shared/layout_wrapper' do
+  = render layout: 'components/form_wrapper' do
+    .FormInstructions
+      Denver Startup Week 2020 is going 100% virtual, and so is our Job Fair and Showcase! If you represent a company that is interested in recruiting the best and brightest talent this year as we go global, please share your information below. We'll be in touch shortly with additional details.
+
+    = form_for @signup, honeypot: true do |f|
+      = render layout: 'components/form_input_row' do
+        = render layout: 'components/form_input_wrapper' do
+          = render layout: 'components/floating_input' do
+            = f.text_field :company_name, required: 'required'
+            = f.label :company_name, 'Company or Organization (optional)'
+
+      = render layout: 'components/form_input_row' do
+        = render layout: 'components/form_input_wrapper' do
+          = render layout: 'components/floating_input' do
+            = f.select :industry_category, JobFairSignup::INDUSTRY_CATEGORIES
+            = f.label :industry_category, 'Industry Category'
+        = render layout: 'components/form_input_wrapper' do
+          = render layout: 'components/floating_input' do
+            = f.select :organization_size, JobFairSignup::ORGANIZATION_SIZES
+            = f.label :organization_size, 'Organization Size'
+
+      = render layout: 'components/form_input_row' do
+        = render layout: 'components/form_input_wrapper' do
+          = render layout: 'components/floating_input' do
+            = f.text_field :contact_email
+            = f.label :contact_email, 'Secondary Contact E-mail (optional)'
+
+      = render layout: 'components/form_input_row' do
+        = render layout: 'components/form_input_wrapper' do
+          = render layout: 'components/floating_input' do
+            = f.select :actively_hiring, [["Yes", true ], ["No", false]]
+            = f.label :actively_hiring, 'Are you actively hiring?'
+
+      = render layout: 'components/form_input_row' do
+        = render layout: 'components/form_input_wrapper' do
+          = render layout: 'components/floating_input' do
+            = f.number_field :number_open_positions, required: 'required'
+            = f.label :number_open_positions, 'How many positions are you currently hiring for?'
+        = render layout: 'components/form_input_wrapper' do
+          = render layout: 'components/floating_input' do
+            = f.number_field :number_hiring_next_12_months, required: 'required'
+            = f.label :number_hiring_next_12_months, 'How many positions do you anticipate filling in the next 12 months?'
+
+      = render layout: 'components/form_input_row' do
+        = render layout: 'components/form_input_wrapper' do
+          = render layout: 'components/floating_input' do
+            = f.text_field :covid_impact
+            = f.label :covid_impact, 'How has COVID-19 impacted your hiring plans?'
+
+      .VenueEdit-availabilities
+        h4 Attending Slots
+        h5 = "You will be billed for each slot you choose to attend"
+        table.VenueEdit-table
+          = f.collection_check_boxes :submission_ids, Submission.for_current_year.for_virtual_job_fair, :id, :human_start_date_time_range do |b|
+            tr
+              td
+                = b.check_box
+                = b.label class: "code-of-conduct"
+
+      = render layout: 'components/form_input_row' do
+        = render layout: 'components/form_input_wrapper' do
+          = render layout: 'components/floating_input' do
+            = f.text_field :notes
+            = f.label :notes, 'Any additional notes?'
+
+      = render partial: 'components/form_errors', locals: { error_resource: @signup }
+
+      .ContactUs-actions
+        = f.submit 'Submit', class: 'ContactUs-submit'

@@ -69,4 +69,26 @@ class OauthService < ApplicationRecord
       end
     end
   end
+
+  def zoom_client
+    @_zoom_client ||= Zoom::Client::OAuth.new(access_token: token, timeout: 15)
+  end
+
+  def youtube_client
+    @_youtube_client ||= Google::Apis::YoutubeV3::YouTubeService.new.tap do |service|
+      service.authorization = google_secrets.to_authorization
+    end
+  end
+
+  def google_secrets
+    @_google_secrets ||= Google::APIClient::ClientSecrets.new({
+      "web" =>
+        {
+          "access_token" => token,
+          "refresh_token" => refresh_token,
+          "client_id" => ENV["GOOGLE_CLIENT_ID"],
+          "client_secret" => ENV["GOOGLE_CLIENT_SECRET"]
+        }
+    })
+  end
 end

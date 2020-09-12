@@ -19,6 +19,8 @@ RSpec.describe Submission, type: :model do
   it { is_expected.to have_many(:youtube_live_streams).dependent(:restrict_with_error) }
   it { is_expected.to have_many(:zoom_events).dependent(:restrict_with_error) }
   it { is_expected.to belong_to(:zoom_oauth_service).optional }
+  it { is_expected.to have_many(:job_fair_signup_time_slots).dependent(:restrict_with_error) }
+  it { is_expected.to have_many(:job_fair_signups).through(:job_fair_signup_time_slots) }
 
   it { is_expected.to validate_presence_of(:title) }
   it { is_expected.to validate_presence_of(:description) }
@@ -278,6 +280,67 @@ RSpec.describe Submission, type: :model do
       allow(submission).to receive(:popular?).and_return(true)
       expect(submission.tags.size).to eq(1)
       expect(submission.tags["Popular"]).to eq("The event has many more RSVPs than will fit in the venue. Attendees should plan to arrive early to get a seat.")
+    end
+  end
+
+  describe "finding live/upcoming sessions" do
+    let!(:past1) do
+      create(:submission,
+        year: AnnualSchedule.current.year,
+        state: "confirmed",
+        start_day: 1,
+        start_hour: 9.5,
+        end_day: 1,
+        end_hour: 10.5)
+    end
+
+    let!(:live1) do
+      create(:submission,
+        year: AnnualSchedule.current.year,
+        state: "confirmed",
+        start_day: 1,
+        start_hour: 9.5,
+        end_day: 1,
+        end_hour: 11.5)
+    end
+
+    let!(:future1) do
+      create(:submission,
+        year: AnnualSchedule.current.year,
+        state: "confirmed",
+        start_day: 1,
+        start_hour: 12,
+        end_day: 1,
+        end_hour: 13)
+    end
+
+    let!(:future2) do
+      create(:submission,
+        year: AnnualSchedule.current.year,
+        state: "confirmed",
+        start_day: 1,
+        start_hour: 11,
+        end_day: 1,
+        end_hour: 12)
+    end
+
+    it "returns live & upcoming sessions in order" do
+      travel_to past1.end_datetime + 5.minutes do
+        expect(Submission.live_and_upcoming.map(&:id)).to eq([
+          live1.id,
+          future2.id,
+          future1.id
+        ])
+      end
+    end
+
+    it "allows overriding of the time via an argument" do
+      as_of = (past1.end_datetime + 5.minutes).iso8601
+      expect(Submission.live_and_upcoming(as_of).map(&:id)).to eq([
+        live1.id,
+        future2.id,
+        future1.id
+      ])
     end
   end
 end

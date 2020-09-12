@@ -19,6 +19,7 @@ ActiveAdmin.register Submission do
     :has_childcare,
     :header_image,
     :internal_notes,
+    :is_virtual_job_fair_slot,
     :is_virtual,
     :live_stream_url,
     :location,
@@ -207,6 +208,7 @@ ActiveAdmin.register Submission do
       f.input :virtual_meeting_type, label: "What format will this virtual meeting use?", as: :select, collection: Submission::VIRTUAL_MEETING_TYPES, include_blank: true
       f.input :virtual_join_url, as: :string, label: "Custom join URL (if applicable)"
       f.input :zoom_oauth_service_id, as: :select, collection: OauthService.for_zoom.map { |s| [s.description, s.id] }, include_blank: true
+      f.input :is_virtual_job_fair_slot, label: "Is this a slot available for signup for Virtual Job Fair companies?"
       f.input :noindex, label: "Hide from search engines?"
     end
     f.inputs "Submitter" do

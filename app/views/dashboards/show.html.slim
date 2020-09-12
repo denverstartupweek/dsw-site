@@ -41,20 +41,6 @@
     - if @submissions.blank?
       .Dashboard-empty-message You have not yet submitted any proposals for this year.
 
-  section.Dashboard-section
-    .Dashboard-header-wrapper
-      h1.Dashboard-header#my-content My Articles
-      a.Dashboard-header-action href="#{new_article_path}"
-          = image_tag "redesign/submit-article.svg", class: 'Dashboard-header-action-image'
-          | Submit Article
-    - if @articles.any?
-      ul.Dashboard-card-list(aria-labelledby="my-content")
-        - @articles.each do |article|
-          li.Dashboard-card-list-item
-            = render partial: 'components/article_card', locals: { article: article, editable?: article.editable? }
-    - if @articles.blank?
-      .Dashboard-empty-message You have not submitted any content for this year.
-
   - if AnnualSchedule.registration_open?
     section.Dashboard-section
       .Dashboard-header-wrapper
@@ -87,13 +73,43 @@
           li.Dashboard-card-list-item
             = render partial: 'components/session_card', locals: { session: submission,  hide_link: true }
 
-  section.Dashboard-section
-    .Dashboard-header-wrapper
-      h1.Dashboard-header#my-content My Venues
-    - if @venues.any?
+  - if @venues.any?
+    section.Dashboard-section
+      .Dashboard-header-wrapper
+        h1.Dashboard-header#my-content My Venues
       ul.Dashboard-card-list(aria-labelledby="my-venues")
         - @venues.each do |venue|
           li.Dashboard-card-list-item
             = render partial: 'components/venue_card', locals: { venue: venue }
-    - if @venues.blank?
-      .Dashboard-empty-message You do not have any venues assigned.
+
+  - if @job_fair_signup
+    section.Dashboard-section
+      .Dashboard-header-wrapper
+        h1.Dashboard-header#my-content="Job Fair - #{@job_fair_signup.company.name}"
+        a.Dashboard-header-action href="#{edit_job_fair_signup_path(@job_fair_signup)}"
+            = image_tag "redesign/submit-article.svg", class: 'Dashboard-header-action-image'
+            | Edit Registration
+        / a.Dashboard-header-action href="#{new_job_fair_signup_role_path}"
+        /     = image_tag "redesign/submit-article.svg", class: 'Dashboard-header-action-image'
+        /     | Add Open Role
+    - if @job_fair_open_roles.any?
+      ul.Dashboard-card-list(aria-labelledby="my-content")
+        / - @open_roles.each do |article|
+        /   li.Dashboard-card-list-item
+        /     = render partial: 'components/article_card', locals: { article: article, editable?: article.editable? }
+    - else
+      .Dashboard-empty-message You have not created any open roles for this year.
+
+  section.Dashboard-section
+    .Dashboard-header-wrapper
+      h1.Dashboard-header#my-content My Articles
+      a.Dashboard-header-action href="#{new_article_path}"
+          = image_tag "redesign/submit-article.svg", class: 'Dashboard-header-action-image'
+          | Submit Article
+    - if @articles.any?
+      ul.Dashboard-card-list(aria-labelledby="my-content")
+        - @articles.each do |article|
+          li.Dashboard-card-list-item
+            = render partial: 'components/article_card', locals: { article: article, editable?: article.editable? }
+    - if @articles.blank?
+      .Dashboard-empty-message You have not submitted any content for this year.

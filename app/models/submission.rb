@@ -1,5 +1,5 @@
 class Submission < ApplicationRecord
-  EMAILS_SPLIT_REGEX = %r{(\s|;|,)}.freeze
+  EMAILS_SPLIT_REGEX = %r{\s*(?:\s|;|,)\s*}.freeze
   PUBLIC_STATES = %w[open_for_voting accepted confirmed venue_confirmed].freeze
 
   SHOW_RATE = 0.3
@@ -89,6 +89,8 @@ class Submission < ApplicationRecord
   has_many :youtube_live_streams, dependent: :restrict_with_error
   has_many :zoom_events, dependent: :restrict_with_error
   belongs_to :zoom_oauth_service, optional: true, class_name: "OauthService"
+  has_many :job_fair_signup_time_slots, dependent: :restrict_with_error
+  has_many :job_fair_signups, through: :job_fair_signup_time_slots
 
   accepts_nested_attributes_for :publishing, allow_destroy: false
   accepts_nested_attributes_for :presenterships, allow_destroy: true
@@ -130,7 +132,7 @@ class Submission < ApplicationRecord
   after_create :notify_track_chairs_of_new_submission!
   after_create :send_confirmation_notice!
   after_save :subscribe_to_list!
-  # after_save :create_or_update_streams!
+  after_save :create_or_update_streams!
 
   after_initialize do
     self.year ||= Date.today.year
@@ -188,6 +190,29 @@ class Submission < ApplicationRecord
   def self.my_schedule(user)
     joins(:user_registrations)
       .where(registrations: {user_id: user.id})
+  end
+
+  def self.live_and_upcoming(as_of = nil)
+    as_of = if as_of.nil?
+      Time.now.in_time_zone("America/Denver")
+    elsif as_of.is_a?(String)
+      DateTime.parse(as_of)
+    else
+      as_of
+    end
+    for_year(as_of.year)
+      .for_public
+      .where(start_day: AnnualSchedule.day_index(as_of))
+      .where("((start_hour < :now AND end_hour > :now) OR start_hour >= :now)", now: (as_of.hour + as_of.min.to_f / 60))
+      .order("start_day ASC, start_hour ASC")
+  end
+
+  def self.livestreamed
+    where(broadcast_on_youtube_live: true)
+  end
+
+  def self.for_virtual_job_fair
+    where(is_virtual_job_fair_slot: true).order(start_day: :asc, start_hour: :asc)
   end
 
   def public?
@@ -305,6 +330,10 @@ class Submission < ApplicationRecord
 
   def human_time_range(separator = "&mdash;")
     "#{human_start_time} #{separator} #{human_end_time}".html_safe
+  end
+
+  def human_start_date_time_range
+    "#{human_start_day} #{human_time_range}".html_safe
   end
 
   def human_start_time

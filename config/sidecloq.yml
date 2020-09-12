@@ -9,3 +9,7 @@ send_update_reminders_job:
 fetch_helpscout_articles_job:
   class: FetchHelpscoutArticlesJob
   cron: "*/10 * * * *" # Every 10 minutes
+
+refresh_zoom_events_job:
+  class: RefreshZoomEventsJob
+  cron: "0 * * * *" # Every hour

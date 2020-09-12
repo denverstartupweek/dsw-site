@@ -14,7 +14,7 @@ describe ZoomSubmissionSyncer do
   end
 
   before do
-    allow_any_instance_of(ZoomSubmissionSyncer).to receive(:zoom_client).and_return(zoom_client)
+    allow_any_instance_of(OauthService).to receive(:zoom_client).and_return(zoom_client)
   end
 
   describe "when an event is not virtual" do
@@ -50,7 +50,7 @@ describe ZoomSubmissionSyncer do
 
     it "creates a meeting and persists the details", freeze_time: true do
       agenda = <<~DESC.strip
-        Register and view the full schedule of events at denverstartupweek.org/schedule
+        This event is part of Denver Startup Week 2020. Register and view the full schedule of events at https://www.denverstartupweek.org/schedule
 
         Some great content.
       DESC
@@ -59,7 +59,7 @@ describe ZoomSubmissionSyncer do
         user_id: "me",
         topic: "DSW 2020: My Awesome Session - TEST RUN",
         type: 2,
-        start_time: Time.now.iso8601,
+        start_time: submission.start_datetime.iso8601,
         duration: 30,
         timezone: "America/Denver",
         agenda: agenda,
@@ -194,7 +194,7 @@ describe ZoomSubmissionSyncer do
 
     it "creates a webinar and persists the details", freeze_time: true do
       agenda = <<~DESC.strip
-        Register and view the full schedule of events at denverstartupweek.org/schedule
+        This event is part of Denver Startup Week 2020. Register and view the full schedule of events at https://www.denverstartupweek.org/schedule
 
         Some great content.
       DESC
@@ -203,20 +203,23 @@ describe ZoomSubmissionSyncer do
         host_id: "me",
         topic: "DSW 2020: My Awesome Session - TEST RUN",
         type: 5,
-        start_time: Time.now.iso8601,
+        start_time: submission.start_datetime.iso8601,
         duration: 30,
         timezone: "America/Denver",
         agenda: agenda,
         settings: {
           host_video: false,
-          panelists_video: false,
+          panelists_video: true,
+          practice_session: true,
           hd_video: true,
           approval_type: 2,
           audio: "both",
           auto_recording: "cloud",
           allow_multiple_devices: true,
           registrants_confirmation_email: false,
-          meeting_authentication: false
+          meeting_authentication: false,
+          post_webinar_survey: true,
+          survey_url: "http://denver-startup-week.dev/schedule/#{submission.id}-my-awesome-session"
         }
       ).and_return({
         "id" => "abc123",
@@ -234,14 +237,17 @@ describe ZoomSubmissionSyncer do
         agenda: agenda,
         settings: {
           host_video: false,
-          panelists_video: false,
+          panelists_video: true,
+          practice_session: true,
           hd_video: true,
           approval_type: 2,
           audio: "both",
           auto_recording: "cloud",
           allow_multiple_devices: true,
           registrants_confirmation_email: false,
-          meeting_authentication: false
+          meeting_authentication: false,
+          post_webinar_survey: true,
+          survey_url: "http://denver-startup-week.dev/schedule/#{submission.id}-my-awesome-session"
         }
       ).and_return({
         "id" => "def456",
@@ -305,16 +311,6 @@ describe ZoomSubmissionSyncer do
           "join_url" => "https://denverstartupweek.zoom.us/654321",
           "start_url" => "https://denverstartupweek.zoom.us/987654"
         })
-        expect(zoom_client).to receive(:webinar_livestream).with(
-          webinar_id: "abc123",
-          stream_url: "rtmp://rtmp.example.com/foo",
-          stream_key: "bar"
-        )
-        expect(zoom_client).to receive(:webinar_livestream).with(
-          webinar_id: "def456",
-          stream_url: "rtmp://rtmp.example.com/foolive",
-          stream_key: "barlive"
-        )
         described_class.new(submission).run!
       end
     end

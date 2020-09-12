@@ -2,7 +2,10 @@ section.Live-stream-video-container
   .Live-stream-triangle
         .Small-triangle
   h1.Live-stream-title Live and upcoming
-
+  - Submission.live_and_upcoming(params[:as_of]).livestreamed.each do |session|
+    = render 'components/three_card_list' do
+      = render 'components/three_card_list_item' do
+        = render 'components/session_card', session: session
   / This is just scaffolded out to get something on the page
   div.LiveStream-list-wrapper
   - live_sessions(5).each do |s|
@@ -34,4 +37,5 @@ section.Live-stream-video-container
     a.Live-stream-link(href="#{schedules_path}")
       | Schedule
       span.Live-stream-link-arrow = render partial: 'icons/arrow_in_circle_right'
+
 
