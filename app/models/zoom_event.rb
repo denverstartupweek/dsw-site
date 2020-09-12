@@ -46,6 +46,8 @@ class ZoomEvent < ApplicationRecord
   validates :event_type, presence: true, inclusion: {in: EVENT_TYPES}
   validates :kind, presence: true, inclusion: {in: KINDS}
 
+  before_destroy :destroy_on_zoom!
+
   def create_on_zoom!
     oauth_service.refresh_if_needed!
     event = if event_type == Submission::ZOOM_MEETING_TYPE
@@ -79,6 +81,15 @@ class ZoomEvent < ApplicationRecord
           }
         ).except(:host_id)
       )
+    end
+  end
+
+  def destroy_on_zoom!
+    oauth_service.refresh_if_needed!
+    if event_type == Submission::ZOOM_MEETING_TYPE
+      oauth_service.zoom_client.meeting_delete(meeting_id: zoom_id)
+    elsif event_type == Submission::ZOOM_WEBINAR_TYPE
+      oauth_service.zoom_client.webinar_delete(id: zoom_id)
     end
   end
 
