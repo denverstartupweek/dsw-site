@@ -1,4 +1,7 @@
-div.Live_stream_video_container
+section.Live-stream-video-container
+  .Live-stream-triangle
+    .Small-triangle
+  h1.Live-stream-title Live and upcoming
   - Submission.live_and_upcoming.livestreamed.each do |session|
     = render 'components/three_card_list' do
       = render 'components/three_card_list_item' do

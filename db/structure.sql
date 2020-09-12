@@ -9,20 +9,6 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
---		
- -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -		
- --		
-
-  CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;		
-
- 
-  --		
- -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -		
- --		
-
-  COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';		
-
-
 --
 -- Name: intarray; Type: EXTENSION; Schema: -; Owner: -
 --
@@ -66,8 +52,6 @@ COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching
 
 
 SET default_tablespace = '';
-
-SET default_with_oids = false;
 
 --
 -- Name: active_admin_comments; Type: TABLE; Schema: public; Owner: -
@@ -3521,7 +3505,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190826014104'),
 ('20190903170552'),
 ('20190909204737'),
-('20200414032806'),
 ('20200501114353'),
 ('20200501114543'),
 ('20200531215058'),
