@@ -1,8 +1,41 @@
 section.Live-stream-video-container
   .Live-stream-triangle
-    .Small-triangle
+        .Small-triangle
   h1.Live-stream-title Live and upcoming
   - Submission.live_and_upcoming(params[:as_of]).livestreamed.each do |session|
     = render 'components/three_card_list' do
       = render 'components/three_card_list_item' do
         = render 'components/session_card', session: session
+  / This is just scaffolded out to get something on the page
+  div.LiveStream-list-wrapper
+  - live_sessions(5).each do |s|
+    div.LiveStreamCard
+      div.LiveStreamCard-video
+        iframe id="ytplayer-#{s.id}" type="text/html" width="100%" src="#{s.embed_url}" frameborder="0"
+      div.LiveStreamCard-track-name(class="#{s.track_color}")
+      div.LiveStreamCard-title= s.title
+      a.LiveStreamCard-join(href="#{s.join_link}") Join Now
+
+  div.Live-stream-main-card
+
+    //render one big card list and for that we want to show a live list item
+    // 
+    //--> in that big live list card at the footer we want:
+    //                   - the category (designer, developer, etc)
+    //                   - title of the live stream and the join now button 
+
+    //div for live streaming list with 3 options
+  div.Live-stream-list
+    //render 3 card list and for those we want to show a live list item
+    // = render 'components/live-stream-three-card-list', attributes: { { 'aria-labeledby': 'Live-stream-header-id' } do
+      = render 'layouts/shared/LIVESTREAM LIST/ DB???', list: livestream.for_homepage <-- ???}
+
+    //div that has schedule button inside that links to the schedule
+
+    //button for scheduling
+  div.Live-button
+    a.Live-stream-link(href="#{schedules_path}")
+      | Schedule
+      span.Live-stream-link-arrow = render partial: 'icons/arrow_in_circle_right'
+
+
