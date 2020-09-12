@@ -19,6 +19,8 @@ RSpec.describe Submission, type: :model do
   it { is_expected.to have_many(:youtube_live_streams).dependent(:restrict_with_error) }
   it { is_expected.to have_many(:zoom_events).dependent(:restrict_with_error) }
   it { is_expected.to belong_to(:zoom_oauth_service).optional }
+  it { is_expected.to have_many(:job_fair_signup_time_slots).dependent(:restrict_with_error) }
+  it { is_expected.to have_many(:job_fair_signups).through(:job_fair_signup_time_slots) }
 
   it { is_expected.to validate_presence_of(:title) }
   it { is_expected.to validate_presence_of(:description) }
