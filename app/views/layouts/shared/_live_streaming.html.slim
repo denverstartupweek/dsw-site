@@ -2,8 +2,19 @@ section.Live-stream-video-container
   .Live-stream-triangle
         .Small-triangle
   h1.Live-stream-title Live and upcoming
-    
+
+  / This is just scaffolded out to get something on the page
+  div.LiveStream-list-wrapper
+  - live_sessions(5).each do |s|
+    div.LiveStreamCard
+      div.LiveStreamCard-video
+        iframe id="ytplayer-#{s.id}" type="text/html" width="100%" src="#{s.embed_url}" frameborder="0"
+      div.LiveStreamCard-track-name(class="#{s.track_color}")
+      div.LiveStreamCard-title= s.title
+      a.LiveStreamCard-join(href="#{s.join_link}") Join Now
+
   div.Live-stream-main-card
+
     //render one big card list and for that we want to show a live list item
     // 
     //--> in that big live list card at the footer we want:
