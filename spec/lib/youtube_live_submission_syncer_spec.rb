@@ -49,82 +49,82 @@ describe YoutubeLiveSubmissionSyncer do
     describe "when no live streams have been created yet" do
       it "creates new streams and persists them", freeze_time: true do
         # Creating Test Stream
-        expect(youtube_client).to receive(:insert_live_stream).ordered.with(
-          %w[id snippet cdn status contentDetails],
-          Google::Apis::YoutubeV3::LiveStream.new(
-            snippet: Google::Apis::YoutubeV3::LiveStreamSnippet.new(
-              title: "DSW 2020: My Cool Talk - TEST RUN",
-              description: <<~DESC.strip
-                This event is part of Denver Startup Week 2020. Register and view the full schedule of events at https://www.denverstartupweek.org/schedule
+        # expect(youtube_client).to receive(:insert_live_stream).ordered.with(
+        #   %w[id snippet cdn status contentDetails],
+        #   Google::Apis::YoutubeV3::LiveStream.new(
+        #     snippet: Google::Apis::YoutubeV3::LiveStreamSnippet.new(
+        #       title: "DSW 2020: My Cool Talk - TEST RUN",
+        #       description: <<~DESC.strip
+        #         This event is part of Denver Startup Week 2020. Register and view the full schedule of events at https://www.denverstartupweek.org/schedule
 
-                Neat!
-              DESC
-            ),
-            cdn: Google::Apis::YoutubeV3::CdnSettings.new(
-              frame_rate: "variable",
-              resolution: "variable",
-              ingestion_type: "rtmp"
-            ),
-            content_details: Google::Apis::YoutubeV3::LiveStreamContentDetails.new(
-              is_reusable: false
-            )
-          )
-        ).and_return(
-          Google::Apis::YoutubeV3::LiveStream.new(
-            id: "abc123",
-            snippet: Google::Apis::YoutubeV3::LiveStreamSnippet.new(
-              title: "DSW 2020: My Cool Talk - TEST RUN",
-              description: <<~DESC.strip
-                This event is part of Denver Startup Week 2020. Register and view the full schedule of events at https://www.denverstartupweek.org/schedule
+        #         Neat!
+        #       DESC
+        #     ),
+        #     cdn: Google::Apis::YoutubeV3::CdnSettings.new(
+        #       frame_rate: "variable",
+        #       resolution: "variable",
+        #       ingestion_type: "rtmp"
+        #     ),
+        #     content_details: Google::Apis::YoutubeV3::LiveStreamContentDetails.new(
+        #       is_reusable: false
+        #     )
+        #   )
+        # ).and_return(
+        #   Google::Apis::YoutubeV3::LiveStream.new(
+        #     id: "abc123",
+        #     snippet: Google::Apis::YoutubeV3::LiveStreamSnippet.new(
+        #       title: "DSW 2020: My Cool Talk - TEST RUN",
+        #       description: <<~DESC.strip
+        #         This event is part of Denver Startup Week 2020. Register and view the full schedule of events at https://www.denverstartupweek.org/schedule
 
-                Neat!
-              DESC
-            ),
-            cdn: Google::Apis::YoutubeV3::CdnSettings.new(
-              ingestion_info: Google::Apis::YoutubeV3::IngestionInfo.new(
-                stream_name: "foo",
-                ingestion_address: "rtmp://rtmp.example.com/foo",
-                backup_ingestion_address: "rtmp://rtmp.example.com/foobackup",
-                rtmps_ingestion_address: "rtmps://rtmp.example.com/foo",
-                rtmps_backup_ingestion_address: "rtmps://rtmp.example.com/foobackup"
-              )
-            )
-          )
-        )
+        #         Neat!
+        #       DESC
+        #     ),
+        #     cdn: Google::Apis::YoutubeV3::CdnSettings.new(
+        #       ingestion_info: Google::Apis::YoutubeV3::IngestionInfo.new(
+        #         stream_name: "foo",
+        #         ingestion_address: "rtmp://rtmp.example.com/foo",
+        #         backup_ingestion_address: "rtmp://rtmp.example.com/foobackup",
+        #         rtmps_ingestion_address: "rtmps://rtmp.example.com/foo",
+        #         rtmps_backup_ingestion_address: "rtmps://rtmp.example.com/foobackup"
+        #       )
+        #     )
+        #   )
+        # )
         # Creating Test Broadcast
-        expect(youtube_client).to receive(:insert_live_broadcast).ordered.with(
-          %w[id snippet status contentDetails],
-          Google::Apis::YoutubeV3::LiveBroadcast.new(
-            snippet: Google::Apis::YoutubeV3::LiveBroadcastSnippet.new(
-              scheduled_start_time: Time.now.iso8601,
-              title: "DSW 2020: My Cool Talk - TEST RUN",
-              description: <<~DESC.strip
-                This event is part of Denver Startup Week 2020. Register and view the full schedule of events at https://www.denverstartupweek.org/schedule
+        # expect(youtube_client).to receive(:insert_live_broadcast).ordered.with(
+        #   %w[id snippet status contentDetails],
+        #   Google::Apis::YoutubeV3::LiveBroadcast.new(
+        #     snippet: Google::Apis::YoutubeV3::LiveBroadcastSnippet.new(
+        #       scheduled_start_time: Time.now.iso8601,
+        #       title: "DSW 2020: My Cool Talk - TEST RUN",
+        #       description: <<~DESC.strip
+        #         This event is part of Denver Startup Week 2020. Register and view the full schedule of events at https://www.denverstartupweek.org/schedule
 
-                Neat!
-              DESC
-            ),
-            status: Google::Apis::YoutubeV3::LiveBroadcastStatus.new(
-              privacy_status: "unlisted",
-              self_declared_made_for_kids: false
-            ),
-            content_details: Google::Apis::YoutubeV3::LiveBroadcastContentDetails.new(
-              enable_auto_start: true,
-              enable_auto_stop: true,
-              enable_content_encryption: false,
-              enable_dvr: true,
-              enable_embed: true,
-              record_from_start: true,
-              start_with_slate: false,
-              monitor_stream: Google::Apis::YoutubeV3::MonitorStreamInfo.new(
-                enable_monitor_stream: false,
-                broadcast_stream_delay_ms: 0
-              )
-            )
-          )
-        ).and_return(
-          Google::Apis::YoutubeV3::LiveBroadcast.new(id: "def456")
-        )
+        #         Neat!
+        #       DESC
+        #     ),
+        #     status: Google::Apis::YoutubeV3::LiveBroadcastStatus.new(
+        #       privacy_status: "unlisted",
+        #       self_declared_made_for_kids: false
+        #     ),
+        #     content_details: Google::Apis::YoutubeV3::LiveBroadcastContentDetails.new(
+        #       enable_auto_start: true,
+        #       enable_auto_stop: true,
+        #       enable_content_encryption: false,
+        #       enable_dvr: true,
+        #       enable_embed: true,
+        #       record_from_start: true,
+        #       start_with_slate: false,
+        #       monitor_stream: Google::Apis::YoutubeV3::MonitorStreamInfo.new(
+        #         enable_monitor_stream: false,
+        #         broadcast_stream_delay_ms: 0
+        #       )
+        #     )
+        #   )
+        # ).and_return(
+        #   Google::Apis::YoutubeV3::LiveBroadcast.new(id: "def456")
+        # )
 
         # Creating Live Stream
         expect(youtube_client).to receive(:insert_live_stream).ordered.with(
@@ -203,20 +203,20 @@ describe YoutubeLiveSubmissionSyncer do
         ).and_return(
           Google::Apis::YoutubeV3::LiveBroadcast.new(id: "jkl012")
         )
-        expect(youtube_client).to receive(:bind_live_broadcast).with("def456", %w[id], stream_id: "abc123")
+        # expect(youtube_client).to receive(:bind_live_broadcast).with("def456", %w[id], stream_id: "abc123")
         expect(youtube_client).to receive(:bind_live_broadcast).with("jkl012", %w[id], stream_id: "ghi789")
 
         described_class.new(submission).run!
 
-        expect(submission.youtube_live_streams.count).to eq(2)
-        test_stream = submission.youtube_live_streams.first
-        expect(test_stream.kind).to eq(YoutubeLiveStream::TEST_KIND)
-        expect(test_stream.live_stream_id).to eq("abc123")
-        expect(test_stream.broadcast_id).to eq("def456")
-        expect(test_stream.stream_name).to eq("foo")
-        expect(test_stream.ingestion_address).to eq("rtmp://rtmp.example.com/foo")
-        expect(test_stream.backup_ingestion_address).to eq("rtmp://rtmp.example.com/foobackup")
-        expect(test_stream.rtmps_ingestion_address).to eq("rtmps://rtmp.example.com/foo")
+        expect(submission.youtube_live_streams.count).to eq(1)
+        # test_stream = submission.youtube_live_streams.first
+        # expect(test_stream.kind).to eq(YoutubeLiveStream::TEST_KIND)
+        # expect(test_stream.live_stream_id).to eq("abc123")
+        # expect(test_stream.broadcast_id).to eq("def456")
+        # expect(test_stream.stream_name).to eq("foo")
+        # expect(test_stream.ingestion_address).to eq("rtmp://rtmp.example.com/foo")
+        # expect(test_stream.backup_ingestion_address).to eq("rtmp://rtmp.example.com/foobackup")
+        # expect(test_stream.rtmps_ingestion_address).to eq("rtmps://rtmp.example.com/foo")
 
         live_stream = submission.youtube_live_streams.last
         expect(live_stream.kind).to eq(YoutubeLiveStream::LIVE_KIND)

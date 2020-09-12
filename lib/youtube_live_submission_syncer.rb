@@ -11,7 +11,7 @@ class YoutubeLiveSubmissionSyncer
     return unless @submission.broadcast_on_youtube_live?
 
     Rails.logger.info "Creating streams..."
-    create_test_stream(@submission) unless test_stream_exists?(@submission)
+    # create_test_stream(@submission) unless test_stream_exists?(@submission)
     create_live_stream(@submission) unless live_stream_exists?(@submission)
   end
 
