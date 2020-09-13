@@ -1,9 +1,20 @@
 a.ScheduledSession(href="#{schedule_path(submission)}")
-  div(class="ScheduledSession-icon-container #{submission.track.color}-background #{submission.track.color}-fill-on-#{submission.track.color}-background")
-    - if submission.track.icon
-      = render partial: "icons/#{submission.track.icon}"
-    - else
-      .icon
+  - if live?(submission)
+    div(class="ScheduledSession-icon-container live glitch-background white-fill-on-glitch-background")
+      - if submission.track.icon
+        = render partial: "icons/#{submission.track.icon}"
+      - else
+        .icon
+      .ScheduledSession-icon-live
+        span.ScheduledSession-icon-live-dot
+        | LIVE
+
+  - else
+    div(class="ScheduledSession-icon-container #{submission.track.color}-background #{submission.track.color}-fill-on-#{submission.track.color}-background")
+      - if submission.track.icon
+        = render partial: "icons/#{submission.track.icon}"
+      - else
+        .icon
   .ScheduledSession-details-container
     .ScheduledSession-time-container
       .ScheduledSession--time #{local_assigns[:include_day] ? submission.human_short_start_day : ''} #{submission.human_time_range}

@@ -192,14 +192,7 @@ class Submission < ApplicationRecord
       .where(registrations: {user_id: user.id})
   end
 
-  def self.live_and_upcoming(as_of = nil)
-    as_of = if as_of.nil?
-      Time.now.in_time_zone("America/Denver")
-    elsif as_of.is_a?(String)
-      DateTime.parse(as_of)
-    else
-      as_of
-    end
+  def self.live_and_upcoming(as_of)
     for_year(as_of.year)
       .for_public
       .where(start_day: AnnualSchedule.day_index(as_of))

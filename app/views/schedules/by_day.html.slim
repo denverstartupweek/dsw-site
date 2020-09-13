@@ -35,7 +35,7 @@
               img.Schedule-nav-arrow src="#{image_url('redesign/arrow-select-grey.svg')}"
 
   section.Schedule-lists
-    - cache [ @sessions.maximum(:updated_at), @sessions.map(&:id) ] do
+    - cache [ @sessions.maximum(:updated_at), @sessions.map(&:id), Time.zone.now.change(sec: 0) ] do
       - @sessions.group_by { |s| s.start_hour.floor }.each do |start_hour, grouping|
         h3.Schedule-list-time = grouping.first.human_start_time
         ul.Schedule-list(aria-label="#{grouping.first.human_start_time} Sessions")

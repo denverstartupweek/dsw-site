@@ -324,18 +324,8 @@ RSpec.describe Submission, type: :model do
         end_hour: 12)
     end
 
-    it "returns live & upcoming sessions in order" do
-      travel_to past1.end_datetime + 5.minutes do
-        expect(Submission.live_and_upcoming.map(&:id)).to eq([
-          live1.id,
-          future2.id,
-          future1.id
-        ])
-      end
-    end
-
     it "allows overriding of the time via an argument" do
-      as_of = (past1.end_datetime + 5.minutes).iso8601
+      as_of = past1.end_datetime + 5.minutes
       expect(Submission.live_and_upcoming(as_of).map(&:id)).to eq([
         live1.id,
         future2.id,
