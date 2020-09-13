@@ -1,0 +1,11 @@
+= render 'components/card' do
+  .JobFairRoleCard
+    a.JobFairRoleCard-link(href="#{role.url}" target="_blank")
+    - if local_assigns[:editable?].present?
+      = link_to edit_job_fair_signup_job_fair_role_path(role, role.job_fair_signup), title: 'Edit', class: "JobFairRoleCard-edit" do
+        = render partial: 'icons/pencil'
+    .JobFairRoleCard-content
+      h2.JobFairRoleCard-title #{role.title}
+      .JobFairRoleCardCard-body-preview
+        - cache [ role, 'preview'] do
+          = truncate_html(process_with_pipeline(role.description), 175).html_safe

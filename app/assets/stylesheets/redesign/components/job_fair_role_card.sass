@@ -1,0 +1,36 @@
+@import ../config
+
+.JobFairRoleCard
+  position: relative
+  height: 100%
+
+.JobFairRoleCard-link
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  z-index: 1
+  cursor: pointer
+
+.JobFairRoleCard-content
+  padding: 13px 20px
+
+.JobFairRoleCard-title
+  font-size: 18px
+  color: $primary-font-medium
+  line-height: 21px
+  margin-top: 5px
+  text-transform: uppercase
+
+.JobFairRoleCard-body-preview
+  @include font-family-mixin(Montserrat-Light)
+  margin-top: 22px
+  color: $primary-font-medium
+  font-size: 14px
+
+.JobFairRoleCard-edit
+  position: absolute
+  top: 15px
+  right: 15px
+  z-index: 2

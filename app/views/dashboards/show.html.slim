@@ -92,11 +92,11 @@
         a.Dashboard-header-action href="#{new_job_fair_signup_job_fair_role_path(@job_fair_signup)}"
             = image_tag "redesign/submit-article.svg", class: 'Dashboard-header-action-image'
             | Add Open Role
-    - if @job_fair_open_roles.any?
+    - if @job_fair_signup.job_fair_roles.any?
       ul.Dashboard-card-list(aria-labelledby="my-content")
-        / - @open_roles.each do |article|
-        /   li.Dashboard-card-list-item
-        /     = render partial: 'components/article_card', locals: { article: article, editable?: article.editable? }
+        - @job_fair_signup.job_fair_roles.each do |role|
+          li.Dashboard-card-list-item
+            = render partial: 'components/job_fair_role_card', locals: { role: role, editable?: true }
     - else
       .Dashboard-empty-message You have not created any open roles for this year.
 

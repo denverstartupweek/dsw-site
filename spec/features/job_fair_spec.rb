@@ -192,25 +192,25 @@ feature "Filling out the job fair form" do
         end
       end
 
-      xscenario "a user with an approved job fair signup can edit an open role" do
+      scenario "a user with an approved job fair signup can edit an open role" do
+        job_fair_signup.job_fair_roles.create!(
+          title: "An Awesome Job",
+          description: "Really awesome.",
+          url: "https://www.google.com/"
+        )
         travel_to Date.parse("2020-04-01") do
           login_as user, scope: :user
           visit "/dashboard"
-          find(".VenueCard", text: "EXAMPLE THEATRE").click_link("Edit")
-          fill_in "Venue Name", with: "Test Theatre"
-          fill_in "Availability preference", with: "No special preference"
-          find("tr", text: "Tuesday").check "12 - 2pm"
-          find("tr", text: "Thursday").check "2 - 4pm"
-          find("tr", text: "Thursday").check "4 - 6pm"
-          find("tr", text: "Friday").check "6 - 10pm"
+          find(".JobFairRoleCard", text: "AN AWESOME JOB").click_link("Edit")
+          fill_in "Title", with: "A Really Awesome Job"
+          fill_in "Description", with: "Really, really awesome."
+          fill_in "URL", with: "https://www.amazon.com/"
           click_button "Submit"
-          expect(page).to have_content("Venue was successfully updated")
-          find(".VenueCard", text: "TEST THEATRE").click_link("Edit")
-          expect(find("tr", text: "Tuesday")).to have_checked_field("12 - 2pm")
-          expect(find("tr", text: "Thursday")).to have_checked_field("2 - 4pm")
-          expect(find("tr", text: "Thursday")).to have_checked_field("4 - 6pm")
-          expect(find("tr", text: "Friday")).to have_checked_field("6 - 10pm")
-          expect(page).to have_content("No special preference")
+          expect(page).to have_content("Role saved")
+          find(".JobFairRoleCard", text: "A REALLY AWESOME JOB").click_link("Edit")
+          expect(page).to have_field("Title", with: "A Really Awesome Job")
+          expect(page).to have_field("Description", with: "Really, really awesome.")
+          expect(page).to have_field("URL", with: "https://www.amazon.com/")
         end
       end
 
