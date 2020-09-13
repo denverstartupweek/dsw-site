@@ -46,7 +46,7 @@ ActiveAdmin.register Submission do
     :year,
     :zoom_oauth_service_id,
     publishing_attributes: [:id, :effective_at, :featured_on_homepage],
-    presenterships_attributes: [:id, :user_id, :_delete]
+    presenterships_attributes: [:id, :user_id, :_destroy]
 
   controller do
     def scoped_collection
