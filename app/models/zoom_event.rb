@@ -48,6 +48,7 @@ class ZoomEvent < ApplicationRecord
 
   before_destroy :destroy_on_zoom!
 
+  # TODO: Tests
   def create_on_zoom!
     oauth_service.refresh_if_needed!
     event = if event_type == Submission::ZOOM_MEETING_TYPE
@@ -68,6 +69,7 @@ class ZoomEvent < ApplicationRecord
     )
   end
 
+  # TODO: Tests
   def update_on_zoom!
     oauth_service.refresh_if_needed!
     if event_type == Submission::ZOOM_MEETING_TYPE
@@ -84,6 +86,7 @@ class ZoomEvent < ApplicationRecord
     end
   end
 
+  # TODO: Tests
   def destroy_on_zoom!
     oauth_service.refresh_if_needed!
     if event_type == Submission::ZOOM_MEETING_TYPE
@@ -93,6 +96,7 @@ class ZoomEvent < ApplicationRecord
     end
   end
 
+  # TODO: Tests
   def refresh_urls!
     oauth_service.refresh_if_needed!
     event = if event_type == Submission::ZOOM_MEETING_TYPE
@@ -105,6 +109,25 @@ class ZoomEvent < ApplicationRecord
       join_url: event["join_url"],
       host_url: event["start_url"]
     )
+  end
+
+  # TODO: Tests
+  def update_presenters!
+    return unless event_type == Submission::ZOOM_WEBINAR_TYPE
+    oauth_service.refresh_if_needed!
+    oauth_service.zoom_client.webinar_panelists_add(
+      webinar_id: zoom_id,
+      panelists: (submission.presenters.to_a << submission.submitter).map do |u|
+        {name: u.name, email: u.email}
+      end
+    )
+    oauth_service.zoom_client.webinar_panelists_list(webinar_id: zoom_id)["panelists"].each do |p|
+      if (presentership = submission.presenterships.joins(:user).where(users: {email: p["email"]}).first)
+        presentership.update!(virtual_join_url: p["join_url"])
+      elsif submission.submitter.email == p["email"]
+        submission.update!(submitter_virtual_join_url: p["join_url"])
+      end
+    end
   end
 
   def zoom_meeting_params

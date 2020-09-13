@@ -919,7 +919,8 @@ CREATE TABLE public.presenterships (
     submission_id bigint NOT NULL,
     user_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    virtual_join_url text
 );
 
 
@@ -1287,7 +1288,8 @@ CREATE TABLE public.submissions (
     broadcast_on_youtube_live boolean DEFAULT false NOT NULL,
     zoom_oauth_service_id bigint,
     virtual_join_url text,
-    is_virtual_job_fair_slot boolean DEFAULT false NOT NULL
+    is_virtual_job_fair_slot boolean DEFAULT false NOT NULL,
+    submitter_virtual_join_url text
 );
 
 
@@ -3612,6 +3614,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200908052350'),
 ('20200908171222'),
 ('20200910035950'),
-('20200910051245');
+('20200910051245'),
+('20200913001959'),
+('20200913010500');
 
 
