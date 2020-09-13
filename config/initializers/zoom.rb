@@ -30,6 +30,18 @@ module Zoom
         options.require(%i[webinar_id stream_url stream_key]).permit(%i[page_url])
         Utils.parse_response self.class.patch("/webinars/#{options[:webinar_id]}/livestream", body: options.except(:webinar_id).to_json, headers: request_headers)
       end
+
+      def webinar_panelists_add(*args)
+        options = Zoom::Params.new(Utils.extract_options!(args))
+        options.require(%i[webinar_id panelists])
+        Utils.parse_response self.class.post("/webinars/#{options[:webinar_id]}/panelists", body: options.except(:webinar_id).to_json, headers: request_headers)
+      end
+
+      def webinar_panelists_list(*args)
+        options = Zoom::Params.new(Utils.extract_options!(args))
+        options.require(%i[webinar_id])
+        Utils.parse_response self.class.get("/webinars/#{options[:webinar_id]}/panelists", headers: request_headers)
+      end
     end
   end
 end

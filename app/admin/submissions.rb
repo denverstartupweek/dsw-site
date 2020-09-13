@@ -427,6 +427,12 @@ ActiveAdmin.register Submission do
             column :updated_at
           end
         end
+        panel "Presenter Join URLs" do
+          table_for submission.presenterships do
+            column :user
+            column(:join_url) { |p| link_to "Click to launch", p.virtual_join_url }
+          end
+        end
         panel "Youtube Live Streams" do
           table_for submission.youtube_live_streams do
             column(:kind) { |e| e.kind.titleize }

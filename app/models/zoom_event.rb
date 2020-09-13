@@ -107,6 +107,22 @@ class ZoomEvent < ApplicationRecord
     )
   end
 
+  def update_presenters!
+    return unless event_type == Submission::ZOOM_WEBINAR_TYPE
+    oauth_service.refresh_if_needed!
+    oauth_service.zoom_client.webinar_panelists_add(
+      webinar_id: zoom_id,
+      panelists: (submission.presenters.to_a << submission.submitter).map do |u|
+        {name: u.name, email: u.email}
+      end
+    )
+    oauth_service.zoom_client.webinar_panelists_list(webinar_id: zoom_id)["panelists"].each do |p|
+      if (presentership = submission.presenterships.joins(:user).where(users: {email: p["email"]}).first)
+        presentership.update!(virtual_join_url: p["join_url"])
+      end
+    end
+  end
+
   def zoom_meeting_params
     {
       user_id: "me",
