@@ -243,7 +243,7 @@ ActiveAdmin.register Submission do
       f.input :internal_notes
     end
 
-    f.has_many :presenterships do |p|
+    f.has_many :presenterships, allow_destroy: true, heading: "Presenters" do |p|
       p.input :user_id,
         as: :ajax_select,
         collection: [],
