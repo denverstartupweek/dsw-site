@@ -1,7 +1,7 @@
 - content_for(:title, "#{formatted_start_date_for_index(@day_index, current_year_or_default, '%A %B %-d, %Y')} Schedule")
 - title = (current_year_or_default.to_i == Date.today.year) ? "Schedule" : "#{current_year_or_default} Schedule"
 
-= render layout: 'layouts/shared/secondary_hero', locals: { title: title, sub_title: 'SOMETHING FOR EVERYONE', description: 'Dive into the Denver Startup Week schedule for sessions, keynotes, workshops, celebrations, and much more. With over 300 free events, there is something for everyone to learn, grow, and be inspired. Don’t forget to register, RSVP for individual sessions, and remember that seating is first come, first served.' } do
+= render layout: 'layouts/shared/secondary_hero', locals: { glitched: true, title: title, sub_title: 'SOMETHING FOR EVERYONE', description: 'Dive into the Denver Startup Week schedule for sessions, keynotes, workshops, celebrations, and much more. With over 300 free events, there is something for everyone to learn, grow, and be inspired. Don’t forget to register, RSVP for individual sessions, and remember that seating is first come, first served.' } do
   form.Schedule-form
     .Schedule-search
       = render partial: 'components/search', locals: { placeholder: ''}
