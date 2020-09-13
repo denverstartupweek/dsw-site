@@ -919,8 +919,7 @@ CREATE TABLE public.presenterships (
     submission_id bigint NOT NULL,
     user_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    virtual_join_url text
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -1288,8 +1287,7 @@ CREATE TABLE public.submissions (
     broadcast_on_youtube_live boolean DEFAULT false NOT NULL,
     zoom_oauth_service_id bigint,
     virtual_join_url text,
-    is_virtual_job_fair_slot boolean DEFAULT false NOT NULL,
-    submitter_virtual_join_url text
+    is_virtual_job_fair_slot boolean DEFAULT false NOT NULL
 );
 
 
@@ -1813,6 +1811,39 @@ ALTER SEQUENCE public.zoom_events_id_seq OWNED BY public.zoom_events.id;
 
 
 --
+-- Name: zoom_join_urls; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.zoom_join_urls (
+    id bigint NOT NULL,
+    zoom_event_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    url text NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: zoom_join_urls_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.zoom_join_urls_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: zoom_join_urls_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.zoom_join_urls_id_seq OWNED BY public.zoom_join_urls.id;
+
+
+--
 -- Name: active_admin_comments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2139,6 +2170,13 @@ ALTER TABLE ONLY public.youtube_live_streams ALTER COLUMN id SET DEFAULT nextval
 --
 
 ALTER TABLE ONLY public.zoom_events ALTER COLUMN id SET DEFAULT nextval('public.zoom_events_id_seq'::regclass);
+
+
+--
+-- Name: zoom_join_urls id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.zoom_join_urls ALTER COLUMN id SET DEFAULT nextval('public.zoom_join_urls_id_seq'::regclass);
 
 
 --
@@ -2515,6 +2553,14 @@ ALTER TABLE ONLY public.youtube_live_streams
 
 ALTER TABLE ONLY public.zoom_events
     ADD CONSTRAINT zoom_events_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: zoom_join_urls zoom_join_urls_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.zoom_join_urls
+    ADD CONSTRAINT zoom_join_urls_pkey PRIMARY KEY (id);
 
 
 --
@@ -3355,6 +3401,14 @@ ALTER TABLE ONLY public.authorships
 
 
 --
+-- Name: zoom_join_urls fk_rails_c746283d97; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.zoom_join_urls
+    ADD CONSTRAINT fk_rails_c746283d97 FOREIGN KEY (zoom_event_id) REFERENCES public.zoom_events(id);
+
+
+--
 -- Name: homepage_ctas fk_rails_d6aa0aad97; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3384,6 +3438,14 @@ ALTER TABLE ONLY public.articles_tracks
 
 ALTER TABLE ONLY public.job_fair_signups
     ADD CONSTRAINT fk_rails_e4308ede1c FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: zoom_join_urls fk_rails_f0871785f1; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.zoom_join_urls
+    ADD CONSTRAINT fk_rails_f0871785f1 FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -3616,6 +3678,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200910035950'),
 ('20200910051245'),
 ('20200913001959'),
-('20200913010500');
+('20200913010500'),
+('20200913023849');
 
 

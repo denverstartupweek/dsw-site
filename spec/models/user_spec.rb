@@ -11,7 +11,7 @@ RSpec.describe User, type: :model do
   it { is_expected.to have_many(:oauth_services).dependent(:restrict_with_error) }
   it { is_expected.to have_many(:presenterships).dependent(:restrict_with_error) }
   it { is_expected.to have_many(:presented_sessions) }
-
+  it { is_expected.to have_many(:zoom_join_urls).dependent(:destroy) }
   it { is_expected.to have_one(:cfp_extension) }
 
   it { is_expected.to validate_presence_of(:name) }

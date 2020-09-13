@@ -12,6 +12,7 @@ class CreateOrUpdateVideoIntegrationsJob
     ZoomSubmissionSyncer.new(submission).run!
     submission.zoom_events.find_each do |ze|
       ze.update_on_zoom!
+      ze.update_presenters!
     end
   end
 end

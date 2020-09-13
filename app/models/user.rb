@@ -38,6 +38,7 @@ class User < ApplicationRecord
   has_many :administered_venues, through: :venue_adminships, class_name: "Venue", source: :venue
   has_many :job_fair_signups, dependent: :restrict_with_error
   has_many :oauth_services, dependent: :restrict_with_error
+  has_many :zoom_join_urls, dependent: :destroy
 
   has_and_belongs_to_many :chaired_tracks, class_name: "Track"
   has_and_belongs_to_many :companies

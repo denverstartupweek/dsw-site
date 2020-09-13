@@ -427,16 +427,11 @@ ActiveAdmin.register Submission do
             column :updated_at
           end
         end
-        panel "Presenter Join URLs" do
-          table_for(submission.presenterships.to_a << OpenStruct.new(user: submission.submitter, virtual_join_url: submission.submitter_virtual_join_url)) do
+        panel "Join URLs" do
+          table_for submission.zoom_join_urls do
             column :user
-            column(:join_url) { |p| link_to "Click to launch", p.virtual_join_url }
-          end
-        end
-        panel "Submitter Join URL" do
-          table_for [submission.submitter] do
-            column :user
-            column(:join_url) { |p| link_to "Click to launch", p.virtual_join_url }
+            column(:kind) { |u| u.zoom_event.kind.titleize }
+            column(:url) { |u| link_to "Click to launch", u.url }
           end
         end
         panel "Youtube Live Streams" do
