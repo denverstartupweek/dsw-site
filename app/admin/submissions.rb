@@ -428,7 +428,13 @@ ActiveAdmin.register Submission do
           end
         end
         panel "Presenter Join URLs" do
-          table_for submission.presenterships do
+          table_for(submission.presenterships.to_a << OpenStruct.new(user: submission.submitter, virtual_join_url: submission.submitter_virtual_join_url)) do
+            column :user
+            column(:join_url) { |p| link_to "Click to launch", p.virtual_join_url }
+          end
+        end
+        panel "Submitter Join URL" do
+          table_for [submission.submitter] do
             column :user
             column(:join_url) { |p| link_to "Click to launch", p.virtual_join_url }
           end
