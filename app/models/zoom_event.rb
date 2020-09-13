@@ -159,7 +159,7 @@ class ZoomEvent < ApplicationRecord
   def title
     full_title = "DSW #{submission.year}: #{submission.title}"
     suffix = (kind == TEST_KIND ? " - TEST RUN" : "")
-    full_title.truncate(300 - suffix.length) + suffix
+    full_title.truncate(200 - suffix.length) + suffix
   end
 
   def description
