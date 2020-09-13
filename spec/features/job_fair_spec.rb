@@ -120,70 +120,96 @@ feature "Filling out the job fair form" do
     expect(JobFairSignup.count).to eq(0)
   end
 
-  describe "Editing a signup when it's been approved" do
+  describe "Editing signup details from the dashboard" do
     let(:user) do
       create(:user, email: "test@example.com", password: "password")
     end
 
     let(:company) { create(:company, name: "ExampleCo") }
 
-    scenario "a user who does not have an approved job fair signup for the current year should not see anything in the dashboard" do
-      create(:job_fair_signup, user: user, state: "accepted", year: 2019, company: company)
-      create(:job_fair_signup, user: user, state: "rejected", year: 2020, company: company)
-      travel_to Date.parse("2020-04-01") do
-        login_as user, scope: :user
-        visit "/dashboard"
-        expect(page).to have_no_content("JOB FAIR - EXAMPLECO")
+    describe "without an approved job fair signup for the current year" do
+      before do
+        create(:job_fair_signup, user: user, state: "accepted", year: 2019, company: company)
+        create(:job_fair_signup, user: user, state: "rejected", year: 2020, company: company)
+      end
+
+      scenario "a user should not see anything in the dashboard" do
+        travel_to Date.parse("2020-04-01") do
+          login_as user, scope: :user
+          visit "/dashboard"
+          expect(page).to have_no_content("JOB FAIR - EXAMPLECO")
+        end
       end
     end
 
-    scenario "a user with an approved job fair signup for the current year can edit it from the dashboard" do
-      create(:job_fair_signup,
-        user: user,
-        state: "accepted",
-        year: 2020,
-        company: company)
-      create(:submission,
-        start_day: 2,
-        start_hour: 12,
-        end_day: 2,
-        end_hour: 13,
-        state: "confirmed",
-        is_virtual_job_fair_slot: true)
-      travel_to Date.parse("2020-04-01") do
-        login_as user, scope: :user
-        visit "/dashboard"
-        click_on "Edit Registration"
-        check "Monday 12:00pm — 1:00pm"
-        click_button "Submit"
-        expect(page).to have_content("Your changes have been saved")
-        click_on "Edit Registration"
-        expect(find("tr", text: "Monday")).to have_checked_field("Monday 12:00pm — 1:00pm")
-      end
-    end
-
-    xscenario "a user who has venues assigned should be able to edit their details and availability" do
-      login_as venue_host_user, scope: :user
-      create(:venue, company: company, name: "Example Theatre").tap do |v|
-        v.admins << venue_host_user
+    describe "with an approved job fair signup for the current year" do
+      let!(:job_fair_signup) do
+        create(:job_fair_signup,
+          user: user,
+          state: "accepted",
+          year: 2020,
+          company: company)
       end
 
-      visit "/dashboard"
-      find(".VenueCard", text: "EXAMPLE THEATRE").click_link("Edit")
-      fill_in "Venue Name", with: "Test Theatre"
-      fill_in "Availability preference", with: "No special preference"
-      find("tr", text: "Tuesday").check "12 - 2pm"
-      find("tr", text: "Thursday").check "2 - 4pm"
-      find("tr", text: "Thursday").check "4 - 6pm"
-      find("tr", text: "Friday").check "6 - 10pm"
-      click_button "Submit"
-      expect(page).to have_content("Venue was successfully updated")
-      find(".VenueCard", text: "TEST THEATRE").click_link("Edit")
-      expect(find("tr", text: "Tuesday")).to have_checked_field("12 - 2pm")
-      expect(find("tr", text: "Thursday")).to have_checked_field("2 - 4pm")
-      expect(find("tr", text: "Thursday")).to have_checked_field("4 - 6pm")
-      expect(find("tr", text: "Friday")).to have_checked_field("6 - 10pm")
-      expect(page).to have_content("No special preference")
+      let!(:time_slot_submission) do
+        create(:submission,
+          start_day: 2,
+          start_hour: 12,
+          end_day: 2,
+          end_hour: 13,
+          state: "confirmed",
+          is_virtual_job_fair_slot: true)
+      end
+
+      scenario "a user can edit the signup" do
+        travel_to Date.parse("2020-04-01") do
+          login_as user, scope: :user
+          visit "/dashboard"
+          click_on "Edit Registration"
+          check "Monday 12:00pm — 1:00pm"
+          click_button "Submit"
+          expect(page).to have_content("Your changes have been saved")
+          click_on "Edit Registration"
+          expect(find("tr", text: "Monday")).to have_checked_field("Monday 12:00pm — 1:00pm")
+        end
+      end
+
+      xscenario "a user with an approved job fair signup can add an open role" do
+        travel_to Date.parse("2020-04-01") do
+          login_as user, scope: :user
+          visit "/dashboard"
+        end
+      end
+
+      xscenario "a user with an approved job fair signup can edit an open role" do
+        travel_to Date.parse("2020-04-01") do
+          login_as user, scope: :user
+          visit "/dashboard"
+          find(".VenueCard", text: "EXAMPLE THEATRE").click_link("Edit")
+          fill_in "Venue Name", with: "Test Theatre"
+          fill_in "Availability preference", with: "No special preference"
+          find("tr", text: "Tuesday").check "12 - 2pm"
+          find("tr", text: "Thursday").check "2 - 4pm"
+          find("tr", text: "Thursday").check "4 - 6pm"
+          find("tr", text: "Friday").check "6 - 10pm"
+          click_button "Submit"
+          expect(page).to have_content("Venue was successfully updated")
+          find(".VenueCard", text: "TEST THEATRE").click_link("Edit")
+          expect(find("tr", text: "Tuesday")).to have_checked_field("12 - 2pm")
+          expect(find("tr", text: "Thursday")).to have_checked_field("2 - 4pm")
+          expect(find("tr", text: "Thursday")).to have_checked_field("4 - 6pm")
+          expect(find("tr", text: "Friday")).to have_checked_field("6 - 10pm")
+          expect(page).to have_content("No special preference")
+        end
+      end
+
+      xscenario "a user with an approved job fair signup can remove an open role" do
+        travel_to Date.parse("2020-04-01") do
+          login_as user, scope: :user
+          visit "/dashboard"
+          find(".VenueCard", text: "EXAMPLE THEATRE").click_link("Edit")
+        end
+      end
     end
   end
 end

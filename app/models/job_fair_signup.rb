@@ -5,6 +5,7 @@ class JobFairSignup < ApplicationRecord
   belongs_to :user
   has_many :job_fair_signup_time_slots, dependent: :destroy
   has_many :submissions, through: :job_fair_signup_time_slots
+  has_many :job_fair_roles, dependent: :destroy
 
   has_many :sent_notifications, as: :subject, dependent: :destroy
 
