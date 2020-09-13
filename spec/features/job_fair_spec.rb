@@ -174,10 +174,21 @@ feature "Filling out the job fair form" do
         end
       end
 
-      xscenario "a user with an approved job fair signup can add an open role" do
+      scenario "a user with an approved job fair signup can add an open role" do
         travel_to Date.parse("2020-04-01") do
           login_as user, scope: :user
           visit "/dashboard"
+          click_on "Add Open Role"
+          fill_in "Title", with: "Señor Engineer"
+          fill_in "Description", with: "A pretty cool engineering role"
+          fill_in "URL", with: "http://www.google.com"
+          click_button "Submit"
+          expect(page).to have_text("Role saved!")
+          expect(job_fair_signup.job_fair_roles.count).to eq(1)
+          role = job_fair_signup.job_fair_roles.last
+          expect(role.title).to eq("Señor Engineer")
+          expect(role.description).to eq("A pretty cool engineering role")
+          expect(role.url).to eq("http://www.google.com")
         end
       end
 

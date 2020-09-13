@@ -1,0 +1,28 @@
+= render 'layouts/shared/fullscreen_takeover_header', title: 'Hire at the Job Fair', background: 'light'
+= render layout: 'layouts/shared/layout_wrapper' do
+  = render layout: 'components/form_wrapper' do
+    .FormInstructions
+      Denver Startup Week 2020 is going 100% virtual, and so is our Job Fair and Showcase! Provide details on the role you're hiring for and we'll include them in the information available to attendees throughout the week.
+
+    = form_for [@job_fair_signup, @job_fair_role], honeypot: true do |f|
+      = render layout: 'components/form_input_row' do
+        = render layout: 'components/form_input_wrapper' do
+          = render layout: 'components/floating_input' do
+            = f.text_field :title, required: 'required'
+            = f.label :title, 'Title'
+
+      = render layout: 'components/form_input_row' do
+        = render layout: 'components/form_input_wrapper' do
+          = render layout: 'components/floating_input' do
+            = f.text_field :description
+            = f.label :description, 'Description'
+
+      = render layout: 'components/form_input_row' do
+        = render layout: 'components/form_input_wrapper' do
+          = render layout: 'components/floating_input' do
+            = f.text_field :url
+            = f.label :url, 'URL for details or to apply'
+      = render partial: 'components/form_errors', locals: { error_resource: @job_fair_role }
+
+      .ContactUs-actions
+        = f.submit 'Submit', class: 'ContactUs-submit'

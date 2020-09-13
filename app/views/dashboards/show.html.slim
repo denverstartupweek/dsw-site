@@ -89,9 +89,9 @@
         a.Dashboard-header-action href="#{edit_job_fair_signup_path(@job_fair_signup)}"
             = image_tag "redesign/submit-article.svg", class: 'Dashboard-header-action-image'
             | Edit Registration
-        / a.Dashboard-header-action href="#{new_job_fair_signup_role_path}"
-        /     = image_tag "redesign/submit-article.svg", class: 'Dashboard-header-action-image'
-        /     | Add Open Role
+        a.Dashboard-header-action href="#{new_job_fair_signup_job_fair_role_path(@job_fair_signup)}"
+            = image_tag "redesign/submit-article.svg", class: 'Dashboard-header-action-image'
+            | Add Open Role
     - if @job_fair_open_roles.any?
       ul.Dashboard-card-list(aria-labelledby="my-content")
         / - @open_roles.each do |article|

@@ -74,7 +74,9 @@ Rails.application.routes.draw do
 
   resources :newsletter_signups, only: :create
   resources :general_inquiries, path: "general-inquiry", only: [:create, :new]
-  resources :job_fair_signups, path: "job-fair-signups", only: [:create, :new, :edit, :update]
+  resources :job_fair_signups, path: "job-fair-signups", only: [:create, :new, :edit, :update] do
+    resources :job_fair_roles, path: "roles", except: %i[index show]
+  end
   resources :sponsor_signups, only: :create
 
   resources :articles, except: [:destroy]
