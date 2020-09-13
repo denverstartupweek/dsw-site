@@ -41,6 +41,7 @@ class ZoomEvent < ApplicationRecord
 
   belongs_to :submission
   belongs_to :oauth_service
+  has_many :zoom_join_urls, dependent: :destroy
 
   validates :zoom_id, presence: true
   validates :event_type, presence: true, inclusion: {in: EVENT_TYPES}
@@ -122,10 +123,9 @@ class ZoomEvent < ApplicationRecord
       end
     )
     oauth_service.zoom_client.webinar_panelists_list(webinar_id: zoom_id)["panelists"].each do |p|
-      if (presentership = submission.presenterships.joins(:user).where(users: {email: p["email"]}).first)
-        presentership.update!(virtual_join_url: p["join_url"])
-      elsif submission.submitter.email == p["email"]
-        submission.update!(submitter_virtual_join_url: p["join_url"])
+      if (user = User.where(email: p["email"]).first)
+        join_url = zoom_join_urls.where(user: user).first_or_initialize(user: user)
+        join_url.update!(url: p["join_url"])
       end
     end
   end
