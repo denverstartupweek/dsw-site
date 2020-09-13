@@ -32,6 +32,18 @@
   line-height: 1.5
   margin-bottom: 5px
 
+@keyframes pulse
+  0%, 100%
+    color: white
+  50%
+    color: red
+
+.ScheduledSession-icon-live-dot
+  margin-right: 3px
+  animation: pulse 1s step-end infinite
+  &:before
+    content: "\25CF "
+
 .ScheduledSession-details-container
   width: 100%
   padding: 10px 25px
