@@ -31,7 +31,7 @@ html
     - unless content_for(:fullscreen_takeover)
       = render partial: 'components/menu'
       = render partial: 'layouts/shared/header'
-    main(class=("is-fullscreen" if content_for(:fullscreen_takeover)))
+    main(class=("#{"is-fullscreen" if content_for(:fullscreen_takeover)} #{"glitched" if content_for(:glitched_bg)}"))
       == yield
     = render partial: 'layouts/shared/footer' unless content_for(:fullscreen_takeover)
     = render 'components/flash_messages'

@@ -17,6 +17,33 @@
   height: 56px
   .icon
     width: 24px
+
+.ScheduledSession-icon-container.live
+  .icon
+    margin-top: 10px
+    margin-bottom: 2px
+
+.ScheduledSession-icon-live
+  width: 100%
+  text-align: center
+  color: white
+  font-size: 8px
+  +font-family-mixin(Montserrat-SemiBold)
+  line-height: 1.5
+  margin-bottom: 5px
+
+@keyframes pulse
+  0%, 100%
+    color: white
+  50%
+    color: red
+
+.ScheduledSession-icon-live-dot
+  margin-right: 3px
+  animation: pulse 1s step-end infinite
+  &:before
+    content: "\25CF "
+
 .ScheduledSession-details-container
   width: 100%
   padding: 10px 25px

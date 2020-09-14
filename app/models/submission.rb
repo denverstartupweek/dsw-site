@@ -193,6 +193,27 @@ class Submission < ApplicationRecord
       .where(registrations: {user_id: user.id})
   end
 
+  def self.live(as_of)
+    for_year(as_of.year)
+      .for_public
+      .where("start_day >= ?", AnnualSchedule.day_index(as_of))
+      .where("(start_hour < :now AND end_hour > :now)", now: (as_of.hour + as_of.min.to_f / 60))
+      .order("start_day ASC, start_hour ASC")
+  end
+
+  def self.upcoming(as_of, limit)
+    for_year(as_of.year)
+      .for_public
+      .where("start_day >= ?", AnnualSchedule.day_index(as_of))
+      .where("start_hour >= :now", now: (as_of.hour + as_of.min.to_f / 60))
+      .order("start_day ASC, start_hour ASC")
+      .limit(limit)
+  end
+
+  def self.livestreamed
+    where(broadcast_on_youtube_live: true)
+  end
+
   def self.for_virtual_job_fair
     where(is_virtual_job_fair_slot: true).order(start_day: :asc, start_hour: :asc)
   end
@@ -384,6 +405,27 @@ class Submission < ApplicationRecord
         (CASE WHEN users.id = ? THEN 1 ELSE 2 END) ASC,
         "session_registrations"."created_at" DESC
       SQL
+  end
+
+  def join_url
+    if virtual_meeting_type == Submission::OTHER_MEETING_TYPE
+      virtual_join_url
+    else
+      zoom_events.where(kind: ZoomEvent::LIVE_KIND).first.try(:join_url)
+    end
+  end
+
+  def stream_url
+    if broadcast_on_youtube_live?
+      youtube_id = youtube_live_streams.where(kind: YoutubeLiveStream::LIVE_KIND).first.try(:broadcast_id)
+      if youtube_id
+        "https://www.youtube.com/embed/#{youtube_id}"
+      else
+        "https://www.youtube.com/c/denverstartupweek"
+      end
+    else
+      live_stream_url
+    end
   end
 
   # Actions

@@ -1,8 +1,19 @@
 - content_for(:hide_footer_callouts, true)
+- content_for(:glitched_bg, true)
 
 = render layout: 'layouts/shared/layout_wrapper' do
   = render partial: 'layouts/home_hero'
-  div.Home-primary-callouts
+/   div.Home-primary-callouts
+/     = render partial: 'layouts/shared/primary_callouts_nav'
+
+div.Home-streaming-videos
+    = render partial: 'layouts/shared/live_streaming'
+
+/ = render partial: 'icons/arrow_in_circle_right'
+
+div.Home-primary-callouts
     = render partial: 'layouts/shared/primary_callouts_nav'
 
 = render partial: 'layouts/shared/featured'
+/ div.Home-primary-callouts
+/     = render partial: 'layouts/shared/primary_callouts_nav'

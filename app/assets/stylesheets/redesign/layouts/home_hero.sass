@@ -11,8 +11,10 @@ $wrap-margin: 44px
   color: $primary-font-dark
   margin-bottom: 105px
   margin-top: calc(#{$top-margin} - #{$wrap-margin})
+  background-color:  $dark-glitched
 
 .HomeHero-title
+  color: white
   font-size: 120px
   line-height: 90px
   text-transform: uppercase
@@ -20,17 +22,20 @@ $wrap-margin: 44px
   @include font-family-mixin(Montserrat-Black)
   margin-top: $wrap-margin
   margin-right: 20px
+  text-shadow: 7.5px 0px 0px #EC1C51, -4px -3px 0px #6BC9D2
 
 .HomeHero-content
   margin-top: $wrap-margin
+  
 
 .HomeHero-date
   font-size: 24px
   font-weight: 300
   text-transform: uppercase
+  color: white
 
 .HomeHero-description
-  color: $primary-font-medium
+  color: white
   @include font-family-mixin(Montserrat-Regular)
   font-size: 14px
   line-height: 18px

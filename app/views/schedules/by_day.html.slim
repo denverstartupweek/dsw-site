@@ -1,7 +1,7 @@
 - content_for(:title, "#{formatted_start_date_for_index(@day_index, current_year_or_default, '%A %B %-d, %Y')} Schedule")
 - title = (current_year_or_default.to_i == Date.today.year) ? "Schedule" : "#{current_year_or_default} Schedule"
 
-= render layout: 'layouts/shared/secondary_hero', locals: { title: title, sub_title: 'SOMETHING FOR EVERYONE', description: 'Dive into the Denver Startup Week schedule for sessions, keynotes, workshops, celebrations, and much more. With over 300 free events, there is something for everyone to learn, grow, and be inspired. Don’t forget to register, RSVP for individual sessions, and remember that seating is first come, first served.' } do
+= render layout: 'layouts/shared/secondary_hero', locals: {glitched: true, title: title, sub_title: 'SOMETHING FOR EVERYONE', description: 'Dive into the Denver Startup Week schedule for sessions, keynotes, workshops, celebrations, and much more. With over 300 free events, there is something for everyone to learn, grow, and be inspired. Don’t forget to register, RSVP for individual sessions, and remember that seating is first come, first served.' } do
   form.Schedule-form
     .Schedule-search
       = render partial: 'components/search', locals: { placeholder: ''}
@@ -35,7 +35,7 @@
               img.Schedule-nav-arrow src="#{image_url('redesign/arrow-select-grey.svg')}"
 
   section.Schedule-lists
-    - cache [ @sessions.maximum(:updated_at), @sessions.map(&:id) ] do
+    - cache [ @sessions.maximum(:updated_at), @sessions.map(&:id), Time.zone.now.change(sec: 0) ] do
       - @sessions.group_by { |s| s.start_hour.floor }.each do |start_hour, grouping|
         h3.Schedule-list-time = grouping.first.human_start_time
         ul.Schedule-list(aria-label="#{grouping.first.human_start_time} Sessions")

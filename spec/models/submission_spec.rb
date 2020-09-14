@@ -283,4 +283,61 @@ RSpec.describe Submission, type: :model do
       expect(submission.tags["Popular"]).to eq("The event has many more RSVPs than will fit in the venue. Attendees should plan to arrive early to get a seat.")
     end
   end
+
+  describe "finding live/upcoming sessions" do
+    let!(:past1) do
+      create(:submission,
+        year: AnnualSchedule.current.year,
+        state: "confirmed",
+        start_day: 1,
+        start_hour: 9.5,
+        end_day: 1,
+        end_hour: 10.5)
+    end
+
+    let!(:live1) do
+      create(:submission,
+        year: AnnualSchedule.current.year,
+        state: "confirmed",
+        start_day: 1,
+        start_hour: 9.5,
+        end_day: 1,
+        end_hour: 11.5)
+    end
+
+    let!(:future1) do
+      create(:submission,
+        year: AnnualSchedule.current.year,
+        state: "confirmed",
+        start_day: 1,
+        start_hour: 12,
+        end_day: 1,
+        end_hour: 13)
+    end
+
+    let!(:future2) do
+      create(:submission,
+        year: AnnualSchedule.current.year,
+        state: "confirmed",
+        start_day: 1,
+        start_hour: 11,
+        end_day: 1,
+        end_hour: 12)
+    end
+
+    it "allows overriding of the time via an argument" do
+      as_of = past1.end_datetime + 5.minutes
+      expect(Submission.live(as_of).map(&:id)).to eq([
+        live1.id
+      ])
+    end
+
+    it "allows overriding of the time via an argument" do
+      as_of = past1.end_datetime + 5.minutes
+      expect(Submission.upcoming(as_of, 3).map(&:id)).to eq([
+        future2.id,
+        future1.id
+      ])
+    end
+  end
 end
