@@ -106,7 +106,7 @@
                 = render partial: 'components/scheduled_session', locals: { submission: submission, include_day: true }
       .SessionDetail-column--right
         - if user_signed_in?
-          - registrants = @session.public_registrants(current_user)
+          - registrants = @session.public_registrants(current_user).limit(250)
           - cache [registrants.size, registrants.maximum(:updated_at)] do
             - registrants.each do |user|
               .SessionDetail-attendee
