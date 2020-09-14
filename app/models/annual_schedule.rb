@@ -48,7 +48,7 @@ class AnnualSchedule < ApplicationRecord
 
   class << self
     def current
-      where(year: Date.today.year).first
+      @_current ||= where(year: Date.today.year).first
     end
 
     def next
@@ -141,7 +141,7 @@ class AnnualSchedule < ApplicationRecord
 
   def day_index(as_of)
     as_of = date_in_time_zone(as_of)
-    day_index = ((as_of.at_beginning_of_day - week_start_at.at_beginning_of_day.in_time_zone(as_of.time_zone)) / 1.day).ceil + 1
+    ((as_of.at_beginning_of_day - week_start_at.at_beginning_of_day.in_time_zone(as_of.time_zone)) / 1.day).ceil + 1
   end
 
   private
