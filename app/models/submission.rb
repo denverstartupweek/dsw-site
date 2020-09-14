@@ -192,14 +192,7 @@ class Submission < ApplicationRecord
       .where(registrations: {user_id: user.id})
   end
 
-  def self.live_and_upcoming(as_of = nil)
-    as_of = if as_of.nil?
-      Time.now.in_time_zone("America/Denver")
-    elsif as_of.is_a?(String)
-      DateTime.parse(as_of)
-    else
-      as_of
-    end
+  def self.live_and_upcoming(as_of)
     for_year(as_of.year)
       .for_public
       .where(start_day: AnnualSchedule.day_index(as_of))
@@ -402,6 +395,27 @@ class Submission < ApplicationRecord
         (CASE WHEN users.id = ? THEN 1 ELSE 2 END) ASC,
         "session_registrations"."created_at" DESC
       SQL
+  end
+
+  def join_url
+    if virtual_meeting_type == Submission::OTHER_MEETING_TYPE
+      virtual_join_url
+    else
+      zoom_events.where(kind: ZoomEvent::LIVE_KIND).first.try(:join_url)
+    end
+  end
+
+  def stream_url
+    if broadcast_on_youtube_live?
+      youtube_id = youtube_live_streams.where(kind: YoutubeLiveStream::LIVE_KIND).first.try(:broadcast_id)
+      if youtube_id
+        "https://www.youtube.com/embed/#{youtube_id}"
+      else
+        "https://www.youtube.com/c/denverstartupweek"
+      end
+    else
+      live_stream_url
+    end
   end
 
   # Actions

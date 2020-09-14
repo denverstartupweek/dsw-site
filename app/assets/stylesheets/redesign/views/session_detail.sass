@@ -43,7 +43,7 @@
 .SessionDetail-stats-container
   display: flex
   flex-direction: row
-.SessionDetail-date, .SessionDetail-time, .SessionDetail-attendee-count
+.SessionDetail-date, .SessionDetail-time, .SessionDetail-attendee-count, .SessionDetail-format
   text-transform: uppercase
   +font-family-mixin(Montserrat-Medium)
   font-size: 14px
@@ -91,8 +91,22 @@
   margin-bottom: 40px
 .SessionDetail-schedule-button--remove
   width: 210px
-.SessionDetail-related-sessions
+.SessionDetail-join-button, .SessionDetail-join-button-disabled
+  +white-button(245px, 46px)
+  width: 25px
+  margin-top: 30px
+  margin-bottom: 40px
+.SessionDetail-join-button-disabled
+  color: $gray-border-light
+  background-color: #fff
+  border-color: $gray-border-light
+.SessionDetail-related-sessions-title
   margin-top: 50px
+  margin-bottom: 20px
+  font-size: 28px
+  color: $primary-font-dark
+  text-transform: uppercase
+.SessionDetail-related-sessions
   margin-bottom: 90px
 .SessionDetail-attendee
   padding: 6px 50px 6px 10px
@@ -114,6 +128,67 @@
     background-repeat: no-repeat
     background-size: cover
     background-position: center
+
+.SessionDetail-virtual-info
+  text-decoration: none
+  color: inherit
+  display: flex
+  margin-bottom: 15px
+  border-top: 1px solid $gray-border-light
+  padding-top: 15px
+
+.SessionDetail-virtual-icon-container
+  flex-shrink: 0
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  width: 74px
+  height: 74px
+  .icon
+    width: 35px
+
+.SessionDetail-virtual-icon-container.live
+  .icon
+    margin-top: 10px
+    margin-bottom: 2px
+
+.SessionDetail-icon-live
+  width: 100%
+  text-align: center
+  color: white
+  font-size: 8px
+  +font-family-mixin(Montserrat-SemiBold)
+  line-height: 1.5
+  margin-bottom: 5px
+
+.SessionDetail-virtual-explainer
+  margin-left: 25px
+
+.SessionDetail-virtual-explainer-header
+  text-transform: uppercase
+  +font-family-mixin(Montserrat-Medium)
+  font-size: 14px
+
+.SessionDetail-virtual-explainer-body
+  color: $primary-font-medium
+  font-size: 14px
+  margin-top: 20px
+  margin-bottom: 40px
+  p
+    margin: 1em 0px
+
+@keyframes pulse
+  0%, 100%
+    color: white
+  50%
+    color: red
+
+.SessionDetail-icon-live-dot
+  margin-right: 3px
+  animation: pulse 1s step-end infinite
+  &:before
+    content: "\25CF "
 
 @media(min-width: 400px)
   .SessionDetail-stream

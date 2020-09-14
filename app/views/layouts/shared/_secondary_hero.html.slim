@@ -1,4 +1,4 @@
-.SecondaryHero
+.SecondaryHero(class="#{local_assigns[:glitched] ? "SecondaryHero--glitched" : ""}")
   .SecondaryHero-inner
     .SecondaryHero-sub-title #{sub_title}
     - if description.kind_of?(Array)
