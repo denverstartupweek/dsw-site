@@ -2308,6 +2308,14 @@ ALTER TABLE ONLY public.industry_types
 
 
 --
+-- Name: job_fair_signup_time_slots job_fair_signup_time_slots_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.job_fair_signup_time_slots
+    ADD CONSTRAINT job_fair_signup_time_slots_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: job_fair_signups job_fair_signups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3119,6 +3127,20 @@ CREATE INDEX index_zoom_events_on_oauth_service_id ON public.zoom_events USING b
 --
 
 CREATE INDEX index_zoom_events_on_submission_id ON public.zoom_events USING btree (submission_id);
+
+
+--
+-- Name: index_zoom_join_urls_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_zoom_join_urls_on_user_id ON public.zoom_join_urls USING btree (user_id);
+
+
+--
+-- Name: index_zoom_join_urls_on_zoom_event_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_zoom_join_urls_on_zoom_event_id ON public.zoom_join_urls USING btree (zoom_event_id);
 
 
 --
