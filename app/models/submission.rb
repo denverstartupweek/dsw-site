@@ -397,6 +397,27 @@ class Submission < ApplicationRecord
       SQL
   end
 
+  def join_url
+    if virtual_meeting_type == Submission::OTHER_MEETING_TYPE
+      virtual_join_url
+    else
+      zoom_events.where(kind: ZoomEvent::LIVE_KIND).first.try(:join_url)
+    end
+  end
+
+  def stream_url
+    if broadcast_on_youtube_live?
+      youtube_id = youtube_live_streams.where(kind: YoutubeLiveStream::LIVE_KIND).first.try(:broadcast_id)
+      if youtube_id
+        "https://www.youtube.com/embed/#{youtube_id}"
+      else
+        "https://www.youtube.com/c/denverstartupweek"
+      end
+    else
+      live_stream_url
+    end
+  end
+
   # Actions
   def create_or_update_streams!
     CreateOrUpdateVideoIntegrationsJob.perform_async(id)
