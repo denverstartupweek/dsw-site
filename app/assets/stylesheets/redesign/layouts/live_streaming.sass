@@ -1,9 +1,14 @@
 .Live-stream-video-container
-  height: 1615px
+  height: 2000px
   padding-top: 0px
   padding-bottom: 112px
   position: relative
-  background-color: white
+  background-color: #0B1A20
+  display: flex
+  justify-content: center
+  align-items: center
+  flex-wrap: wrap
+  padding-bottom: 300px
 
 .Live-stream-triangle
   position: absolute
@@ -14,7 +19,7 @@
   bottom: 0;
 
 .Small-triangle
-  background-image: linear-gradient(to top right, pink 0%, pink 50%, transparent 50%)
+  background-image: linear-gradient(to top right, white 0%, white 50%, transparent 50%)
   position: absolute;
   z-index: 0
   width: 100%;
@@ -27,20 +32,84 @@
   font-size: 36px
   font-weight: 300
   text-transform: uppercase
+  color: white
 
-.Live-stream-main-card
-  padding-top: 80px
-  background-color: cornsilk
-  height: 800px
+.LiveStreamBigCard
+  height: 675px
+  width: 1070px
+  margin-right: 22px
+  margin-bottom: 20px
+  color: white
 
-.Live-stream-list
-  background-color: papayawhip
-  height: 490px
+.LiveStreamBigCard-video
+  height: 602px
+
+.LiveStreamBigCardFooter
+  height: 70px
+  display: flex
+  justify-content: space-between
+
+.LiveStreamBigCard-title
+  width: 600px
+  height: 100%
+  margin-left: 1px
+  font-size: 18px
+  padding-top: 30px
+
+.LiveStreamBigCard-join
+  font-size: 12.5px
+  border: 2px solid #05D3D8
+  width: 132px
+  height: 46px
+  display: flex
+  justify-content: center
+  align-items: center
+  text-transform: uppercase
+  margin-right: 16px
+  border-radius: 25px 25px 25px 25px
+  margin-top: 15px
+  color: #05D3D8
+  font-weight: 500
+  line-height: 15px
+
+.LiveStreamLittleCard
+  height: 400px
+  width: 525px
+  margin-right: 30px
+  color: white
+
+.LiveStreamLittleCardFooter
+  height: 103px
+  display: flex
+  justify-content: space-between
+  align-items: center
+
+.LiveStreamLittleCard-title
+  width: 300px
+  height: 62px
+  font-size: 18px
+  margin-left: 1px
+  margin-top: 40px
+
+.LiveStreamLittleCard-join
+  margin-right: 15px
+  font-size: 12.5px
+  width: 132px
+  height: 46px
+  display: flex
+  justify-content: center
+  align-items: center
+  text-transform: uppercase
+  border-radius: 25px 25px 25px 25px
+  margin-top: 15px
+  color: #05D3D8
+  font-weight: 500
+  line-height: 15px
+  border: 2px solid #05D3D8
 
 .Live-button
   display: flex
   height: 100px
-  background-color: black
   justify-content: center
   position: absolute
   left: 600px
@@ -54,7 +123,6 @@
   text-transform: uppercase
   color: #26FAE5
 
-  
 .Live-stream-link-arrow
   margin-left: 20px
 
