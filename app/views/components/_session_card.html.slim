@@ -26,4 +26,4 @@
               = render partial: 'icons/thumbsup'
           span.SessionCard-vote-count.vote-count-js #{pluralize(session.votes.size, 'vote')}
     - if local_assigns[:joinable].present?
-      h4.SessionCard-time Starting soon: #{session.human_time_range}
+      h4.SessionCard-time Up next: #{session.human_time_range}
