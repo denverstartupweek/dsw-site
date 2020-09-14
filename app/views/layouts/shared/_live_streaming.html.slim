@@ -13,7 +13,7 @@ section.Live-stream-video-container
           div.LiveStreamBigCard-track-name(class="#{big.track.color}")
           div.LiveStreamBigCardFooter
             div.LiveStreamBigCard-title= big.title
-            a.LiveStreamBigCard-join(href="#{big.join_url}" target="_blank") Join Now
+            a.LiveStreamBigCard-join(href="#{schedule_path(big)}" target="_blank") Join Now
     - small.each do |s|
       div.ListStreamListItem
         div.LiveStreamLittleCard
@@ -22,7 +22,7 @@ section.Live-stream-video-container
           div.LiveStreamLittleCard-track-name(class="#{s.track.color}")
           div.LiveStreamLittleCardFooter
             div.LiveStreamLittleCard-title= s.title
-            a.LiveStreamLittleCard-join(href="#{s.join_url}" target="_blank") Join Now
+            a.LiveStreamLittleCard-join(href="#{schedule_path(s)}" target="_blank") Join Now
   = render 'components/three_card_list', attributes: { 'aria-label': "Upcoming Sessions", id: 'upcoming-sessions' } do
     - upcoming_sessions(3).each do |session|
       = render 'components/three_card_list_item' do
@@ -31,5 +31,3 @@ section.Live-stream-video-container
     a.Live-stream-link(href="#{schedules_path}")
       | Schedule
       span.Live-stream-link-arrow = render partial: 'icons/arrow_in_circle_right'
-
-
