@@ -211,7 +211,7 @@ class Submission < ApplicationRecord
   end
 
   def self.livestreamed
-    where("broadcast_on_youtube_live = ? OR live_stream_url IS NOT NULL", true)
+    where("broadcast_on_youtube_live = ? OR (live_stream_url IS NOT NULL && list_stream_url <> '')", true)
   end
 
   def self.for_virtual_job_fair
