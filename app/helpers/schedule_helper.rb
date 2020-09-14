@@ -24,7 +24,7 @@ module ScheduleHelper
   end
 
   def live_sessions
-    Submission.live(as_of).includes(:track)
+    Submission.livestreamed.live(as_of).includes(:track)
   end
 
   def upcoming_sessions(limit)
