@@ -196,7 +196,7 @@ class Submission < ApplicationRecord
   def self.live(as_of)
     for_year(as_of.year)
       .for_public
-      .where("start_day = ?", AnnualSchedule.day_index(as_of))
+      .where(start_day: AnnualSchedule.day_index(as_of))
       .where("(start_hour < :now AND end_hour > :now)", now: (as_of.hour + as_of.min.to_f / 60))
       .order("start_day ASC, start_hour ASC")
   end
@@ -204,14 +204,14 @@ class Submission < ApplicationRecord
   def self.upcoming(as_of, limit)
     for_year(as_of.year)
       .for_public
-      .where("start_day >= ?", AnnualSchedule.day_index(as_of))
+      .where(start_day: AnnualSchedule.day_index(as_of))
       .where("start_hour >= :now", now: (as_of.hour + as_of.min.to_f / 60))
       .order("start_day ASC, start_hour ASC")
       .limit(limit)
   end
 
   def self.livestreamed
-    where("broadcast_on_youtube_live = ? OR (live_stream_url IS NOT NULL && list_stream_url <> '')", true)
+    where("broadcast_on_youtube_live = ? OR (live_stream_url IS NOT NULL and live_stream_url <> '')", true)
   end
 
   def self.for_virtual_job_fair

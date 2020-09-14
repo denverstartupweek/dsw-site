@@ -34,7 +34,8 @@ module ScheduleHelper
   def live?(submission, lead_by = 5)
     now = as_of
     now_hour = now.hour + ((now.min + lead_by).to_f / 60)
-    submission.start_hour < now_hour &&
+    submission.start_day == AnnualSchedule.day_index(as_of) &&
+      submission.start_hour < now_hour &&
       submission.end_hour >= now_hour
   end
 end
