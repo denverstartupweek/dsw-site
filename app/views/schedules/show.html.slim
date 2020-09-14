@@ -34,8 +34,9 @@
       .SessionDetail-attendee-count = "#{@session.registrant_count} attending"
     .SessionDetail-columns
       .SessionDetail-column--left
-        h1.SessionDetail-title = @session.full_title
-        .SessionDetail-description = process_with_pipeline(@session.description)
+        - cache [@session, 'description'] do
+          h1.SessionDetail-title = @session.full_title
+          .SessionDetail-description = process_with_pipeline(@session.description)
         - if @session.presenters.any?
           .SessionDetail-presenters
             - @session.presenters.each do |presenter|
