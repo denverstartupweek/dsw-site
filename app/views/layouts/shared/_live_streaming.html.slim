@@ -1,30 +1,32 @@
 section.Live-stream-video-container
   .Live-stream-triangle
         .Small-triangle
-  h1.Live-stream-title Live and upcoming
-  - Submission.live_and_upcoming(as_of).livestreamed.each do |session|
+  h1.Live-stream-title Live and Upcoming
+  - live = live_sessions.to_a
+  - big, *small = (live.size % 2 == 0 ? [nil] + live : live)
+  div.LiveStreamList-wrapper
+    - if big
+      div.ListStreamListItem
+        div.LiveStreamBigCard
+          div.LiveStreamBigCard-video
+            iframe id="ytplayer-#{s.id}" type="text/html" height="602px" width="100%" src="#{s.stream_url}" frameborder="0"
+          div.LiveStreamBigCard-track-name(class="#{s.track.color}")
+          div.LiveStreamBigCardFooter
+            div.LiveStreamBigCard-title= s.title
+            a.LiveStreamBigCard-join(href="#{s.join_url}") Join Now
+    - small.each do |s|
+      div.ListStreamListItem
+        div.LiveStreamLittleCard
+          div.LiveStreamLittleCard-video
+            iframe id="ytplayer-#{s.id}" type="text/html" height="296px" width="100%" src="#{s.stream_url}" frameborder="0"
+          div.LiveStreamLittleCard-track-name(class="#{s.track.color}")
+          div.LiveStreamLittleCardFooter
+            div.LiveStreamLittleCard-title= s.title
+            a.LiveStreamLittleCard-join(href="#{s.join_url}") Join Now
+  - upcoming_sessions(3).each do |session|
     = render 'components/three_card_list' do
       = render 'components/three_card_list_item' do
         = render 'components/session_card', session: session
-  / This is just scaffolded out to get something on the page
-  div.LiveStreamBig-list-wrapper
-  - live_sessions(1).each do |s|
-    div.LiveStreamBigCard
-      div.LiveStreamBigCard-video
-        iframe id="ytplayer-#{s.id}" type="text/html" height="602px" width="100%" src="#{s.embed_url}" frameborder="0"
-      div.LiveStreamBigCard-track-name(class="#{s.track_color}")
-      div.LiveStreamBigCardFooter
-        div.LiveStreamBigCard-title= s.title
-        a.LiveStreamBigCard-join(href="#{s.join_link}") Join Now
-  div.LiveStreamLittle-list-wrapper
-  - live_sessions(4).each do |s|
-    div.LiveStreamLittleCard
-      div.LiveStreamLittleCard-video
-        iframe id="ytplayer-#{s.id}" type="text/html" height="296px" width="100%" src="#{s.embed_url}" frameborder="0"
-      div.LiveStreamLittleCard-track-name(class="#{s.track_color}")
-      div.LiveStreamLittleCardFooter
-        div.LiveStreamLittleCard-title= s.title
-        a.LiveStreamLittleCard-join(href="#{s.join_link}") Join Now
   div.Live-button
     a.Live-stream-link(href="#{schedules_path}")
       | Schedule

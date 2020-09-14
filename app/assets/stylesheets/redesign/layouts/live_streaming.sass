@@ -1,9 +1,10 @@
+@import ../config
+
 .Live-stream-video-container
-  height: 2000px
   padding-top: 0px
   padding-bottom: 112px
   position: relative
-  background-color: #0B1A20
+  background-color: $dark-glitched
   display: flex
   justify-content: center
   align-items: center
@@ -33,12 +34,37 @@
   font-weight: 300
   text-transform: uppercase
   color: white
+  width: 100%
+  margin-bottom: 60px
+
+$gutter: 11.5px
+
+.LiveStreamList-wrapper
+  width: 100%
+  justify-content: center
+  max-width: 1252px
+  display: flex
+  flex-wrap: wrap
+  margin-top: 0
+  // max-width: $max-breakpoint
+
+.LiveStreamListItem
+  padding: $gutter
+  margin: 0
+
+
+@media(max-width: 1106px)
+  .LiveStreamList
+    max-width: 728px
+
+@media(max-width: 744px)
+  .LiveStreamList
+    justify-content: center
 
 .LiveStreamBigCard
   height: 675px
   width: 1070px
-  margin-right: 22px
-  margin-bottom: 20px
+  margin: 0 auto 20px auto
   color: white
 
 .LiveStreamBigCard-video
@@ -50,13 +76,16 @@
   justify-content: space-between
 
 .LiveStreamBigCard-title
+  +font-family-mixin(Montserrat-Light)
   width: 600px
   height: 100%
   margin-left: 1px
   font-size: 18px
   padding-top: 30px
+  overflow: hidden
 
 .LiveStreamBigCard-join
+  +font-family-mixin(Montserrat-Medium)
   font-size: 12.5px
   border: 2px solid #05D3D8
   width: 132px
@@ -71,11 +100,12 @@
   color: #05D3D8
   font-weight: 500
   line-height: 15px
+  z-index: 3
 
 .LiveStreamLittleCard
   height: 400px
   width: 525px
-  margin-right: 30px
+  margin: 15px
   color: white
 
 .LiveStreamLittleCardFooter
@@ -85,13 +115,16 @@
   align-items: center
 
 .LiveStreamLittleCard-title
+  +font-family-mixin(Montserrat-Light)
   width: 300px
   height: 62px
   font-size: 18px
   margin-left: 1px
   margin-top: 40px
+  overflow: hidden
 
 .LiveStreamLittleCard-join
+  +font-family-mixin(Montserrat-Medium)
   margin-right: 15px
   font-size: 12.5px
   width: 132px
@@ -106,22 +139,21 @@
   font-weight: 500
   line-height: 15px
   border: 2px solid #05D3D8
+  z-index: 3
 
 .Live-button
+  width: 100%
+  margin: 50px auto
   display: flex
-  height: 100px
   justify-content: center
-  position: absolute
-  left: 600px
-  bottom: 80px
-  margin-bottom: 50px
 
-.Live-stream-link 
+.Live-stream-link
   display: flex
   align-items: center
   font-size: 24px;
   text-transform: uppercase
   color: #26FAE5
+  z-index: 3
 
 .Live-stream-link-arrow
   margin-left: 20px

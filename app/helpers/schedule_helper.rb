@@ -15,18 +15,26 @@ module ScheduleHelper
     AnnualSchedule.in_week? || AnnualSchedule.post_week?
   end
 
-  def live_sessions(count)
-    sessions = []
-    1.upto(count) do |i|
-      sessions << OpenStruct.new(
-        id: i,
-        track: "Designer",
-        track_color: "teal",
-        title: "How Denver is winning the race to be the next Silicon Valley",
-        join_link: "https://denverstartupweek.zoom.us/j/97750082789",
-        embed_url: "https://youtu.be/makM0aiSC44"
-      )
+  def as_of
+    if params[:as_of].nil?
+      Time.now.in_time_zone("America/Denver")
+    elsif params[:as_of].is_a?(String)
+      DateTime.parse(params[:as_of])
     end
-    sessions
+  end
+
+  def live_sessions
+    Submission.live(as_of).includes(:track)
+  end
+
+  def upcoming_sessions(limit)
+    Submission.upcoming(as_of, limit).includes(:track)
+  end
+
+  def live?(submission, lead_by = 5)
+    now = as_of
+    now_hour = now.hour + ((now.min + lead_by).to_f / 60)
+    submission.start_hour < now_hour &&
+      submission.end_hour >= now_hour
   end
 end
