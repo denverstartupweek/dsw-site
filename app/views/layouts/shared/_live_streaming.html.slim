@@ -23,10 +23,10 @@ section.Live-stream-video-container
           div.LiveStreamLittleCardFooter
             div.LiveStreamLittleCard-title= s.title
             a.LiveStreamLittleCard-join(href="#{s.join_url}" target="_blank") Join Now
-  - upcoming_sessions(3).each do |session|
-    = render 'components/three_card_list' do
+  = render 'components/three_card_list', attributes: { 'aria-label': "Upcoming Sessions", id: 'upcoming-sessions' } do
+    - upcoming_sessions(3).each do |session|
       = render 'components/three_card_list_item' do
-        = render 'components/session_card', session: session
+        = render 'components/session_card', session: session, joinable: true
   div.Live-button
     a.Live-stream-link(href="#{schedules_path}")
       | Schedule
