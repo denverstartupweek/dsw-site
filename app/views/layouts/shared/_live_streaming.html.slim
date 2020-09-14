@@ -9,11 +9,11 @@ section.Live-stream-video-container
       div.ListStreamListItem
         div.LiveStreamBigCard
           div.LiveStreamBigCard-video
-            iframe id="ytplayer-#{s.id}" type="text/html" height="602px" width="100%" src="#{s.stream_url}" frameborder="0"
-          div.LiveStreamBigCard-track-name(class="#{s.track.color}")
+            iframe id="ytplayer-#{big.id}" type="text/html" height="602px" width="100%" src="#{big.stream_url}" frameborder="0"
+          div.LiveStreamBigCard-track-name(class="#{big.track.color}")
           div.LiveStreamBigCardFooter
-            div.LiveStreamBigCard-title= s.title
-            a.LiveStreamBigCard-join(href="#{s.join_url}" target="_blank") Join Now
+            div.LiveStreamBigCard-title= big.title
+            a.LiveStreamBigCard-join(href="#{big.join_url}" target="_blank") Join Now
     - small.each do |s|
       div.ListStreamListItem
         div.LiveStreamLittleCard
