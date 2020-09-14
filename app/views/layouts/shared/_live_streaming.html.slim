@@ -13,7 +13,7 @@ section.Live-stream-video-container
           div.LiveStreamBigCard-track-name(class="#{s.track.color}")
           div.LiveStreamBigCardFooter
             div.LiveStreamBigCard-title= s.title
-            a.LiveStreamBigCard-join(href="#{s.join_url}") Join Now
+            a.LiveStreamBigCard-join(href="#{s.join_url}" target="_blank") Join Now
     - small.each do |s|
       div.ListStreamListItem
         div.LiveStreamLittleCard
@@ -22,7 +22,7 @@ section.Live-stream-video-container
           div.LiveStreamLittleCard-track-name(class="#{s.track.color}")
           div.LiveStreamLittleCardFooter
             div.LiveStreamLittleCard-title= s.title
-            a.LiveStreamLittleCard-join(href="#{s.join_url}") Join Now
+            a.LiveStreamLittleCard-join(href="#{s.join_url}" target="_blank") Join Now
   - upcoming_sessions(3).each do |session|
     = render 'components/three_card_list' do
       = render 'components/three_card_list_item' do

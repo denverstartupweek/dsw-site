@@ -81,7 +81,7 @@
 
               - if live?(@session)
                 - if registered?
-                  = link_to 'Join Live Studio Audience', @session.join_url, class: 'SessionDetail-join-button'
+                  = link_to 'Join Live Studio Audience', @session.join_url, class: 'SessionDetail-join-button', target: '_blank'
                 - else 
                   = link_to 'Register to Join', add_to_schedule_path(@session), method: :post, class: 'SessionDetail-schedule-button'
               - else
