@@ -268,7 +268,7 @@ ActiveAdmin.register Submission do
   end
 
   sidebar "Messaging", only: :show do
-    span do
+    para do
       button_to "E-mail #{number_with_delimiter(submission.registrants.count)} attendees",
         new_admin_submission_attendee_message_path(submission),
         method: :get
@@ -277,26 +277,26 @@ ActiveAdmin.register Submission do
     if submission.venue&.contact_email &&
         submission.contact_email &&
         submission.venue&.contact_name
-      span do
+      para do
         button_to "Send venue match email",
           send_venue_match_email_admin_submission_path(submission),
           method: :post,
           data: {confirm: "Are you sure?"}
       end
     end
-    span do
+    para do
       button_to "Send acceptance email",
         send_accept_email_admin_submission_path(submission),
         method: :post,
         data: {confirm: "Are you sure?"}
     end
-    span do
+    para do
       button_to "Send rejection email",
         send_reject_email_admin_submission_path(submission),
         method: :post,
         data: {confirm: "Are you sure?"}
     end
-    span do
+    para do
       button_to "Send waitlist email",
         send_waitlist_email_admin_submission_path(submission),
         method: :post,
@@ -706,15 +706,41 @@ ActiveAdmin.register Submission do
     redirect_to admin_submission_path(submission)
   end
 
-  action_item :create_virtual_meetings, only: %i[show] do
-    if resource.is_virtual?
-      link_to "Create Virtual Meetings", create_virtual_meetings_admin_submission_path(resource), method: :post
+  # Virtual
+  sidebar "Virtual", only: :show, if: -> { resource.is_virtual? } do
+    para do
+      button_to "Sync Virtual Meetings",
+        sync_virtual_meetings_admin_submission_path(resource), method: :post
+    end
+    para do
+      button_to "Reinvite Zoom Presenters",
+        reinvite_presenters_admin_submission_path(resource),
+        method: :post,
+        data: {confirm: "Are you sure? This will send e-mails to all presenters!"}
+    end
+    para do
+      button_to "Destroy Zoom Events",
+        destroy_zoom_events_admin_submission_path(resource),
+        method: :delete,
+        data: {confirm: "Are you sure? This will remove linked events from Zoom!" }
     end
   end
 
-  member_action :create_virtual_meetings, method: :post do
+  member_action :sync_virtual_meetings, method: :post do
     submission = Submission.find(params[:id])
     CreateOrUpdateVideoIntegrationsJob.perform_async(submission.id)
+    redirect_to admin_submission_path(submission)
+  end
+
+  member_action :destroy_zoom_events, method: :delete do
+    submission = Submission.find(params[:id])
+    submission.zoom_events.destroy_all
+    redirect_to admin_submission_path(submission)
+  end
+
+  member_action :reinvite_presenters, method: :post do
+    submission = Submission.find(params[:id])
+    submission.zoom_events.each { |ze| ze.update_presenters! }
     redirect_to admin_submission_path(submission)
   end
 
