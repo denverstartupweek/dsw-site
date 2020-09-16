@@ -10,7 +10,7 @@ class ZoomSubmissionSyncer
     return unless @submission.is_virtual? && %w[zoom zoom_webinar].include?(@submission.virtual_meeting_type)
 
     Rails.logger.info "Creating events..."
-    create_test_event(@submission) unless test_event_exists?(@submission)
+    # create_test_event(@submission) unless test_event_exists?(@submission)
     create_live_event(@submission) unless live_event_exists?(@submission)
   end
 

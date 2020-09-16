@@ -55,32 +55,32 @@ describe ZoomSubmissionSyncer do
         Some great content.
       DESC
       # Test Event
-      expect(zoom_client).to receive(:meeting_create).with(
-        user_id: "me",
-        topic: "DSW 2020: My Awesome Session - TEST RUN",
-        type: 2,
-        start_time: submission.start_datetime.iso8601,
-        duration: 30,
-        timezone: "America/Denver",
-        agenda: agenda,
-        settings: {
-          host_video: false,
-          participant_video: false,
-          join_before_host: false,
-          mute_upon_entry: true,
-          use_pmi: false,
-          approval_type: 2,
-          audio: "both",
-          auto_recording: "cloud",
-          waiting_room: true,
-          meeting_authentication: false,
-          registrants_confirmation_email: false
-        }
-      ).and_return({
-        "id" => "abc123",
-        "join_url" => "https://denverstartupweek.zoom.us/123456",
-        "start_url" => "https://denverstartupweek.zoom.us/456789"
-      })
+      # expect(zoom_client).to receive(:meeting_create).with(
+      #   user_id: "me",
+      #   topic: "DSW 2020: My Awesome Session - TEST RUN",
+      #   type: 2,
+      #   start_time: submission.start_datetime.iso8601,
+      #   duration: 30,
+      #   timezone: "America/Denver",
+      #   agenda: agenda,
+      #   settings: {
+      #     host_video: false,
+      #     participant_video: false,
+      #     join_before_host: false,
+      #     mute_upon_entry: true,
+      #     use_pmi: false,
+      #     approval_type: 2,
+      #     audio: "both",
+      #     auto_recording: "cloud",
+      #     waiting_room: true,
+      #     meeting_authentication: false,
+      #     registrants_confirmation_email: false
+      #   }
+      # ).and_return({
+      #   "id" => "abc123",
+      #   "join_url" => "https://denverstartupweek.zoom.us/123456",
+      #   "start_url" => "https://denverstartupweek.zoom.us/456789"
+      # })
       # Live Event
       expect(zoom_client).to receive(:meeting_create).with(
         user_id: "me",
@@ -109,14 +109,14 @@ describe ZoomSubmissionSyncer do
         "start_url" => "https://denverstartupweek.zoom.us/987654"
       })
       described_class.new(submission).run!
-      expect(submission.zoom_events.size).to eq(2)
-      test_event = submission.zoom_events.first
-      expect(test_event.kind).to eq(ZoomEvent::TEST_KIND)
-      expect(test_event.event_type).to eq(Submission::ZOOM_MEETING_TYPE)
-      expect(test_event.zoom_id).to eq("abc123")
-      expect(test_event.join_url).to eq("https://denverstartupweek.zoom.us/123456")
-      expect(test_event.host_url).to eq("https://denverstartupweek.zoom.us/456789")
-      expect(test_event.oauth_service).to eq(oauth_service)
+      expect(submission.zoom_events.size).to eq(1)
+      # test_event = submission.zoom_events.first
+      # expect(test_event.kind).to eq(ZoomEvent::TEST_KIND)
+      # expect(test_event.event_type).to eq(Submission::ZOOM_MEETING_TYPE)
+      # expect(test_event.zoom_id).to eq("abc123")
+      # expect(test_event.join_url).to eq("https://denverstartupweek.zoom.us/123456")
+      # expect(test_event.host_url).to eq("https://denverstartupweek.zoom.us/456789")
+      # expect(test_event.oauth_service).to eq(oauth_service)
 
       live_event = submission.zoom_events.last
       expect(live_event.kind).to eq(ZoomEvent::LIVE_KIND)
@@ -150,13 +150,13 @@ describe ZoomSubmissionSyncer do
 
       it "wires up livestreaming settings to Youtube" do
         # Test Event
-        expect(zoom_client).to receive(:meeting_create).with(hash_including(
-          topic: "DSW 2020: My Awesome Session - TEST RUN"
-        )).and_return({
-          "id" => "abc123",
-          "join_url" => "https://denverstartupweek.zoom.us/123456",
-          "start_url" => "https://denverstartupweek.zoom.us/456789"
-        })
+        # expect(zoom_client).to receive(:meeting_create).with(hash_including(
+        #   topic: "DSW 2020: My Awesome Session - TEST RUN"
+        # )).and_return({
+        #   "id" => "abc123",
+        #   "join_url" => "https://denverstartupweek.zoom.us/123456",
+        #   "start_url" => "https://denverstartupweek.zoom.us/456789"
+        # })
         # Live Event
         expect(zoom_client).to receive(:meeting_create).with(
           hash_including(topic: "DSW 2020: My Awesome Session")
@@ -165,11 +165,11 @@ describe ZoomSubmissionSyncer do
           "join_url" => "https://denverstartupweek.zoom.us/654321",
           "start_url" => "https://denverstartupweek.zoom.us/987654"
         })
-        expect(zoom_client).to receive(:livestream).with(
-          meeting_id: "abc123",
-          stream_url: "rtmp://rtmp.example.com/foo",
-          stream_key: "bar"
-        )
+        # expect(zoom_client).to receive(:livestream).with(
+        #   meeting_id: "abc123",
+        #   stream_url: "rtmp://rtmp.example.com/foo",
+        #   stream_key: "bar"
+        # )
         expect(zoom_client).to receive(:livestream).with(
           meeting_id: "def456",
           stream_url: "rtmp://rtmp.example.com/foolive",
@@ -199,33 +199,33 @@ describe ZoomSubmissionSyncer do
         Some great content.
       DESC
       # Test Event
-      expect(zoom_client).to receive(:webinar_create).with(
-        host_id: "me",
-        topic: "DSW 2020: My Awesome Session - TEST RUN",
-        type: 5,
-        start_time: submission.start_datetime.iso8601,
-        duration: 30,
-        timezone: "America/Denver",
-        agenda: agenda,
-        settings: {
-          host_video: false,
-          panelists_video: true,
-          practice_session: true,
-          hd_video: true,
-          approval_type: 2,
-          audio: "both",
-          auto_recording: "cloud",
-          allow_multiple_devices: true,
-          registrants_confirmation_email: false,
-          meeting_authentication: false,
-          post_webinar_survey: true,
-          survey_url: "http://denver-startup-week.dev/schedule/#{submission.id}-my-awesome-session"
-        }
-      ).and_return({
-        "id" => "abc123",
-        "join_url" => "https://denverstartupweek.zoom.us/123456",
-        "start_url" => "https://denverstartupweek.zoom.us/456789"
-      })
+      # expect(zoom_client).to receive(:webinar_create).with(
+      #   host_id: "me",
+      #   topic: "DSW 2020: My Awesome Session - TEST RUN",
+      #   type: 5,
+      #   start_time: submission.start_datetime.iso8601,
+      #   duration: 30,
+      #   timezone: "America/Denver",
+      #   agenda: agenda,
+      #   settings: {
+      #     host_video: false,
+      #     panelists_video: true,
+      #     practice_session: true,
+      #     hd_video: true,
+      #     approval_type: 2,
+      #     audio: "both",
+      #     auto_recording: "cloud",
+      #     allow_multiple_devices: true,
+      #     registrants_confirmation_email: false,
+      #     meeting_authentication: false,
+      #     post_webinar_survey: true,
+      #     survey_url: "http://denver-startup-week.dev/schedule/#{submission.id}-my-awesome-session"
+      #   }
+      # ).and_return({
+      #   "id" => "abc123",
+      #   "join_url" => "https://denverstartupweek.zoom.us/123456",
+      #   "start_url" => "https://denverstartupweek.zoom.us/456789"
+      # })
       # Live Event
       expect(zoom_client).to receive(:webinar_create).with(
         host_id: "me",
@@ -255,14 +255,14 @@ describe ZoomSubmissionSyncer do
         "start_url" => "https://denverstartupweek.zoom.us/987654"
       })
       described_class.new(submission).run!
-      expect(submission.zoom_events.size).to eq(2)
-      test_event = submission.zoom_events.first
-      expect(test_event.kind).to eq(ZoomEvent::TEST_KIND)
-      expect(test_event.event_type).to eq(Submission::ZOOM_WEBINAR_TYPE)
-      expect(test_event.zoom_id).to eq("abc123")
-      expect(test_event.join_url).to eq("https://denverstartupweek.zoom.us/123456")
-      expect(test_event.host_url).to eq("https://denverstartupweek.zoom.us/456789")
-      expect(test_event.oauth_service).to eq(oauth_service)
+      expect(submission.zoom_events.size).to eq(1)
+      # test_event = submission.zoom_events.first
+      # expect(test_event.kind).to eq(ZoomEvent::TEST_KIND)
+      # expect(test_event.event_type).to eq(Submission::ZOOM_WEBINAR_TYPE)
+      # expect(test_event.zoom_id).to eq("abc123")
+      # expect(test_event.join_url).to eq("https://denverstartupweek.zoom.us/123456")
+      # expect(test_event.host_url).to eq("https://denverstartupweek.zoom.us/456789")
+      # expect(test_event.oauth_service).to eq(oauth_service)
 
       live_event = submission.zoom_events.last
       expect(live_event.kind).to eq(ZoomEvent::LIVE_KIND)
@@ -296,13 +296,13 @@ describe ZoomSubmissionSyncer do
 
       it "wires up livestreaming settings to Youtube" do
         # Test Event
-        expect(zoom_client).to receive(:webinar_create).with(hash_including(
-          topic: "DSW 2020: My Awesome Session - TEST RUN"
-        )).and_return({
-          "id" => "abc123",
-          "join_url" => "https://denverstartupweek.zoom.us/123456",
-          "start_url" => "https://denverstartupweek.zoom.us/456789"
-        })
+        # expect(zoom_client).to receive(:webinar_create).with(hash_including(
+        #   topic: "DSW 2020: My Awesome Session - TEST RUN"
+        # )).and_return({
+        #   "id" => "abc123",
+        #   "join_url" => "https://denverstartupweek.zoom.us/123456",
+        #   "start_url" => "https://denverstartupweek.zoom.us/456789"
+        # })
         # Live Event
         expect(zoom_client).to receive(:webinar_create).with(
           hash_including(topic: "DSW 2020: My Awesome Session")
