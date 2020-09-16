@@ -9,7 +9,7 @@ section.Live-stream-video-container
       div.ListStreamListItem
         div.LiveStreamBigCard
           div.LiveStreamBigCard-video
-            iframe id="ytplayer-#{big.id}" type="text/html" height="602px" width="100%" src="#{big.stream_url}" frameborder="0"
+            iframe class="Big-Video" id="ytplayer-#{big.id}" type="text/html" height="602px" width="100%" src="#{big.stream_url}" frameborder="0"
           div.LiveStreamBigCard-track-name(class="#{big.track.color}")
           div.LiveStreamBigCardFooter
             div.LiveStreamBigCard-title= big.title
@@ -18,7 +18,7 @@ section.Live-stream-video-container
       div.ListStreamListItem
         div.LiveStreamLittleCard
           div.LiveStreamLittleCard-video
-            iframe id="ytplayer-#{s.id}" type="text/html" height="296px" width="100%" src="#{s.stream_url}" frameborder="0"
+            iframe class="Small-Video" id="ytplayer-#{s.id}" type="text/html" height="296px" width="100%" src="#{s.stream_url}" frameborder="0"
           div.LiveStreamLittleCard-track-name(class="#{s.track.color}")
           div.LiveStreamLittleCardFooter
             div.LiveStreamLittleCard-title= s.title

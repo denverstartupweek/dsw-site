@@ -10,6 +10,7 @@
   align-items: center
   flex-wrap: wrap
   padding-bottom: 300px
+  background-color: papayawhip
 
 .Live-stream-triangle
   position: absolute
@@ -20,7 +21,7 @@
   bottom: 0;
 
 .Small-triangle
-  background-image: linear-gradient(to top right, white 0%, white 50%, transparent 50%)
+  background-image: linear-gradient(to top right, pink 0%, pink 50%, transparent 50%)
   position: absolute;
   z-index: 0
   width: 100%;
@@ -47,11 +48,13 @@ $gutter: 11.5px
   flex-wrap: wrap
   margin-top: 0
   z-index: 1
+  background-color: yellow
+  height: 100%
 
 .LiveStreamListItem
   padding: $gutter
   margin: 0
-
+  background-color: orange
 
 @media(max-width: 1106px)
   .LiveStreamList
@@ -66,9 +69,92 @@ $gutter: 11.5px
   width: 1070px
   margin: 0 auto 20px auto
   color: white
+  background-color: red
 
-.LiveStreamBigCard-video
-  height: 602px
+.ListStreamListItem
+  background-color: blue
+
+.LiveStreamBigCard-title
+  background-color: purple
+
+.LiveStreamBigCard-join
+  background-color: white
+    
+
+@media(max-width: 1109px)
+  .LiveStreamBigCard
+    width: 900px
+    height: 570px
+    margin-bottom: 40px
+  .Big-Video
+    height: 492px
+
+@media(max-width: 904px)
+  .LiveStreamBigCard
+    width: 600px
+    height: 420px
+    margin-bottom: 40px
+  .Big-Video
+    height: 340px
+
+@media(max-width: 605px)
+  .LiveStreamBigCard
+    width: 525px
+    height: 380px
+    margin-bottom: 40px
+  .Big-Video
+    height: 300px
+  .LiveStreamBigCard-title
+    font-size: 14px
+    background-color: blue
+  .LiveStreamBigCard-join
+    width: 100px
+    height: 35px
+    font-size: 10.5px
+    background-color: black
+
+@media(max-width: 554px)
+  .LiveStreamBigCard
+    width: 500px
+    height: 360px
+  .Big-Video
+    height: 280px
+  .ListStreamListItem
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 500px
+  .LiveStreamBigCard-title
+    font-size: 12px
+  .LiveStreamBigCard-join
+    width: 100px
+    height: 30px
+    font-size: 8.5px
+
+@media(max-width: 500px)
+  .LiveStreamBigCard
+    width: 425px
+    height: 315px
+  .Big-Video
+    height: 235px
+  
+@media(max-width: 426px)
+  .LiveStreamBigCard
+    width: 325px
+    height: 245px
+  .Big-Video
+    height: 180px
+  .LiveStreamBigCard-title
+    font-size: 10px
+  .LiveStreamBigCard-join
+    width: 100px
+    height: 30px
+    font-size: 6.5px
+    border: 1px solid
+
+
+  
+
 
 .LiveStreamBigCardFooter
   height: 70px
@@ -107,6 +193,7 @@ $gutter: 11.5px
   width: 525px
   margin: 15px
   color: white
+  background-color: green
 
 .LiveStreamLittleCardFooter
   height: 103px
