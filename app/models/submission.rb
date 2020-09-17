@@ -195,7 +195,7 @@ class Submission < ApplicationRecord
 
   def self.live(as_of)
     for_year(as_of.year)
-      .for_public
+      .for_schedule
       .where(start_day: AnnualSchedule.day_index(as_of))
       .where("(start_hour < :now AND end_hour > :now)", now: (as_of.hour + as_of.min.to_f / 60))
       .order("start_day ASC, start_hour ASC")
@@ -203,7 +203,7 @@ class Submission < ApplicationRecord
 
   def self.upcoming(as_of, limit)
     for_year(as_of.year)
-      .for_public
+      .for_schedule
       .where(start_day: AnnualSchedule.day_index(as_of))
       .where("start_hour >= :now", now: (as_of.hour + as_of.min.to_f / 60))
       .order("start_day ASC, start_hour ASC")
