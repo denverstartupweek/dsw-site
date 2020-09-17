@@ -180,7 +180,7 @@ GEM
     debug_inspector (0.0.3)
     declarative (0.0.20)
     declarative-option (0.1.0)
-    derailed_benchmarks (1.8.0)
+    derailed_benchmarks (1.8.1)
       benchmark-ips (~> 2)
       get_process_mem (~> 0)
       heapy (~> 0)
