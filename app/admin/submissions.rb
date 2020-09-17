@@ -45,8 +45,18 @@ ActiveAdmin.register Submission do
     :volunteers_needed,
     :year,
     :zoom_oauth_service_id,
-    publishing_attributes: [:id, :effective_at, :featured_on_homepage],
-    presenterships_attributes: [:id, :user_id, :_destroy]
+    publishing_attributes: [
+      :id,
+      :effective_at,
+      :featured_on_homepage
+    ],
+    presenterships_attributes: [
+      :id,
+      :user_id,
+      :priority,
+      :is_hidden,
+      :_destroy
+    ]
 
   controller do
     def scoped_collection
@@ -248,6 +258,8 @@ ActiveAdmin.register Submission do
         as: :ajax_select,
         collection: [],
         data: {url: filter_admin_users_path, search_fields: %i[name email]}
+      p.input :is_hidden, hint: "Higher priorities will be shown first"
+      p.input :priority
     end
 
     f.has_many :publishing, allow_destroy: false, add_new: false do |pub|
@@ -722,7 +734,7 @@ ActiveAdmin.register Submission do
       button_to "Destroy Zoom Events",
         destroy_zoom_events_admin_submission_path(resource),
         method: :delete,
-        data: {confirm: "Are you sure? This will remove linked events from Zoom!" }
+        data: {confirm: "Are you sure? This will remove linked events from Zoom!"}
     end
   end
 

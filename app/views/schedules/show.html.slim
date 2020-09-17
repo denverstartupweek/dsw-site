@@ -37,9 +37,9 @@
         - cache [@session, 'description'] do
           h1.SessionDetail-title = @session.full_title
           .SessionDetail-description = process_with_pipeline(@session.description)
-        - if @session.presenters.any?
+        - if @session.visible_presenters.any?
           .SessionDetail-presenters
-            - @session.presenters.each do |presenter|
+            - @session.visible_presenters.each do |presenter|
               .SessionDetail-presenter
                 = render partial: 'components/name_with_avatar', locals: { user: presenter, name: presenter.name, align: 'right', color: 'grey' }
 

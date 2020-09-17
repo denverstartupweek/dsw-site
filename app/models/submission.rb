@@ -86,6 +86,8 @@ class Submission < ApplicationRecord
   has_one :sponsorship, dependent: :restrict_with_error
   has_many :presenterships, dependent: :destroy
   has_many :presenters, through: :presenterships, source: :user
+  has_many :visible_presenterships, -> { where(is_hidden: false) }, class_name: "Presentership"
+  has_many :visible_presenters, -> { reorder("presenterships.priority DESC") }, through: :visible_presenterships, source: :user, class_name: "User"
   has_many :youtube_live_streams, dependent: :restrict_with_error
   has_many :zoom_events, dependent: :restrict_with_error
   has_many :zoom_join_urls, through: :zoom_events

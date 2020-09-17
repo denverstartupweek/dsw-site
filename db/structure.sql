@@ -903,7 +903,9 @@ CREATE TABLE public.presenterships (
     submission_id bigint NOT NULL,
     user_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    is_hidden boolean DEFAULT false NOT NULL,
+    priority integer DEFAULT 0 NOT NULL
 );
 
 
@@ -3684,6 +3686,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200910051245'),
 ('20200913001959'),
 ('20200913010500'),
-('20200913023849');
+('20200913023849'),
+('20200917174811');
 
 
