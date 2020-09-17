@@ -1,6 +1,4 @@
 section.Live-stream-video-container
-  .Live-stream-triangle
-        .Small-triangle
   h1.Live-stream-title Live and Upcoming
   - live = live_sessions.to_a
   - big, *small = (live.size % 2 == 0 ? [nil] + live : live)
@@ -31,3 +29,5 @@ section.Live-stream-video-container
     a.Live-stream-link(href="#{schedules_path}")
       | Schedule
       span.Live-stream-link-arrow = render partial: 'icons/arrow_in_circle_right'
+.Live-stream-triangle
+      .Small-triangle
