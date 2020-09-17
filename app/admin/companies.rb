@@ -22,7 +22,6 @@ ActiveAdmin.register Company do
   form do |f|
     f.inputs do
       f.input :name
-      f.input :users, as: :select, input_html: {multiple: true}
     end
     f.actions
   end
