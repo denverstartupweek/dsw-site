@@ -82,6 +82,18 @@ ActiveAdmin.register Submission do
   # Set a default year filter
   scope("Current", default: true, &:for_current_year)
   scope("Previous Years", &:for_previous_years)
+  scope("Live") do |scope|
+    scope
+      .for_current_year
+      .for_schedule
+      .live(Time.now.in_time_zone("America/Denver"))
+  end
+  scope("Upcoming") do |scope|
+    scope
+      .for_current_year
+      .for_schedule
+      .upcoming(Time.now.in_time_zone("America/Denver"), 50)
+  end
 
   index do
     selectable_column
