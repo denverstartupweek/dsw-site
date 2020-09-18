@@ -668,6 +668,7 @@ DEPENDENCIES
   httparty
   icalendar
   jsonb_accessor
+  jwt
   liquid
   listen
   lograge
