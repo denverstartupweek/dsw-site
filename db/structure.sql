@@ -1778,8 +1778,8 @@ CREATE TABLE public.zoom_events (
     duration integer,
     total_minutes integer,
     participants_count integer,
-    actual_start_time character varying,
-    actual_end_time character varying
+    actual_start_time timestamp without time zone,
+    actual_end_time timestamp without time zone
 );
 
 
@@ -3694,6 +3694,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200913010500'),
 ('20200913023849'),
 ('20200917174811'),
-('20200918165036');
+('20200918165036'),
+('20200918203246');
 
 
