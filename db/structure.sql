@@ -1836,6 +1836,42 @@ ALTER SEQUENCE public.zoom_join_urls_id_seq OWNED BY public.zoom_join_urls.id;
 
 
 --
+-- Name: zoom_recordings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.zoom_recordings (
+    id bigint NOT NULL,
+    zoom_event_id bigint NOT NULL,
+    zoom_recording_id character varying NOT NULL,
+    zoom_file_type character varying NOT NULL,
+    zoom_play_url character varying NOT NULL,
+    zoom_recording_type character varying NOT NULL,
+    file character varying NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: zoom_recordings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.zoom_recordings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: zoom_recordings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.zoom_recordings_id_seq OWNED BY public.zoom_recordings.id;
+
+
+--
 -- Name: active_admin_comments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2169,6 +2205,13 @@ ALTER TABLE ONLY public.zoom_events ALTER COLUMN id SET DEFAULT nextval('public.
 --
 
 ALTER TABLE ONLY public.zoom_join_urls ALTER COLUMN id SET DEFAULT nextval('public.zoom_join_urls_id_seq'::regclass);
+
+
+--
+-- Name: zoom_recordings id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.zoom_recordings ALTER COLUMN id SET DEFAULT nextval('public.zoom_recordings_id_seq'::regclass);
 
 
 --
@@ -2564,6 +2607,14 @@ ALTER TABLE ONLY public.zoom_join_urls
 
 
 --
+-- Name: zoom_recordings zoom_recordings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.zoom_recordings
+    ADD CONSTRAINT zoom_recordings_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: fulltext_articles_body_english; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2680,6 +2731,13 @@ CREATE INDEX idx_users_name_contains ON public.users USING gin (name public.gin_
 --
 
 CREATE INDEX idx_users_name_contains_gist ON public.users USING gist (name public.gist_trgm_ops);
+
+
+--
+-- Name: idx_zoom_recordings_on_types; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX idx_zoom_recordings_on_types ON public.zoom_recordings USING btree (zoom_event_id, zoom_file_type, zoom_recording_type);
 
 
 --
@@ -3152,6 +3210,13 @@ CREATE INDEX index_zoom_join_urls_on_zoom_event_id ON public.zoom_join_urls USIN
 
 
 --
+-- Name: index_zoom_recordings_on_zoom_event_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_zoom_recordings_on_zoom_event_id ON public.zoom_recordings USING btree (zoom_event_id);
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3455,6 +3520,14 @@ ALTER TABLE ONLY public.job_fair_signups
 
 
 --
+-- Name: zoom_recordings fk_rails_ea2b5039e0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.zoom_recordings
+    ADD CONSTRAINT fk_rails_ea2b5039e0 FOREIGN KEY (zoom_event_id) REFERENCES public.zoom_events(id);
+
+
+--
 -- Name: zoom_join_urls fk_rails_f0871785f1; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3695,6 +3768,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200913023849'),
 ('20200917174811'),
 ('20200918165036'),
-('20200918203246');
+('20200918203246'),
+('20200918205942');
 
 
