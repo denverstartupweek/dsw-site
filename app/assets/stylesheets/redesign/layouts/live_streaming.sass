@@ -12,6 +12,7 @@
   padding-bottom: 300px
   max-width: $default-width
   margin: auto
+  background-color: LightSalmon
 
 .Live-stream-triangle
   position: absolute
@@ -38,6 +39,7 @@
   color: white
   width: 100%
   margin-bottom: 60px
+  background-color: Salmon
 
 $gutter: 11.5px
 
@@ -50,15 +52,18 @@ $gutter: 11.5px
   margin-top: 0
   z-index: 1
   height: 100%
+  background-color: LightCoral
 
 .LiveStreamListItem
   padding: $gutter
   margin: 0
+  background-color: Crimson
 
 .LiveStreamBigCardFooter
   height: 70px
   display: flex
   justify-content: space-between
+  background-color: red
 
 .LiveStreamBigCard-title
   +font-family-mixin(Montserrat-Light)
@@ -68,6 +73,7 @@ $gutter: 11.5px
   font-size: 18px
   padding-top: 30px
   overflow: hidden
+  background-color: FireBrick
 
 .LiveStreamBigCard-join
   +font-family-mixin(Montserrat-Medium)
@@ -86,6 +92,7 @@ $gutter: 11.5px
   font-weight: 500
   line-height: 15px
   z-index: 3
+  background-color: DarkRed
 
 .LiveStreamLittleCard
   height: 400px
@@ -98,6 +105,7 @@ $gutter: 11.5px
   display: flex
   justify-content: space-between
   align-items: center
+  background-color: GreenYellow
 
 .LiveStreamLittleCard-title
   +font-family-mixin(Montserrat-Light)
@@ -107,6 +115,7 @@ $gutter: 11.5px
   margin-left: 1px
   margin-top: 40px
   overflow: hidden
+  background-color: Lime
 
 .LiveStreamLittleCard-join
   +font-family-mixin(Montserrat-Medium)
@@ -125,12 +134,14 @@ $gutter: 11.5px
   line-height: 15px
   border: 2px solid #05D3D8
   z-index: 3
+  background-color: PaleGreen
 
 .Live-button
   width: 100%
   margin: 50px auto
   display: flex
   justify-content: center
+  background-color: MediumSpringGreen
 
 .Live-stream-link
   display: flex
@@ -198,6 +209,38 @@ $gutter: 11.5px
     justify-content: center
     align-items: center
     width: 500px
+  .LiveStreamBigCard-join
+    margin-bottom: 10px
+    letter-spacing: 1px
+    margin-top: 0
+    margin-right: 0
+    width: 132px
+    font-size: 10.5px
+  .LiveStreamBigCardFooter
+    height: 80px
+    display: flex
+    flex-direction: column
+    align-items: center
+  .LiveStreamBigCard-title
+    width: 100%
+    padding-top: 0
+    font-size: 16px
+  .LiveStreamLittleCardFooter
+    flex-direction: column
+    height: 80px
+  .LiveStreamLittleCard-title
+    width: 100%
+    margin-top: 0
+    font-size: 16px
+    height: 50px
+  .LiveStreamLittleCard-join
+    height: 25px
+    font-size: 10.5px
+    margin-bottom: 6px
+    margin-top: 0
+    letter-spacing: 1px
+    margin-right: 0
+    
 
 @media(max-width: 500px)
   .LiveStreamBigCard
