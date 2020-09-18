@@ -12,6 +12,11 @@ $wrap-margin: 44px
   margin-bottom: 105px
   margin-top: calc(#{$top-margin} - #{$wrap-margin})
   background-color:  $dark-glitched
+  
+
+@media(max-width: 554px)
+  .HomeHero
+    margin-top: 0px
 
 .HomeHero-title
   color: white
@@ -24,9 +29,19 @@ $wrap-margin: 44px
   margin-right: 20px
   text-shadow: 7.5px 0px 0px #EC1C51, -4px -3px 0px #6BC9D2
 
+@media(max-width: 605px)
+  .HomeHero-title
+    margin-top: 80px
+
+@media(max-width: 554px)
+  .HomeHero-title
+    margin-top: 80px
+    
 @media(max-width: 399px)
   .HomeHero-title
-    margin-top: 0px
+    margin-top: 80px
+
+
 
 .HomeHero-content
   margin-top: $wrap-margin
