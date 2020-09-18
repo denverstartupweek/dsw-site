@@ -3,10 +3,11 @@ module SessionsHelper
     hash = {
       '@context': "http://schema.org",
       '@type': "Event",
+      "eventAttendanceMode": (submission.is_virtual? ? "https://schema.org/OnlineEventAttendanceMode" : "https://schema.org/OfflineEventAttendanceMode"),
       'name': submission.full_title,
       'description': submission.description,
       'startDate': submission.start_datetime.iso8601,
-      'endDate': submission.end_datetime.iso8601,
+      'endDate': submission.end_datetime.iso8601
     }
     if submission.venue.present?
       hash["location"] = {
@@ -17,8 +18,8 @@ module SessionsHelper
           'streetAddress': submission.venue.address,
           'addressLocality': submission.venue.city,
           'addressRegion': "CO",
-          'addressCountry': "US",
-        },
+          'addressCountry': "US"
+        }
       }
     end
     hash.to_json
