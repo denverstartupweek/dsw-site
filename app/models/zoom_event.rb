@@ -130,6 +130,24 @@ class ZoomEvent < ApplicationRecord
     end
   end
 
+  def fetch_reporting_data!
+    reporting_oauth_service = OauthService.for_zoom_admin.first!
+    reporting_oauth_service.refresh_if_needed!
+    report = if event_type == Submission::ZOOM_MEETING_TYPE
+      reporting_oauth_service.zoom_client.meeting_details_report(id: zoom_id)
+    elsif event_type == Submission::ZOOM_WEBINAR_TYPE
+      reporting_oauth_service.zoom_client.webinar_details_report(id: zoom_id)
+    end
+    update!(
+      report_fetched_at: Time.zone.now,
+      actual_start_time: report["start_time"],
+      actual_end_time: report["end_time"],
+      duration: report["duration"],
+      total_minutes: report["total_minutes"],
+      participants_count: report["participants_count"]
+    )
+  end
+
   def zoom_meeting_params
     {
       user_id: "me",

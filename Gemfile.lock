@@ -14,7 +14,8 @@ GIT
 
 GIT
   remote: https://github.com/hintmedia/zoom_rb.git
-  revision: 2f9055d47141d9ac3381825182a18e20ecc50746
+  revision: 06c4716b5d6be1da26644711eca057944e700346
+  ref: 06c4716
   specs:
     zoom_rb (0.10.0)
       httparty (~> 0.13)
