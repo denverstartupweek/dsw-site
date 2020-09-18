@@ -212,7 +212,7 @@ ActiveAdmin.register Submission do
         as: :select,
         collection: Submission.states.map { |s| [s.to_s.titleize, s] },
         include_blank: false
-      f.input :title
+      f.input :title, as: :string
       f.input :description, hint: "This is processed with Markdown, and can include additional formatting"
       f.input :format, as: :select, collection: Submission::FORMATS, include_blank: true
       f.input :pitch_qualifying, hint: "Is this a qualifying event for the pitch competition?"
@@ -225,11 +225,11 @@ ActiveAdmin.register Submission do
       f.input :end_hour, as: :select, collection: collection_for_hour_select, include_blank: false
       f.input :venue_id, as: :select, collection: Venue.alphabetical.map { |v| [v.name, v.id] }, include_blank: true
       f.input :has_childcare
-      f.input :is_virtual, label: "Will this session will be held virtually?"
-      f.input :broadcast_on_youtube_live, label: "Should this session will be broadcast on Youtube Live?", hint: "This will cause a live stream to be created automatically."
-      f.input :virtual_meeting_type, label: "What format will this virtual meeting use?", as: :select, collection: Submission::VIRTUAL_MEETING_TYPES, include_blank: true
-      f.input :virtual_join_url, as: :string, label: "Custom join URL (if applicable)"
-      f.input :zoom_oauth_service_id, as: :select, collection: OauthService.for_zoom.map { |s| [s.description, s.id] }, include_blank: true
+      f.input :is_virtual, label: "Will this session will be held virtually?", hint: "This will replace venue with virtual join details on public pages"
+      f.input :broadcast_on_youtube_live, label: "Should this session will be broadcast on Youtube Live?", hint: "This will cause a live stream to be managed automatically"
+      f.input :virtual_meeting_type, label: "What format will this virtual meeting use?", as: :select, collection: Submission::VIRTUAL_MEETING_TYPES.map { |t| [t.titleize, t] }, include_blank: true
+      f.input :virtual_join_url, as: :string, label: "Custom join URL (if applicable)", hint: "Only used when the format is 'Other URL'"
+      f.input :zoom_oauth_service_id, as: :select, label: "Zoom Account", collection: OauthService.for_zoom.map { |s| [s.description, s.id] }, include_blank: true
       f.input :is_virtual_job_fair_slot, label: "Is this a slot available for signup for Virtual Job Fair companies?"
       f.input :noindex, label: "Hide from search engines?"
     end
@@ -270,12 +270,12 @@ ActiveAdmin.register Submission do
         as: :ajax_select,
         collection: [],
         data: {url: filter_admin_users_path, search_fields: %i[name email]}
-      p.input :is_hidden, hint: "Higher priorities will be shown first"
-      p.input :priority
+      p.input :is_hidden, label: "Hide this presenter on public pages"
+      p.input :priority, hint: "Higher priorities will be shown first"
     end
 
     f.has_many :publishing, allow_destroy: false, add_new: false do |pub|
-      pub.input :effective_at
+      pub.input :effective_at, hint: "Publish this event as of this time"
       pub.input :featured_on_homepage
     end
 
