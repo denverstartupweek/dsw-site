@@ -159,5 +159,58 @@ RSpec.describe OauthService, type: :model do
         end
       end
     end
+
+    describe "via Zoom (on the account level)" do
+      let(:token) do
+        JWT.encode({"accountId" => "abc123"}, "secret", "HS512", {})
+      end
+
+      let(:omniauth_hash) do
+        {
+          "provider" => "zoom_admin",
+          "uid" => nil,
+          "info" => {},
+          "credentials" => {
+            "token" => token,
+            "refresh_token" => "REFRESH_TOKEN",
+            "expires_at" => 1496120719,
+            "expires" => true
+          },
+          "extra" => {
+            "scope" => ""
+          }
+        }
+      end
+
+      describe "when no record exists" do
+        it "creates a new record with the appropriate fields" do
+          described_class.find_or_create_from_auth_hash(omniauth_hash, current_user)
+          expect(current_user.oauth_services.count).to eq(1)
+          svc = current_user.oauth_services.first
+          expect(svc.uid).to eq("abc123")
+          expect(svc.provider).to eq("zoom_admin")
+          expect(svc.token).to eq(token)
+          expect(svc.refresh_token).to eq("REFRESH_TOKEN")
+          expect(svc.token_expires_at).to eq(DateTime.parse("2017-05-30 05:05:19.000000000 +0000"))
+        end
+      end
+
+      describe "when a record exists already" do
+        let!(:service) do
+          current_user.oauth_services.create!(uid: "abc123", provider: "zoom_admin")
+        end
+
+        it "updates the existing record with the appropriate fields" do
+          described_class.find_or_create_from_auth_hash(omniauth_hash, current_user)
+          expect(current_user.oauth_services.count).to eq(1)
+          svc = current_user.oauth_services.first
+          expect(svc.uid).to eq("abc123")
+          expect(svc.provider).to eq("zoom_admin")
+          expect(svc.token).to eq(token)
+          expect(svc.refresh_token).to eq("REFRESH_TOKEN")
+          expect(svc.token_expires_at).to eq(DateTime.parse("2017-05-30 05:05:19.000000000 +0000"))
+        end
+      end
+    end
   end
 end

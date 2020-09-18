@@ -22,13 +22,21 @@ class OauthService < ApplicationRecord
     where(provider: ZOOM_PROVIDER)
   end
 
+  def self.for_zoom_admin
+    where(provider: ZOOM_ADMIN_PROVIDER)
+  end
+
   def self.find_or_create_from_auth_hash(auth_hash, user)
-    record = where(uid: auth_hash["uid"], provider: auth_hash["provider"]).first_or_initialize
+    record = where(uid: uid_from_auth_hash(auth_hash), provider: auth_hash["provider"]).first_or_initialize
     record.user = user
     record.token = auth_hash["credentials"]["token"]
     record.refresh_token = auth_hash["credentials"]["refresh_token"]
     record.token_expires_at = Time.at(auth_hash["credentials"]["expires_at"]).to_datetime
     record.save
+  end
+
+  def self.uid_from_auth_hash(auth_hash)
+    auth_hash["uid"] || JWT.decode(auth_hash["credentials"]["token"], nil, false, {algorithm: "HS512"})[0]["accountId"]
   end
 
   # TODO: Add tests!

@@ -73,6 +73,7 @@ gem "omniauth-zoom"
 gem "paper_trail"
 gem "validate_url"
 gem "zoom_rb", github: "hintmedia/zoom_rb", ref: "06c4716"
+gem "jwt"
 
 # Background processing
 gem "sidecloq"
