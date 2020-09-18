@@ -12,15 +12,12 @@
   padding-bottom: 300px
   max-width: $default-width
   margin: auto
-  background-color: LightSalmon
 
 .Live-stream-triangle
   position: absolute
   z-index: 0
   width: 100%
-  height: 100%
   max-height: 1500px;
-  bottom: 0;
 
 .Small-triangle
   background-image: linear-gradient(to top right, white 0%, white 50%, transparent 50%)
@@ -39,7 +36,6 @@
   color: white
   width: 100%
   margin-bottom: 60px
-  background-color: Salmon
 
 $gutter: 11.5px
 
@@ -52,18 +48,15 @@ $gutter: 11.5px
   margin-top: 0
   z-index: 1
   height: 100%
-  background-color: LightCoral
 
 .LiveStreamListItem
   padding: $gutter
   margin: 0
-  background-color: Crimson
 
 .LiveStreamBigCardFooter
   height: 70px
   display: flex
   justify-content: space-between
-  background-color: red
 
 .LiveStreamBigCard-title
   +font-family-mixin(Montserrat-Light)
@@ -73,7 +66,6 @@ $gutter: 11.5px
   font-size: 18px
   padding-top: 30px
   overflow: hidden
-  background-color: FireBrick
 
 .LiveStreamBigCard-join
   +font-family-mixin(Montserrat-Medium)
@@ -92,20 +84,17 @@ $gutter: 11.5px
   font-weight: 500
   line-height: 15px
   z-index: 3
-  background-color: DarkRed
 
 .LiveStreamLittleCard
   height: 400px
   width: 525px
   margin: 15px
-  color: white
 
 .LiveStreamLittleCardFooter
   height: 103px
   display: flex
   justify-content: space-between
   align-items: center
-  background-color: GreenYellow
 
 .LiveStreamLittleCard-title
   +font-family-mixin(Montserrat-Light)
@@ -115,7 +104,7 @@ $gutter: 11.5px
   margin-left: 1px
   margin-top: 40px
   overflow: hidden
-  background-color: Lime
+  color: white
 
 .LiveStreamLittleCard-join
   +font-family-mixin(Montserrat-Medium)
@@ -134,14 +123,12 @@ $gutter: 11.5px
   line-height: 15px
   border: 2px solid #05D3D8
   z-index: 3
-  background-color: PaleGreen
 
 .Live-button
   width: 100%
   margin: 50px auto
   display: flex
   justify-content: center
-  background-color: MediumSpringGreen
 
 .Live-stream-link
   display: flex
@@ -247,14 +234,13 @@ $gutter: 11.5px
   .LiveStreamBigCard
     width: 400px
     margin-bottom: 0
-    background-color: white
-    height: 300px
+    height: 295px
     margin-bottom: 15px
   .Big-Video
     height: 225px
     width: 100%
   .LiveStreamBigCard-video
-    background-color: cornsilk
+    height: 225px
   .LiveStreamBigCardFooter
     height: 70px
   .LiveStreamBigCard-title
@@ -265,7 +251,6 @@ $gutter: 11.5px
     width: 100px
   .LiveStreamLittleCard-video
     height: 210px
-    background-color: teal
   .Small-Video
     height: 210px
     width: 100%
@@ -280,7 +265,6 @@ $gutter: 11.5px
     height: 20px
     width: 100px
   .LiveStreamLittleCard
-    background-color: white
     height: 270px
 
 @media(max-width: 399px)
@@ -290,7 +274,6 @@ $gutter: 11.5px
   .LiveStreamBigCard
     width: 300px
     height: 250px
-    background-color: white
   .LiveStreamBigCard-video
     height: 180px
   .Big-Video
@@ -300,6 +283,14 @@ $gutter: 11.5px
     justify-content: center
     align-items: center
     width: 300px
+  .LiveStreamLittleCard
+    height: 220px
+  .Small-Video
+    height: 160px
+  .LiveStreamLittleCard-video
+    height: 160px
+
+
   
   
   
