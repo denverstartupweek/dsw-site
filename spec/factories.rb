@@ -111,4 +111,11 @@ FactoryBot.define do
     provider { OauthService::YOUTUBE_PROVIDER }
     sequence(:uid) { |n| "u#{n}" }
   end
+
+  factory :zoom_event do
+    association :submission
+    association :oauth_service
+    kind { ZoomEvent::TEST_KIND }
+    sequence(:zoom_id) { |n| n.to_s }
+  end
 end

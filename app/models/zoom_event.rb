@@ -139,9 +139,9 @@ class ZoomEvent < ApplicationRecord
       reporting_oauth_service.zoom_client.webinar_details_report(id: zoom_id)
     end
     update!(
-      report_fetched_at: Time.zone.now,
-      actual_start_time: report["start_time"],
-      actual_end_time: report["end_time"],
+      report_fetched_at: DateTime.now,
+      actual_start_time: DateTime.parse(report["start_time"]),
+      actual_end_time: DateTime.parse(report["end_time"]),
       duration: report["duration"],
       total_minutes: report["total_minutes"],
       participants_count: report["participants_count"]

@@ -10,6 +10,10 @@ fetch_helpscout_articles_job:
   class: FetchHelpscoutArticlesJob
   cron: "*/10 * * * *" # Every 10 minutes
 
-refresh_zoom_events_job:
-  class: RefreshZoomEventsJob
+refresh_zoom_urls_job:
+  class: RefreshZoomUrlsJob
+  cron: "0 * * * *" # Every hour
+
+fetch_zoom_stats_job:
+  class: FetchZoomStatsJob
   cron: "0 * * * *" # Every hour
