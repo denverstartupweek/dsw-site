@@ -1,9 +1,11 @@
 class OauthService < ApplicationRecord
   YOUTUBE_PROVIDER = "youtube"
   ZOOM_PROVIDER = "zoom"
+  ZOOM_ADMIN_PROVIDER = "zoom_admin"
   PROVIDERS = [
     YOUTUBE_PROVIDER,
-    ZOOM_PROVIDER
+    ZOOM_PROVIDER,
+    ZOOM_ADMIN_PROVIDER
   ].freeze
 
   belongs_to :user
@@ -45,7 +47,7 @@ class OauthService < ApplicationRecord
             scope: "profile,youtube",
             name: "youtube"
           )
-        elsif provider == ZOOM_PROVIDER
+        elsif provider == ZOOM_PROVIDER || provider == ZOOM_ADMIN_PROVIDER
           OmniAuth::Strategies::Zoom.new(
             nil, # App - nil is fine since we're outside of Rack
             ENV["ZOOM_APP_KEY"],

@@ -1773,7 +1773,13 @@ CREATE TABLE public.zoom_events (
     join_url text,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    oauth_service_id bigint NOT NULL
+    oauth_service_id bigint NOT NULL,
+    report_fetched_at timestamp without time zone,
+    duration integer,
+    total_minutes integer,
+    participants_count integer,
+    actual_start_time character varying,
+    actual_end_time character varying
 );
 
 
@@ -3687,6 +3693,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200913001959'),
 ('20200913010500'),
 ('20200913023849'),
-('20200917174811');
+('20200917174811'),
+('20200918165036');
 
 
