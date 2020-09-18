@@ -5,8 +5,8 @@
   margin-bottom: 0
 
 .PrimaryCalloutsNav
-  max-width: 1252px;
-  margin: 0 auto;
+  max-width: $default-width
+  margin: 0 auto
   background-color: white
 
 .PrimaryCalloutsNav-list
@@ -47,11 +47,28 @@
 @media(max-width: 1024px)
   .PrimaryCalloutsNav-list
     flex-direction: column
+    align-items: center
 
   .PrimaryCalloutsNav-list-item
     border-right: 0
     border-bottom: 1px solid $primary-border-light
     padding: 35px 0
+    width: 100%
+    align-items: center
 
     &:last-child
       border-bottom: 0
+
+  .PrimaryCalloutsNav-list-desc
+    font-size: 18px
+    max-width: 600px
+    margin-top: 5px
+
+@media(max-width: 610px)
+  .PrimaryCalloutsNav-list-desc
+    margin-left: 5px
+
+@media(max-width: 350px)
+  .PrimaryCalloutsNav-list-desc
+    margin-left: 15px
+    letter-spacing: 1px

@@ -10,14 +10,14 @@
   align-items: center
   flex-wrap: wrap
   padding-bottom: 300px
+  max-width: $default-width
+  margin: auto
 
 .Live-stream-triangle
   position: absolute
   z-index: 0
   width: 100%
-  height: 100%
   max-height: 1500px;
-  bottom: 0;
 
 .Small-triangle
   background-image: linear-gradient(to top right, white 0%, white 50%, transparent 50%)
@@ -42,33 +42,16 @@ $gutter: 11.5px
 .LiveStreamList-wrapper
   width: 100%
   justify-content: center
-  max-width: 1252px
+  max-width: $default-width
   display: flex
   flex-wrap: wrap
   margin-top: 0
   z-index: 1
+  height: 100%
 
 .LiveStreamListItem
   padding: $gutter
   margin: 0
-
-
-@media(max-width: 1106px)
-  .LiveStreamList
-    max-width: 728px
-
-@media(max-width: 744px)
-  .LiveStreamList
-    justify-content: center
-
-.LiveStreamBigCard
-  height: 675px
-  width: 1070px
-  margin: 0 auto 20px auto
-  color: white
-
-.LiveStreamBigCard-video
-  height: 602px
 
 .LiveStreamBigCardFooter
   height: 70px
@@ -106,7 +89,6 @@ $gutter: 11.5px
   height: 400px
   width: 525px
   margin: 15px
-  color: white
 
 .LiveStreamLittleCardFooter
   height: 103px
@@ -122,6 +104,7 @@ $gutter: 11.5px
   margin-left: 1px
   margin-top: 40px
   overflow: hidden
+  color: white
 
 .LiveStreamLittleCard-join
   +font-family-mixin(Montserrat-Medium)
@@ -158,3 +141,156 @@ $gutter: 11.5px
 .Live-stream-link-arrow
   margin-left: 20px
 
+@media(max-width: 1106px)
+  .LiveStreamList
+    max-width: 728px
+
+@media(max-width: 744px)
+  .LiveStreamList
+    justify-content: center
+
+.LiveStreamBigCard
+  height: 675px
+  width: 1070px
+  margin: 0 auto 20px auto
+  color: white
+    
+@media(max-width: 1109px)
+  .LiveStreamBigCard
+    width: 900px
+    height: 570px
+    margin-bottom: 40px
+  .Big-Video
+    height: 492px
+
+@media(max-width: 904px)
+  .LiveStreamBigCard
+    width: 600px
+    height: 420px
+    margin-bottom: 40px
+  .Big-Video
+    height: 340px
+
+@media(max-width: 605px)
+  .LiveStreamBigCard
+    width: 525px
+    height: 380px
+    margin-bottom: 40px
+  .Big-Video
+    height: 300px
+  .LiveStreamBigCard-title
+    font-size: 14px
+  .LiveStreamBigCard-join
+    width: 100px
+    height: 35px
+    font-size: 10.5px
+
+@media(max-width: 554px)
+  .LiveStreamBigCard
+    width: 500px
+    height: 360px
+  .Big-Video
+    height: 280px
+  .ListStreamListItem
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 500px
+  .LiveStreamBigCard-join
+    margin-bottom: 10px
+    letter-spacing: 1px
+    margin-top: 0
+    margin-right: 0
+    width: 132px
+    font-size: 10.5px
+  .LiveStreamBigCardFooter
+    height: 80px
+    display: flex
+    flex-direction: column
+    align-items: center
+  .LiveStreamBigCard-title
+    width: 100%
+    padding-top: 0
+    font-size: 16px
+  .LiveStreamLittleCardFooter
+    flex-direction: column
+    height: 80px
+  .LiveStreamLittleCard-title
+    width: 100%
+    margin-top: 0
+    font-size: 16px
+    height: 50px
+  .LiveStreamLittleCard-join
+    height: 25px
+    font-size: 10.5px
+    margin-bottom: 6px
+    margin-top: 0
+    letter-spacing: 1px
+    margin-right: 0
+    
+@media(max-width: 500px)
+  .ListStreamListItem
+    width: 400px
+  .LiveStreamBigCard
+    width: 400px
+    margin-bottom: 0
+    height: 295px
+    margin-bottom: 15px
+  .Big-Video
+    height: 225px
+    width: 100%
+  .LiveStreamBigCard-video
+    height: 225px
+  .LiveStreamBigCardFooter
+    height: 70px
+  .LiveStreamBigCard-title
+    font-size: 12px
+    margin-left: 0
+  .LiveStreamBigCard-join
+    font-size: 8.5px
+    width: 100px
+  .LiveStreamLittleCard-video
+    height: 210px
+  .Small-Video
+    height: 210px
+    width: 100%
+  .LiveStreamLittleCardFooter
+    height: 60px
+  .LiveStreamLittleCard-title
+    margin-left: 0
+    font-size: 12px
+    height: 40px
+  .LiveStreamLittleCard-join
+    font-size: 8.5px
+    height: 20px
+    width: 100px
+  .LiveStreamLittleCard
+    height: 270px
+
+@media(max-width: 399px)
+  .Live-stream-title
+    font-size: 24px
+    font-weight: 500
+  .LiveStreamBigCard
+    width: 300px
+    height: 250px
+  .LiveStreamBigCard-video
+    height: 180px
+  .Big-Video
+    height: 180px
+  .ListStreamListItem
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 300px
+  .LiveStreamLittleCard
+    height: 220px
+  .Small-Video
+    height: 160px
+  .LiveStreamLittleCard-video
+    height: 160px
+
+
+  
+  
+  

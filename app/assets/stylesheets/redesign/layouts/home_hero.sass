@@ -12,6 +12,11 @@ $wrap-margin: 44px
   margin-bottom: 105px
   margin-top: calc(#{$top-margin} - #{$wrap-margin})
   background-color:  $dark-glitched
+  
+
+@media(max-width: 554px)
+  .HomeHero
+    margin-top: 0px
 
 .HomeHero-title
   color: white
@@ -24,10 +29,23 @@ $wrap-margin: 44px
   margin-right: 20px
   text-shadow: 7.5px 0px 0px #EC1C51, -4px -3px 0px #6BC9D2
 
+@media(max-width: 605px)
+  .HomeHero-title
+    margin-top: 80px
+
+@media(max-width: 554px)
+  .HomeHero-title
+    margin-top: 80px
+    
+@media(max-width: 399px)
+  .HomeHero-title
+    margin-top: 80px
+
+
+
 .HomeHero-content
   margin-top: $wrap-margin
   
-
 .HomeHero-date
   font-size: 24px
   font-weight: 300
@@ -37,10 +55,11 @@ $wrap-margin: 44px
 .HomeHero-description
   color: white
   @include font-family-mixin(Montserrat-Regular)
-  font-size: 14px
-  line-height: 18px
+  font-size: 16px
+  line-height: 20px
   max-width: 451px
-  margin-top: 7px
+  margin-top: 10px
+  letter-spacing: 1px
 
 .HomeHero-link
   display: flex
@@ -75,3 +94,7 @@ $wrap-margin: 44px
 
   .HomeHero
     margin-bottom: 35px
+
+  .HomeHero-description
+    line-height: 25px
+    margin-top: 15px
