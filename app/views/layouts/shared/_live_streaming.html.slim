@@ -1,33 +1,34 @@
 section.Live-stream-video-container
-  h1.Live-stream-title Live and Upcoming
-  - live = live_sessions.to_a
-  - big, *small = (live.size % 2 == 0 ? [nil] + live : live)
-  div.LiveStreamList-wrapper
-    - if big
-      div.ListStreamListItem
-        div.LiveStreamBigCard
-          div.LiveStreamBigCard-video
-            iframe class="Big-Video" id="ytplayer-#{big.id}" type="text/html" height="602px" width="100%" src="#{big.stream_url}" frameborder="0"
-          div.LiveStreamBigCard-track-name(class="#{big.track.color}")
-          div.LiveStreamBigCardFooter
-            div.LiveStreamBigCard-title= big.title
-            a.LiveStreamBigCard-join(href="#{schedule_path(big)}" target="_blank") Join Now
-    - small.each do |s|
-      div.ListStreamListItem
-        div.LiveStreamLittleCard
-          div.LiveStreamLittleCard-video
-            iframe class="Small-Video" id="ytplayer-#{s.id}" type="text/html" height="296px" width="100%" src="#{s.stream_url}" frameborder="0"
-          div.LiveStreamLittleCard-track-name(class="#{s.track.color}")
-          div.LiveStreamLittleCardFooter
-            div.LiveStreamLittleCard-title= s.title
-            a.LiveStreamLittleCard-join(href="#{schedule_path(s)}" target="_blank") Join Now
-  = render 'components/three_card_list', attributes: { 'aria-label': "Upcoming Sessions", id: 'upcoming-sessions' } do
-    - upcoming_sessions(3).each do |session|
-      = render 'components/three_card_list_item' do
-        = render 'components/session_card', session: session, joinable: true
-  div.Live-button
-    a.Live-stream-link(href="#{schedules_path}")
-      | Schedule
-      span.Live-stream-link-arrow = render partial: 'icons/arrow_in_circle_right'
+  - if live_sessions.any? || upcoming_sessions(3).any?
+    h1.Live-stream-title Live and Upcoming
+    - live = live_sessions.to_a
+    - big, *small = (live.size % 2 == 0 ? [nil] + live : live)
+    div.LiveStreamList-wrapper
+      - if big
+        div.ListStreamListItem
+          div.LiveStreamBigCard
+            div.LiveStreamBigCard-video
+              iframe class="Big-Video" id="ytplayer-#{big.id}" type="text/html" height="602px" width="100%" src="#{big.stream_url}" frameborder="0"
+            div.LiveStreamBigCard-track-name(class="#{big.track.color}")
+            div.LiveStreamBigCardFooter
+              div.LiveStreamBigCard-title= big.title
+              a.LiveStreamBigCard-join(href="#{schedule_path(big)}" target="_blank") Join Now
+      - small.each do |s|
+        div.ListStreamListItem
+          div.LiveStreamLittleCard
+            div.LiveStreamLittleCard-video
+              iframe class="Small-Video" id="ytplayer-#{s.id}" type="text/html" height="296px" width="100%" src="#{s.stream_url}" frameborder="0"
+            div.LiveStreamLittleCard-track-name(class="#{s.track.color}")
+            div.LiveStreamLittleCardFooter
+              div.LiveStreamLittleCard-title= s.title
+              a.LiveStreamLittleCard-join(href="#{schedule_path(s)}" target="_blank") Join Now
+    = render 'components/three_card_list', attributes: { 'aria-label': "Upcoming Sessions", id: 'upcoming-sessions' } do
+      - upcoming_sessions(3).each do |session|
+        = render 'components/three_card_list_item' do
+          = render 'components/session_card', session: session, joinable: true
+    div.Live-button
+      a.Live-stream-link(href="#{schedules_path}")
+        | Schedule
+        span.Live-stream-link-arrow = render partial: 'icons/arrow_in_circle_right'
 .Live-stream-triangle
       .Small-triangle
