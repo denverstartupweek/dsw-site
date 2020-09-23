@@ -27,22 +27,29 @@
   width: 100%
   text-align: center
   color: white
-  font-size: 8px
+  font-size: 8.5px
   +font-family-mixin(Montserrat-SemiBold)
   line-height: 1.5
-  margin-bottom: 5px
+  margin-bottom: 2px
+  margin-top: 5px
+  letter-spacing: 0.5px
+  display: flex
+
+.ScheduledSession-icon-live-dot
+  height: 6px
+  width: 6px
+  margin-right: 3px
+  margin-left: 13px
+  margin-top: 3px
+  animation: pulse 1s infinite
+  background-color: white
+  border-radius: 50%
 
 @keyframes pulse
   0%, 100%
     color: white
   50%
     color: red
-
-.ScheduledSession-icon-live-dot
-  margin-right: 3px
-  animation: pulse 1s step-end infinite
-  &:before
-    content: "\25CF "
 
 .ScheduledSession-details-container
   width: 100%
