@@ -41,15 +41,16 @@
   margin-right: 3px
   margin-left: 13px
   margin-top: 3px
-  animation: pulse 1s infinite
+  animation: pulse 1s step-end infinite
   background-color: white
   border-radius: 50%
 
 @keyframes pulse
   0%, 100%
-    color: white
+    background-color: white
   50%
-    color: red
+    background-color: red
+  
 
 .ScheduledSession-details-container
   width: 100%
