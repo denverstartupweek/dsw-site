@@ -4,6 +4,6 @@ class RecordingUploader < ApplicationUploader
   end
 
   def extension_whitelist
-    %w[mp4 m4a txt vtt json]
+    %w[mp4 m4a txt vtt json html]
   end
 end
