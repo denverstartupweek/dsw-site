@@ -42,6 +42,7 @@ class ZoomEvent < ApplicationRecord
   belongs_to :submission
   belongs_to :oauth_service
   has_many :zoom_join_urls, dependent: :destroy
+  has_many :zoom_recordings, dependent: :restrict_with_error
 
   validates :zoom_id, presence: true
   validates :event_type, presence: true, inclusion: {in: EVENT_TYPES}
@@ -146,6 +147,23 @@ class ZoomEvent < ApplicationRecord
       total_minutes: report["total_minutes"],
       participants_count: report["participants_count"]
     )
+  end
+
+  def fetch_recordings!
+    oauth_service.refresh_if_needed!
+    oauth_service.zoom_client.recording_get(meeting_id: zoom_id)["recording_files"].each do |rf|
+      uri = URI.parse(rf["download_url"])
+      params = URI.encode_www_form(access_token: oauth_service.token)
+      uri.query = params
+      scope = zoom_recordings
+        .where(zoom_recording_type: rf["recording_type"],
+               zoom_file_type: rf["file_type"])
+      unless scope.any?
+        scope.create!(
+          file_url: uri.to_s
+        )
+      end
+    end
   end
 
   def zoom_meeting_params
