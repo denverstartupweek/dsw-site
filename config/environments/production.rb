@@ -13,7 +13,7 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
 
   # Attempt to read encrypted secrets from `config/secrets.yml.enc`.
@@ -23,7 +23,7 @@ Rails.application.configure do
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
-  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
@@ -51,20 +51,20 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
-  config.log_level = (ENV['LOG_LEVEL'] || 'info').to_sym
+  config.log_level = (ENV["LOG_LEVEL"] || "info").to_sym
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = [:request_id]
 
   # Use a different cache store in production.
-  config.cache_store = :dalli_store,
-    (ENV['MEMCACHIER_SERVERS'] || '').split(','),
-    { username: ENV['MEMCACHIER_USERNAME'],
-      password: ENV['MEMCACHIER_PASSWORD'],
-      failover: true,
-      socket_timeout: 1.5,
-      socket_failure_delay: 0.2,
-      down_retry_delay: 60 }
+  config.cache_store = :mem_cache_store,
+    (ENV["MEMCACHIER_SERVERS"] || "").split(","),
+    {username: ENV["MEMCACHIER_USERNAME"],
+     password: ENV["MEMCACHIER_PASSWORD"],
+     failover: true,
+     socket_timeout: 1.5,
+     socket_failure_delay: 0.2,
+     down_retry_delay: 60}
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
@@ -89,23 +89,23 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV['RAILS_LOG_TO_STDOUT'].present?
-    logger           = ActiveSupport::Logger.new(STDOUT)
+  if ENV["RAILS_LOG_TO_STDOUT"].present?
+    logger = ActiveSupport::Logger.new($stdout)
     logger.formatter = config.log_formatter
-    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  if ENV['ASSET_HOST']
-    config.action_controller.asset_host = config.action_mailer.asset_host = ENV['ASSET_HOST']
+  if ENV["ASSET_HOST"]
+    config.action_controller.asset_host = config.action_mailer.asset_host = ENV["ASSET_HOST"]
   end
 
   # Disable the spoofing filter
   config.action_dispatch.ip_spoofing_check = false
 
   # Show mailer previews if we have them turned on
-  config.action_mailer.show_previews = (ENV['SHOW_MAILER_PREVIEWS'] == 'true')
+  config.action_mailer.show_previews = (ENV["SHOW_MAILER_PREVIEWS"] == "true")
 end
