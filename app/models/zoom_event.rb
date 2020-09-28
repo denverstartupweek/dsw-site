@@ -156,11 +156,12 @@ class ZoomEvent < ApplicationRecord
       params = URI.encode_www_form(access_token: oauth_service.token)
       uri.query = params
       scope = zoom_recordings
-        .where(zoom_recording_id: rf["id"],
-               zoom_recording_type: rf["recording_type"],
-               zoom_file_type: rf["file_type"])
+        .where(zoom_recording_id: rf["id"])
       unless scope.any?
         scope.create!(
+          zoom_recording_type: rf["recording_type"],
+          zoom_file_type: rf["file_type"],
+          zoom_play_url: rf["play_url"],
           remote_file_url: uri.to_s
         )
       end

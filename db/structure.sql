@@ -2734,13 +2734,6 @@ CREATE INDEX idx_users_name_contains_gist ON public.users USING gist (name publi
 
 
 --
--- Name: idx_zoom_recordings_on_types; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX idx_zoom_recordings_on_types ON public.zoom_recordings USING btree (zoom_event_id, zoom_file_type, zoom_recording_type);
-
-
---
 -- Name: index_active_admin_comments_on_author_type_and_author_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3214,6 +3207,13 @@ CREATE INDEX index_zoom_join_urls_on_zoom_event_id ON public.zoom_join_urls USIN
 --
 
 CREATE INDEX index_zoom_recordings_on_zoom_event_id ON public.zoom_recordings USING btree (zoom_event_id);
+
+
+--
+-- Name: index_zoom_recordings_on_zoom_recording_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_zoom_recordings_on_zoom_recording_id ON public.zoom_recordings USING btree (zoom_recording_id);
 
 
 --
@@ -3769,6 +3769,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200917174811'),
 ('20200918165036'),
 ('20200918203246'),
-('20200918205942');
+('20200918205942'),
+('20200928031500');
 
 
