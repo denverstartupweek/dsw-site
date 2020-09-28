@@ -160,7 +160,7 @@ class ZoomEvent < ApplicationRecord
                zoom_file_type: rf["file_type"])
       unless scope.any?
         scope.create!(
-          file_url: uri.to_s
+          remote_file_url: uri.to_s
         )
       end
     end
