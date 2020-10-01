@@ -1842,7 +1842,7 @@ ALTER SEQUENCE public.zoom_join_urls_id_seq OWNED BY public.zoom_join_urls.id;
 CREATE TABLE public.zoom_recordings (
     id bigint NOT NULL,
     zoom_event_id bigint NOT NULL,
-    zoom_recording_id character varying NOT NULL,
+    zoom_recording_id character varying,
     zoom_file_type character varying NOT NULL,
     zoom_play_url character varying NOT NULL,
     zoom_recording_type character varying NOT NULL,
@@ -3770,6 +3770,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200918165036'),
 ('20200918203246'),
 ('20200918205942'),
-('20200928031500');
+('20200928031500'),
+('20201001015925');
 
 
