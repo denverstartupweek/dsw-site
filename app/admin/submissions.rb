@@ -468,6 +468,21 @@ ActiveAdmin.register Submission do
             column :updated_at
           end
         end
+        panel "Zoom Recordings" do
+          table_for submission.zoom_recordings do
+            column :zoom_file_type
+            column :zoom_recording_type
+            column :zoom_recording_id
+            column(:zoom_play_url) do |zr|
+              link_to "Play on Zoom", zr.zoom_play_url if zr.zoom_play_url.present?
+            end
+            column(:download) do |zr|
+              link_to "Download", zr.file.url
+            end
+            column :created_at
+            column :updated_at
+          end
+        end
       end
 
       tab :changelog do
