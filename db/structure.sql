@@ -1845,7 +1845,7 @@ CREATE TABLE public.zoom_recordings (
     zoom_recording_id character varying,
     zoom_file_type character varying NOT NULL,
     zoom_play_url character varying,
-    zoom_recording_type character varying NOT NULL,
+    zoom_recording_type character varying,
     file character varying NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
@@ -3772,6 +3772,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200918205942'),
 ('20200928031500'),
 ('20201001015925'),
-('20201001032355');
+('20201001032355'),
+('20201001040743');
 
 
