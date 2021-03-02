@@ -5,6 +5,7 @@ development:
   database: dsw_development
   pool: 5
   username: postgres
+  host: localhost
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -16,3 +17,4 @@ test:
   database: dsw_test
   pool: 5
   username: postgres
+  host: localhost
