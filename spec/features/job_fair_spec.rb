@@ -144,6 +144,7 @@ feature "Filling out the job fair form" do
         year: 2020,
         company: company)
       create(:submission,
+        year: 2020,
         start_day: 2,
         start_hour: 12,
         end_day: 2,
