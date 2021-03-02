@@ -2,6 +2,12 @@ require "rails_helper"
 require "youtube_live_submission_syncer"
 
 describe YoutubeLiveSubmissionSyncer do
+  around do |t|
+    travel_to Date.parse("2020-04-01") do
+      t.run
+    end
+  end
+
   let(:youtube_client) do
     instance_double("Google::Apis::YoutubeV3::YoutubeService")
   end
@@ -47,7 +53,7 @@ describe YoutubeLiveSubmissionSyncer do
     }
 
     describe "when no live streams have been created yet" do
-      it "creates new streams and persists them", freeze_time: true do
+      it "creates new streams and persists them" do
         # Creating Test Stream
         # expect(youtube_client).to receive(:insert_live_stream).ordered.with(
         #   %w[id snippet cdn status contentDetails],
