@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@rails/webpacker": "5.0.1",
+    "@rails/webpacker": "5.2.1",
     "awesomplete": "^1.1.5",
     "coffeescript": "1.12.7",
     "jquery": "~> 3.5.1",
